@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<device-support>
+    <operations>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>ParseDmvpnTunnel</name>
+                    <type>PARSE</type>
+                    <command-string>interface $name</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>CreateDmvpnTunnel</name>
+                    <type>CREATE</type>
+                    <command-string>interface tunnel $name</command-string>
+                    <command-string>
+                        #if($description != null)
+                        description $description
+                    </command-string>
+                    <command-string>
+                        #if($vrf-name != null AND $vrf-name != "GLOBAL" AND $vrf-definition-mode == "false")
+                        ip vrf forwarding $vrf-name
+			#else if($vrf-name != null AND $vrf-name != "GLOBAL" AND $vrf-definition-mode == "true")
+                        vrf forwarding $vrf-name
+                    </command-string>
+                    <command-string>ip address $ipaddress $netmask</command-string>
+                    <command-string>no ip redirects</command-string>
+                    <command-string>ip mtu $mtu</command-string>
+                    <command-string>ip tcp adjust-mss $tcp-adjust-mss</command-string>
+                    <command-string>[ip nhrp authentication $nhrp-auth-key]</command-string>
+                    <command-string>[ip nhrp network-id $nhrp-network-id]</command-string>
+                    <command-string>[ip nhrp holdtime $nhrp-holdtime]</command-string>
+                    <command-string>
+                        #if($type == "HUB" AND $nhrp-redirect == "true")
+                        ip nhrp redirect
+			#else if($type == "HUB" AND $nhrp-redirect == "false")
+                        no ip nhrp redirect
+                    </command-string>
+                    <command-string>ip nhrp registration timeout $nhrp-reg-timeout</command-string>
+                    <command-string>
+                        #if($nhrp-reg-no-uniq == 'true')
+                        ip nhrp registration no-unique
+                    </command-string>
+                    <command-string>
+                        #if($type == "SPOKE" AND $nhrp-shortcut == "true")
+                        ip nhrp shortcut
+			#else if($type == "SPOKE" AND $nhrp-shortcut == "false")
+                        no ip nhrp shortcut
+                    </command-string>
+                    <command-string>
+                        #if($if-state-nhrp == "true")
+                        if-state nhrp
+                    </command-string>
+                    <command-string>
+                        #if($type == "SPOKE" AND $no-nhrp-route-watch == 'true')
+                        no nhrp route-watch
+                    </command-string>
+                    <command-string>qos pre-classify</command-string>
+                    <command-string>load-interval 30</command-string>
+                    <command-string>[delay $delay]</command-string>
+                    <command-string>[bandwidth $bandwidth]</command-string>
+                    <command-string>tunnel source $tunnel-source</command-string>
+                    <command-string>tunnel destination $tunnel-destination</command-string>
+                    <command-string>
+                    #if($tunnel-mode == "gre")
+                    tunnel mode $tunnel-mode multipoint
+                    #else if($tunnel-mode == "mpls")
+                    tunnel mode $tunnel-mode traffic-eng [multilsp]
+                    </command-string>
+                    <command-string>tunnel key $tunnel-key</command-string>
+		    <command-string>                        
+                        [keepalive $tunnel-keepalive-period $tunnel-keepalive-retries]
+                    </command-string>
+                    <command-string>
+                        #if($front-vrf-name != null AND $front-vrf-name != "GLOBAL")
+                        tunnel vrf $front-vrf-name
+                    </command-string>
+                    <command-string>
+                        #if($type == "HUB" AND $domain-name != null)
+                        domain $domain path $domain-name
+                    </command-string>
+                    <command-string>
+                        #if($authentication-type != null)
+                        ip authentication mode eigrp $eigrpProcessNumber $authentication-type
+                    </command-string>
+                    <command-string>
+                        #if($key-chain != null)
+                        ip authentication key-chain eigrp $eigrpProcessNumber $key-chain
+                    </command-string>
+                    <command-string>
+                        #if($routing-protocol == 'ospf')
+                        ip ospf network broadcast
+                    </command-string>
+                    <command-string>
+                        #if($routing-protocol == 'ospf' AND $type == "SPOKE")
+                        ip ospf priority 0
+                        #else if($routing-protocol == 'ospf' AND $type == "HUB")
+                        ip ospf priority 255
+                    </command-string>
+                    <command-string>
+                        #if($type == "HUB" AND $map-multicast == "true")
+                        ip nhrp map multicast dynamic
+                    </command-string>
+                    <command-string>
+                        #if($shared == "true")
+                        tunnel protection ipsec profile $ipsec-profile-name shared
+                        #else if($shared == "false")
+                        tunnel protection ipsec profile $ipsec-profile-name
+                    </command-string>
+	        <command-string>[hold-queue $in-queue-length in]</command-string>
+	        <command-string>[hold-queue $out-queue-length out]</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateDmvpnTunnel</name>
+                    <type>UPDATE</type>
+                    <command-string>interface tunnel $name</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteDmvpnTunnel</name>
+                    <type>DELETE</type>
+                    <command-string>no interface tunnel $name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/vrf-name</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <sequence-number>1</sequence-number>
+            <device-operations>
+                <device-operation>
+                    <name>CreateDmvpnTunnelVrf</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($vrf-name != null AND $vrf-name != "GLOBAL" AND $../vrf-definition-mode == "false")
+                        ip vrf forwarding $vrf-name
+			#else if($vrf-name != null AND $vrf-name != "GLOBAL" AND $../vrf-definition-mode == "true")
+                        vrf forwarding $vrf-name
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/ipaddress</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <sequence-number>2</sequence-number>
+            <device-operations>
+                <device-operation>
+                    <name>CreateDmvpnTunnelIp</name>
+                    <type>CREATE</type>
+                    <command-string>ip address $ipaddress $../netmask</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/tcp-adjust-mss</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>UpdateDmvpnTunnelTcpAdjustMss</name>
+                    <type>UPDATE</type>
+                    <command-string>ip tcp adjust-mss $tcp-adjust-mss</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/mtu</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>UpdateDmvpnTunnelMtu</name>
+                    <type>UPDATE</type>
+                    <command-string>ip mtu $mtu</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/nhrp-auth-key</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>UpdateDmvpnTunnelNhrpAuthKey</name>
+                    <type>UPDATE</type>
+                    <command-string>[ip nhrp authentication $nhrp-auth-key]</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/nhrp-network-id</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>UpdateDmvpnTunnelNhrpNetworkId</name>
+                    <type>UPDATE</type>
+                    <command-string>[ip nhrp network-id $nhrp-network-id]</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/bandwidth</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>UpdateDmvpnTunnelBandwidth</name>
+                    <type>UPDATE</type>
+                    <command-string>[bandwidth $bandwidth]</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/tunnel-key</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>UpdateDmvpnTunnelKey</name>
+                    <type>UPDATE</type>
+                    <command-string>tunnel key $tunnel-key</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/ipsec-profile-name</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>UpdateDmvpnTunnelIpsec</name>
+                    <type>UPDATE</type>
+                    <command-string>
+                        #if($../shared == "true")
+                        tunnel protection ipsec profile $ipsec-profile-name shared
+                        #else if($../shared == "false")
+                        tunnel protection ipsec profile $ipsec-profile-name
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/nhrp-grp-name</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateNHRPGrpName</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if ($nhrp-grp-name != null)
+                        ip nhrp group $nhrp-grp-name
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateNHRPGrpName</name>
+                    <type>UPDATE</type>
+                    <command-string>
+                        #if ($nhrp-grp-name != null)
+                        ip nhrp group $nhrp-grp-name
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteNHRPGrpName</name>
+                    <type>DELETE</type>
+                    <command-string>no ip nhrp group $nhrp-grp-name.%previous</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>        
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/domain-path</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateDmvpnTunnelDomain</name>
+                    <type>CREATE</type>
+                    <command-string>interface tunnel $../name</command-string>
+                    <command-string>
+                        #if($../type == "HUB" AND $domain-name != null)
+                        domain $domain path $domain-name
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteDmvpnTunnelDomain</name>
+                    <type>DELETE</type>
+                    <command-string>interface tunnel $../name</command-string>
+                    <command-string>
+                        #if($../type == "HUB" AND $domain-name != null)
+                        no domain $domain path $domain-name
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/nhrp-qos-maps</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>ParseDmvpnTunnelNhrpQosMap</name>
+                    <type>PARSE</type>
+                    <command-string>interface $../name</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>CreateDmvpnTunnelNhrpQosMap</name>
+                    <type>CREATE</type>
+                    <command-string>interface tunnel $../name</command-string>
+                    <command-string>
+                        #if ($../type == "HUB")
+                        ip nhrp map group $name service-policy output $policy-map
+                        #else
+                        ip nhrp group $name
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateDmvpnTunnelNhrpQosMap</name>
+                    <type>UPDATE</type>
+                    <command-string>interface tunnel $../name</command-string>
+                    <command-string>
+                        #if ($../type == "HUB")
+                        ip nhrp map group $name service-policy output $policy-map
+                        #else
+                        ip nhrp group $name
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteDmvpnTunnelNhrpQosMap</name>
+                    <type>DELETE</type>
+                    <command-string>interface tunnel $../name</command-string>
+                    <command-string>
+                        #if ($../type == "HUB")
+                        no ip nhrp map group $name service-policy output $policy-map
+                        #else
+                        no ip nhrp group $name
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/nhrp-maps</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>ParseDmvpnTunnelNhrpMap</name>
+                    <type>PARSE</type>
+                    <command-string>interface $../name</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>CreateDmvpnTunnelNhrpMap</name>
+                    <type>CREATE</type>
+                    <command-string>interface tunnel $../name</command-string>
+                    <command-string>
+                        #if($nhrp-type == "nhs")
+                        ip nhrp nhs $sourceip
+                    </command-string>
+                    <command-string>
+		#if($nhrp-type == "nhs")
+		ip nhrp map $sourceip $destip
+	        </command-string>
+                    <command-string>
+		#if($nhrp-type == "nhs")
+		ip nhrp map multicast $destip
+	        </command-string>
+	        <command-string>
+		#if($nhrp-type == "nhs-nbma")
+		ip nhrp nhs $sourceip nbma $destip multicast
+	        </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteDmvpnTunnelNhrpMap</name>
+                    <type>DELETE</type>
+                    <command-string>interface tunnel $../name</command-string>
+                    <command-string>
+                        #if($nhrp-type == "nhs")
+                        no ip nhrp nhs $sourceip
+                    </command-string>
+                    <command-string>
+		#if($nhrp-type == "nhs")
+		no ip nhrp map $sourceip $destip
+	        </command-string>
+                    <command-string>
+		#if($nhrp-type == "nhs")
+		no ip nhrp map multicast $destip
+	        </command-string>
+	        <command-string>
+		#if($nhrp-type == "nhs-nbma")
+		no ip nhrp nhs $sourceip nbma $destip multicast
+	        </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+	<operation>
+            <target>/controller:devices/device/l3features:eigrp/router-eigrp/address-family/af-interface</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateRouterEigrpAfInterface</name>
+                    <type>CREATE</type>
+                    <command-string>router eigrp $../../eigrp-name</command-string>
+                    <command-string>
+                        #if($../vrf-name != "GLOBAL" AND $../vrf-name != null AND $../cast == "unicast" AND $../as-number != null)
+                            address-family ipv4 $../cast vrf $../vrf-name autonomous-system $../as-number
+			            #else if(($../vrf-name == "GLOBAL" OR $../vrf-name == null) AND $../cast != null AND $../as-number != null)
+			                address-family ipv4 $../cast autonomous-system $../as-number	
+                        #else if($../vrf-name != "GLOBAL" AND $../vrf-name != null AND $../cast == null AND $../as-number != null)
+			                address-family ipv4 vrf $../vrf-name autonomous-system $../as-number		
+			            #else if(($../vrf-name == "GLOBAL" OR $../vrf-name == null) AND $../cast == null AND $../as-number != null)
+			                address-family ipv4 autonomous-system $../as-number
+                    </command-string>
+                    <command-string>af-interface $interface</command-string>
+		    <command-string>
+                        #if($passive-interface == "true")
+                            passive-interface
+			            #else if($passive-interface == "false")
+                            no passive-interface
+                    </command-string>
+	                <command-string>authentication mode $auth-mode</command-string>
+                    <command-string>authentication key-chain $key-chain</command-string>
+	            <command-string>hello-interval $hello-interval</command-string>
+	            <command-string>hold-time $hold-time</command-string>
+	            <command-string>
+                        #if($split-horizon == "true")
+                            split-horizon
+		                #else if($split-horizon == "false")
+                            no split-horizon
+                    </command-string>	                
+		    <command-string>exit-address-family</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateRouterEigrpAfInterface</name>
+                    <type>UPDATE</type>
+                    <command-string>router eigrp $../../eigrp-name</command-string>
+                    <command-string>
+                        #if($../vrf-name != "GLOBAL" AND $../vrf-name != null AND $../cast == "unicast" AND $../as-number != null)
+                            address-family ipv4 $../cast vrf $../vrf-name autonomous-system $../as-number
+			            #else if(($../vrf-name == "GLOBAL" OR $../vrf-name == null) AND $../cast != null AND $../as-number != null)
+			                address-family ipv4 $../cast autonomous-system $../as-number	
+                        #else if($../vrf-name != "GLOBAL" AND $../vrf-name != null AND $../cast == null AND $../as-number != null)
+			                address-family ipv4 vrf $../vrf-name autonomous-system $../as-number		
+			            #else if(($../vrf-name == "GLOBAL" OR $../vrf-name == null) AND $../cast == null AND $../as-number != null)
+			                address-family ipv4 autonomous-system $../as-number
+                    </command-string>
+                    <command-string>af-interface $interface</command-string>
+		            <command-string>
+                        #if($passive-interface == "true")
+                            passive-interface
+			            #else if($passive-interface == "false")
+                            no passive-interface
+                    </command-string>
+	            <command-string>authentication mode $auth-mode</command-string>
+                    <command-string>authentication key-chain $key-chain</command-string>
+	            <command-string>hello-interval $hello-interval</command-string>
+	            <command-string>hold-time $hold-time</command-string>
+	            <command-string>
+                        #if($split-horizon == "true")
+                            split-horizon
+		                #else if($split-horizon == "false")
+                            no split-horizon
+                    </command-string>
+	            <command-string>exit-address-family</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteRouterEigrpAfInterface</name>
+                    <type>DELETE</type>
+                    <command-string>router eigrp $../../eigrp-name</command-string>
+                    <command-string>
+                        #if($../vrf-name != "GLOBAL" AND $../vrf-name != null AND $../cast == "unicast" AND $../as-number != null)
+                            address-family ipv4 $../cast vrf $../vrf-name autonomous-system $../as-number
+			            #else if(($../vrf-name == "GLOBAL" OR $../vrf-name == null) AND $../cast != null AND $../as-number != null)
+			                address-family ipv4 $../cast autonomous-system $../as-number	
+                        #else if($../vrf-name != "GLOBAL" AND $../vrf-name != null AND $../cast == null AND $../as-number != null)
+			                address-family ipv4 vrf $../vrf-name autonomous-system $../as-number		
+			            #else if(($../vrf-name == "GLOBAL" OR $../vrf-name == null) AND $../cast == null AND $../as-number != null)
+			                address-family ipv4 autonomous-system $../as-number
+                    </command-string>
+                    <command-string>
+                        no af-interface $interface
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+    </operations>
+</device-support>

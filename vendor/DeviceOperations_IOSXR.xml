@@ -1,0 +1,2732 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<device-support>
+    <operations>
+        <operation>
+            <target>/controller:devices/device/PersistConfig</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>PersistConfig</name>
+                    <type>CREATE</type>
+                    <command-string>write memory</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/interface:interfaces/interface</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>ParseInterface</name>
+                    <type>PARSE</type>
+                    <command-string>switchport mode $mode</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>CreateInterface</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($mode == "vlan") interface vlan $l2features:vlan
+                        #else interface $name
+                    </command-string>
+                    <command-string>[description $description]</command-string>
+                    <command-string>
+                        #if($mode == "sub-interface" AND $inner-vlan != null)
+                        encapsulation dot1q $l2features:vlan second-dot1q $inner-vlan [$encap-mode]
+                        #else if($mode == "sub-interface" AND $inner-vlan == null)
+                        encapsulation dot1q $l2features:vlan
+                    </command-string>
+                    <command-string>
+                        #if($l3features:vrf != null AND $l3features:vrf != "GLOBAL")
+                        vrf $l3features:vrf
+                    </command-string>
+                    <command-string>
+                        #if($ip-address != null AND $netmask != null)
+                        ipv4 address $ip-address $netmask
+                    </command-string>
+                    <command-string>
+                        #if($ipv6-address != null)
+                        ipv6 address $ipv6-address/$ipv6-prefix-length
+                    </command-string>
+                    <command-string>
+                        #if($ipv6-address != null)
+                        ipv6 enable
+                    </command-string>
+                    <command-string>[mtu $mtu]</command-string>
+                    <command-string>
+                        #if($maximum-segment-size != null)
+                        ip tcp adjust-mss $maximum-segment-size
+                    </command-string>
+                    <command-string>
+                        #if($nat-name != null)
+                        ip nat $nat-name
+                    </command-string>
+                    <command-string>
+                        #if($mode == "sub-interface" OR $mode == "l3-interface" AND $inbound-qos != null)
+                        service-policy input $inbound-qos
+                    </command-string>
+                    <command-string>
+                        #if($mode == "sub-interface" OR $mode == "l3-interface" AND $outbound-qos != null)
+                        service-policy output $outbound-qos
+                    </command-string>
+                    <command-string>
+                        #if($duplex != null)
+                        duplex $duplex
+                    </command-string>
+                    <command-string>
+                        #if($link-negotiation != null AND $mode == "l3-interface")
+                        negotiation $link-negotiation
+                    </command-string>
+                    <command-string>no shutdown</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateInterface</name>
+                    <type>UPDATE</type>
+                    <command-string>
+                        #if($mode == "vlan") interface vlan $l2features:vlan
+                        #else interface $name
+                    </command-string>
+                    <!--command-string>[description $description]</command-string> -->
+                    <command-string>
+                        [no ipv6 address $ipv6-address.%previous/$ipv6-prefix-length.%previous]
+                    </command-string>
+                    <command-string>
+                        #if($ipv6-address != null)
+                        ipv6 address $ipv6-address/$ipv6-prefix-length
+                    </command-string>
+                    <command-string>
+                        #if($ipv6-address != null)
+                        ipv6 enable
+                    </command-string>
+                    <command-string>[mtu $mtu]</command-string>
+                    <command-string>
+                        #if($maximum-segment-size != null)
+                        ip tcp adjust-mss $maximum-segment-size
+                    </command-string>
+                    <command-string>
+                        #if($nat-name != null)
+                        ip nat $nat-name
+                    </command-string>
+                    <command-string>
+                        #if($link-negotiation != null AND $mode == "l3-interface")
+                        negotiation $link-negotiation
+                    </command-string>
+                    <!--command-string>no shutdown</command-string> -->
+                </device-operation>
+                <device-operation>
+                    <name>DeleteInterface</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($mode == "vlan")
+                        no interface vlan $l2features:vlan
+                        #else if($mode == "trunk" OR $mode == "access" OR $mode == "voice" OR $mode == "l3-interface")
+                        interface $name
+                        #else
+                        no interface $name
+                    </command-string>
+                    <command-string>
+                        #if($l3features:vrf != null AND $l3features:vrf != "GLOBAL" AND ($mode == "trunk" OR $mode == "access" OR $mode == "voice" OR $mode == "l3-interface"))
+                        no vrf
+                    </command-string>
+                    <command-string>
+                        #if($maximum-segment-size != null  AND ($mode == "trunk" OR $mode == "access" OR $mode == "voice" OR $mode == "l3-interface"))
+                        no ip tcp adjust-mss $maximum-segment-size
+                    </command-string>
+                    <command-string>
+                        #if($description != null AND ($mode == "trunk" OR $mode == "access" OR $mode == "voice" OR $mode == "l3-interface"))
+                        no description
+                    </command-string>
+                    <command-string>
+                        #if($mode == "trunk" OR $mode == "access" OR $mode == "voice" OR $mode == "l3-interface")
+                        [no ip address $ip-address $netmask]
+                    </command-string>
+                    <command-string>
+                        #if($mode == "trunk" OR $mode == "access" OR $mode == "voice" OR $mode == "l3-interface")
+                        [no ipv6 address $ipv6-address/$ipv6-prefix-length]
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/interface:interfaces/interface/l3features:vrf</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <sequence-number>1</sequence-number>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInterfaceVrf</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($l3features:vrf != null)
+                        vrf $l3features:vrf
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateInterfaceVrf</name>
+                    <type>UPDATE</type>
+                    <command-string>
+                        #if($l3features:vrf != null)
+                        vrf $l3features:vrf
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteInterfaceVrf</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($l3features:vrf != null)
+                        no vrf $l3features:vrf
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/interface:interfaces/interface/admin-state</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInterfaceAdminState</name>
+                    <type>CREATE</type>
+                    <command-string>no shutdown</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateInterfaceAdminState</name>
+                    <type>UPDATE</type>
+                    <command-string>
+                        #if($admin-state == "UP")
+                        no shutdown
+                        #else if($admin-state == "DOWN")
+                        shutdown
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteInterfaceAdminState</name>
+                    <type>DELETE</type>
+                    <command-string>shutdown</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/interface:interfaces/interface/duplex</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInterfaceDuplex</name>
+                    <type>CREATE</type>
+                    <command-string>duplex $duplex</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateInterfaceDuplex</name>
+                    <type>UPDATE</type>
+                    <command-string>duplex $duplex</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteInterfaceDuplex</name>
+                    <type>DELETE</type>
+                    <command-string>no duplex</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/interface:interfaces/interface/speed</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInterfaceSpeed</name>
+                    <type>CREATE</type>
+                    <command-string>speed $speed</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateInterfaceSpeed</name>
+                    <type>UPDATE</type>
+                    <command-string>speed $speed</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteInterfaceSpeed</name>
+                    <type>DELETE</type>
+                    <command-string>no speed</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/interface:interfaces/interface/inbound-qos</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInterfaceInboundQos</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($inbound-qos != null)
+                        service-policy input $inbound-qos
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateInterfaceInBoundQos</name>
+                    <type>UPDATE</type>
+                    <command-string>no service-policy input</command-string>
+                    <command-string>service-policy input $inbound-qos</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteInterfaceInboundQos</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($inbound-qos != null)
+                        no service-policy input $inbound-qos
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/interface:interfaces/interface/outbound-qos</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInterfaceOutboundQos</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($outbound-qos != null)
+                        service-policy output $outbound-qos
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateInterfaceOutBoundQos</name>
+                    <type>UPDATE</type>
+                    <command-string>no service-policy output</command-string>
+                    <command-string>service-policy output $outbound-qos</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteInterfaceOutboundQos</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($outbound-qos != null)
+                        no service-policy output $outbound-qos
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/interface:interfaces/interface/hsrp:hsrp</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInterfaceHSRP</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($../mode == "vlan")
+                        interface vlan $../vlan
+                        #else
+                        interface $../name
+                    </command-string>
+                    <command-string>router hsrp</command-string>
+                    <command-string>interface $name</command-string>
+                    <command-string>hsrp authentication $auth-key</command-string>
+                    <command-string>hsrp ipv4 $ip-address</command-string>
+                    <command-string>hsrp preempt</command-string>
+                    <command-string>hsrp priority $priority</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/interface:interfaces/interface/hsrp:hsrp</target>
+            <platform>ALL|ALL|Cisco ASR 9000|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInterfaceHSRP</name>
+                    <type>CREATE</type>
+                    <command-string>router hsrp</command-string>
+                    <command-string>interface $../name</command-string>
+                    <command-string>address-family ipv4</command-string>
+                    <command-string>[hsrp $group]</command-string>
+                    <command-string>[hsrp version $version]</command-string>
+                    <command-string>
+                        #if($preempt-reload != null AND $preempt-reload != "0")
+                        preempt delay $preempt-reload
+                        #else if($preempt-reload != null AND $preempt-reload == "0")
+                        preempt
+                    </command-string>
+                    <command-string>[authentication $auth-key]</command-string>
+                    <command-string>[priority $priority]</command-string>
+                    <command-string>address $ip-address</command-string>
+                    <command-string>[apply-group $group-name]</command-string>
+                    <command-string>
+                        #if($bfd == "true")
+                        bfd fast-detect
+                    </command-string>
+                    <command-string>[hsrp bfd minimum-interval $bfd-interval]</command-string>
+                    <command-string>[hsrp bfd multiplier $bfd-multiplier]</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteInterfaceHSRP</name>
+                    <type>DELETE</type>
+                    <command-string>router hsrp</command-string>
+                    <command-string>no interface $../name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/interface:interfaces/interface/hsrp:hsrp</target>
+            <platform>ALL|ALL|Cisco ASR 1000|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInterfaceHSRP</name>
+                    <type>CREATE</type>
+                    <command-string>router hsrp</command-string>
+                    <command-string>interface $../name</command-string>
+                    <command-string>address-family ipv4</command-string>
+                    <command-string>[hsrp $group]</command-string>
+                    <command-string>[hsrp version $version]</command-string>
+                    <command-string>
+                        #if($preempt-reload != null AND $preempt-reload != "0")
+                        preempt delay $preempt-reload
+                        #else if($preempt-reload != null AND $preempt-reload == "0")
+                        preempt
+                    </command-string>
+                    <command-string>[authentication $auth-key]</command-string>
+                    <command-string>[priority $priority]</command-string>
+                    <command-string>address $ip-address</command-string>
+                    <command-string>[apply-group $group-name]</command-string>
+                    <command-string>
+                        #if($bfd == "true")
+                        bfd fast-detect
+                    </command-string>
+                    <command-string>[hsrp bfd minimum-interval $bfd-interval]</command-string>
+                    <command-string>[hsrp bfd multiplier $bfd-multiplier]</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteInterfaceHSRP</name>
+                    <type>DELETE</type>
+                    <command-string>router hsrp</command-string>
+                    <command-string>no interface $../name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/CopyToDevice</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CopyToDevice</name>
+                    <type>CREATE</type>
+                    <command-string>copy $srcFile $destFile</command-string>
+                    <command-string>reload</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:static-routes/static-route</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>RemoveStaticRoute</name>
+                    <type>DELETE</type>
+                    <command-string>no router static address-family ipv4 unicast $dest-ip-address/$dest-mask
+                        $next-hop-ip
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>CreateStaticRoute</name>
+                    <type>CREATE</type>
+                    <command-string>router static address-family ipv4 unicast $dest-ip-address/$dest-mask $next-hop-ip
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/CopyToServer</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CopyToServer</name>
+                    <type>CREATE</type>
+                    <command-string>copy $srcFile tftp://$naasServerIp/$destFile</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/CopyToServerWithVrf</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CopyToServerWithVrf</name>
+                    <type>CREATE</type>
+                    <command-string>copy running-config tftp://$tftpServerIp;$mgmtVrfName/$destFile</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/SnmpTrapDest</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>SnmpTrapDest</name>
+                    <type>CREATE</type>
+                    <command-string>configure terminal</command-string>
+                    <command-string>snmp-server host $naasServerIp traps version 2c $snmpCommunity</command-string>
+                    <command-string>commit</command-string>
+                    <command-string>end</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>NoSnmpTrapDest</name>
+                    <type>DELETE</type>
+                    <command-string>configure terminal</command-string>
+                    <command-string>no snmp-server host $naasServerIp traps version 2c $snmpCommunity</command-string>
+                    <command-string>commit</command-string>
+                    <command-string>end</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:static-routes/static-route</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>RemoveStaticRoute</name>
+                    <type>DELETE</type>
+                    <command-string>no router static address-family ipv4 unicast @convertToCidr($dest-ip-address, $dest-mask) $next-hop-ip</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>CreateStaticRoute</name>
+                    <type>CREATE</type>
+                    <command-string>router static</command-string>
+                    <command-string>address-family ipv4 unicast $dest-ip-address/$dest-mask $next-hop-ip</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>ParseStaticRoute</name>
+                    <type>PARSE</type>
+                    <command-string>router static</command-string>
+                    <command-string>address-family ipv4 unicast</command-string>
+                    <command-string>$dest-ip-address/$dest-mask $next-hop-ip</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/interface:interfaces/interface/hsrp:hsrp</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInterfaceHSRP</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($../mode == "vlan")
+                        interface vlan $../vlan
+                        #else
+                        interface $../name
+                    </command-string>
+                    <command-string>router hsrp</command-string>
+                    <command-string>interface $name</command-string>
+                    <command-string>hsrp authentication $auth-key</command-string>
+                    <command-string>hsrp ipv4 $ip-address</command-string>
+                    <command-string>hsrp preempt</command-string>
+                    <command-string>hsrp priority $priority</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/interface:interfaces/interface/hsrp:hsrp</target>
+            <platform>ALL|ALL|Cisco ASR 9000|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInterfaceHSRP</name>
+                    <type>CREATE</type>
+                    <command-string>router hsrp</command-string>
+                    <command-string>interface $../name</command-string>
+                    <command-string>address-family ipv4</command-string>
+                    <command-string>
+                        #if($preempt-reload != "0")
+                        preempt delay $preempt-reload
+                        #else
+                        preempt
+                    </command-string>
+                    <command-string>
+                        #if($group != null AND $version != null)
+                        hsrp $group version $version
+                        #else if($group != null)
+                        hsrp $group
+                    </command-string>
+                    <command-string>[authentication $auth-key]</command-string>
+                    <command-string>[priority $priority]</command-string>
+                    <command-string>address $ip-address</command-string>
+                    <command-string>[apply-group $group-name]</command-string>
+                    <command-string>
+                        #if($bfd == "true")
+                        bfd fast-detect
+                    </command-string>
+                    <command-string>[hsrp bfd minimum-interval $bfd-interval]</command-string>
+                    <command-string>[hsrp bfd multiplier $bfd-multiplier]</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteInterfaceHSRP</name>
+                    <type>DELETE</type>
+                    <command-string>router hsrp</command-string>
+                    <command-string>no interface $../name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/CopyToDevice</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CopyToDevice</name>
+                    <type>CREATE</type>
+                    <command-string>copy $srcFile $destFile</command-string>
+                    <command-string>reload</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/OspfRedistributeConfig</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>RemoveOspfRedistributeConfig</name>
+                    <type>DELETE</type>
+                    <command-string>router ospf $ospfProcessId</command-string>
+                    <command-string>no redistribute connected route-map $routemapname</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/NetworkFromBGP</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>RemoveNetworkFromBGP</name>
+                    <type>DELETE</type>
+                    <command-string>router bgp $localAsNumber</command-string>
+                    <command-string>address-family ipv4 vrf $vrfName</command-string>
+                    <command-string>no network $ipAddress mask $ipMask</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:route-policies/route-policy</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateRoutePolicy</name>
+                    <type>CREATE</type>
+                    <command-string>route-policy $name</command-string>
+                    <command-string>
+                        #if ($cpl-string != null)
+                        $cpl-string
+                    </command-string>
+                    <command-string>end-policy</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateRoutePolicy</name>
+                    <type>UPDATE</type>
+                    <command-string>route-policy $name</command-string>
+                    <command-string>
+                        #if ($cpl-string != null AND $skip-cpl-string == "false")
+                        $cpl-string
+                    </command-string>
+                    <command-string>end-policy</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteRoutePolicy</name>
+                    <type>DELETE</type>
+                    <command-string>no route-policy $name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <sequence-number>1</sequence-number>
+            <device-operations>
+                <device-operation>
+                    <name>CreateVrf</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($name != null AND $name != "GLOBAL")
+                        vrf $name
+                    </command-string>
+                    <command-string>[description $description]</command-string>
+                    <command-string>
+                        #if($name != null AND $name != "GLOBAL")
+                        address-family ipv4 unicast
+                    </command-string>
+                    <command-string>[maximum prefix $maximum-prefixes-ipv4]</command-string>
+                    <command-string>
+                        #if($export-route-policy != null)
+                        export route-policy $export-route-policy
+                    </command-string>
+                    <command-string>
+                        #if($import-route-policy != null)
+                        import route-policy $import-route-policy
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteVrf</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($name != null AND $name != "GLOBAL" AND ($export-route-policy != null OR
+                        $import-route-policy != null))
+                        vrf $name
+                    </command-string>
+                    <command-string>
+                        #if($name != null AND $name != "GLOBAL" AND ($export-route-policy != null OR
+                        $import-route-policy != null))
+                        address-family ipv4 unicast
+                    </command-string>
+                    <command-string>
+                        #if($name != null AND $name != "GLOBAL" AND $export-route-policy != null)
+                        no export route-policy $export-route-policy
+                    </command-string>
+                    <command-string>
+                        #if($name != null AND $name != "GLOBAL" AND $import-route-policy != null)
+                        no import route-policy $import-route-policy
+                    </command-string>
+                    <command-string>
+                        #if($name != null AND $name != "GLOBAL" AND ($export-route-policy != null OR
+                        $import-route-policy != null))
+                        exit
+                    </command-string>
+                    <command-string>
+                        #if($name != null AND $name != "GLOBAL")
+                        no vrf $name
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/rt-import</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateVrfRTImport</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($../name != null AND $../name != "GLOBAL")
+                        vrf $../name
+                    </command-string>
+                    <command-string>address-family ipv4 unicast</command-string>
+                    <command-string>import route-target</command-string>
+                    <command-string>$rt-import</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteVrfRTImport</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($../name != null AND $../name != "GLOBAL")
+                        vrf $../name
+                    </command-string>
+                    <command-string>address-family ipv4 unicast</command-string>
+                    <command-string>import route-target</command-string>
+                    <command-string>no $rt-import</command-string>
+                </device-operation>
+                <!-- <device-operation>
+                         <name>CreateVrfRTExport</name>
+                    <type>CREATE</type>
+                    <command-string>
+                             #if($../name != null AND $../name != "GLOBAL")
+                             vrf $../name
+                         </command-string>
+                         <command-string>address-family ipv4 unicast</command-string>
+                         <command-string>export route-target</command-string>
+                         <command-string>$rt-export</command-string>
+                     </device-operation>
+                     <device-operation>
+                         <name>DeleteVrfRTExport</name>
+                         <type>DELETE</type>
+                         <command-string>
+                             #if($../name != null AND $../name != "GLOBAL")
+                             vrf $../name
+                         </command-string>
+     <command-string>address-family ipv4 unicast</command-string>
+                    <command-string>export route-target</command-string>
+                    <command-string>no $rt-export</command-string>
+                 </device-operation>-->
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/rt-export</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateVrfRTExport</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($../name != null AND $../name != "GLOBAL")
+                        vrf $../name
+                    </command-string>
+                    <command-string>address-family ipv4 unicast</command-string>
+                    <command-string>export route-target</command-string>
+                    <command-string>$rt-export</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteVrfRTExport</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($../name != null AND $../name != "GLOBAL")
+                        vrf $../name
+                    </command-string>
+                    <command-string>address-family ipv4 unicast</command-string>
+                    <command-string>export route-target</command-string>
+                    <command-string>no $rt-export</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/MtuToSubInterface</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>AddMtuToSubInterface</name>
+                    <type>CREATE</type>
+                    <command-string>interface $interfaceName</command-string>
+                    <command-string>mtu $mtuValue</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/name</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateStaticVRF</name>
+                    <type>CREATE</type>
+                    <command-string>router static</command-string>
+                    <command-string>vrf name</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteStaticVRF</name>
+                    <type>DELETE</type>
+                    <command-string>router static</command-string>
+                    <command-string>no vrf name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/LoggingHost</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>LoggingHost</name>
+                    <type>CREATE</type>
+                    <command-string>configure terminal</command-string>
+                    <command-string>logging $naasServerIp</command-string>
+                    <command-string>commit</command-string>
+                    <command-string>end</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>NoLoggingHost</name>
+                    <type>DELETE</type>
+                    <command-string>configure terminal</command-string>
+                    <command-string>no logging $naasServerIp</command-string>
+                    <command-string>commit</command-string>
+                    <command-string>end</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/OspfToBGP</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>RedistributeOspfToBGP</name>
+                    <type>CREATE</type>
+                    <command-string>router bgp $localAsNumber</command-string>
+                    <command-string>address-family vpnv4 unicast</command-string>
+                    <command-string>vrf $vrfName</command-string>
+                    <command-string>rd $localAsNumber:$rd</command-string>
+                    <command-string>address-family ipv4 unicast</command-string>
+                    <command-string>redistribute ospf $ospfProcessId route-policy $routemapname</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:route-maps/route-map/route-map-entries/match-condition</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateRouteMapConditions</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($../action != null)
+                        route-map $../../name $../action $../seq
+                        #else
+                        route-map $../../name $../seq
+                    </command-string>
+                    <command-string>
+                        #if($condition-type == 'prefix-list')
+                        match ip address prefix-list $value
+                        #else if($condition-type == 'route-source')
+                        match ip route-source $value
+                        #else
+                        match $condition-type $value
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteRouteMapConditions</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($../action != null)
+                        route-map $../../name $../action $../seq
+                        #else
+                        route-map $../../name $../seq
+                    </command-string>
+                    <command-string>
+                        #if($condition-type == 'prefix-list')
+                        no match ip address prefix-list $value
+                        #else if($condition-type == 'route-source')
+                        no match ip route-source $value
+                        #else
+                        match $condition-type $value
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:route-maps/route-map/route-map-entries/set-action</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateRouteMapActions</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($../action != null)
+                        route-map $../../name $../action $../seq
+                        #else
+                        route-map $../../name $../seq
+                    </command-string>
+                    <command-string>set $set-type $value</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteRouteMapActions</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($../action != null)
+                        route-map $../../name $../action $../seq
+                        #else
+                        route-map $../../name $../seq
+                    </command-string>
+                    <command-string>no set $set-type $value</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:route-maps/route-map/route-map-entries</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateRouteMap</name>
+                    <type>CREATE</type>
+                    <command-string>route-policy $../name</command-string>
+                    <command-string>if destination in $prefix-list then</command-string>
+                    <command-string>pass</command-string>
+                    <command-string>else</command-string>
+                    <command-string>drop</command-string>
+                    <command-string>endif</command-string>
+                    <command-string>end-policy</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteRouteMap</name>
+                    <type>DELETE</type>
+                    <command-string>no route-policy $../name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/SubInterfaceL2Trunk</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>createSubInterfaceL2Trunk</name>
+                    <type>CREATE</type>
+                    <command-string>interface $interfaceName</command-string>
+                    <command-string>vrf $vrfName</command-string>
+                    <command-string>ipv4 address $ipAddress $netmask</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/RouterOspfLoopbackInterface</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateRouterOspfLoopbackInterface</name>
+                    <type>CREATE</type>
+                    <command-string>router ospf $ospfProcessId</command-string>
+                    <command-string>vrf $vdomName</command-string>
+                    <command-string>area $area</command-string>
+                    <command-string>interface $interfaceName</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteRouterOspfLoopbackInterface</name>
+                    <type>DELETE</type>
+                    <command-string>router ospf $ospfProcessId</command-string>
+                    <command-string>vrf $vdomName</command-string>
+                    <command-string>area $area</command-string>
+                    <command-string>no interface $interfaceName</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/routeTargetImport</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>routeTargetImport</name>
+                    <type>CREATE</type>
+                    <command-string>vrf $vrfName</command-string>
+                    <command-string>address-family ipv4 unicast</command-string>
+                    <command-string>import route-target $rdAsNumber</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/router-bgp</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateRouterBGP</name>
+                    <type>CREATE</type>
+                    <command-string>router bgp $as-number</command-string>
+                    <command-string>
+                        #if($router-id != null)
+                        bgp router-id $router-id
+                    </command-string>
+                    <command-string>
+                        #if($../name != null AND $../name != "GLOBAL")
+                        vrf $../name
+                    </command-string>
+                    <command-string>
+                        #if($../rd != null)
+                        rd $../rd
+                    </command-string>
+                    <command-string>address-family ipv4 unicast</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteRouterBGP</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($../name != null AND $../name == "GLOBAL")
+                        no router bgp $as-number
+                        #else
+                        router bgp $as-number
+                    </command-string>
+                    <command-string>
+                        #if($../name != null AND $../name != "GLOBAL")
+                        no vrf $../name
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/router-bgp/neighbor</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateRouterBGPNeighbor</name>
+                    <type>CREATE</type>
+                    <command-string>router bgp $../as-number</command-string>
+                    <command-string>
+                        #if($../log-neighbor-changes != null AND $../log-neighbor-changes == "true")
+                        bgp log-neighbor-changes
+                    </command-string>
+                    <command-string>
+                        #if($local-interface != null AND $next-hop-self != null AND $next-hop-self == "false")
+                        neighbor $ip-address update-source $local-interface
+                    </command-string>
+                    <command-string>
+                        #if($../../name != null AND $../../name != "GLOBAL")
+                        vrf $../../name
+                    </command-string>
+                    <command-string>neighbor $ip-address</command-string>
+                    <command-string>
+                        #if($local-as-number != null)
+                        local-as $local-as-number no-prepend replace-as
+                    </command-string>
+                    <command-string>
+                        #if($password != null AND $encryption == "true")
+                        password encrypted $password
+                        #else if($password != null AND $encryption == "false")
+                        password clear $password
+                    </command-string>
+                    <command-string>remote-as $remote-as</command-string>
+                    <command-string>description $description</command-string>
+                    <command-string>address-family ipv4 unicast</command-string>
+                    <command-string>
+                        #if($next-hop-self)
+                        next-hop-self
+                    </command-string>
+                    <command-string>
+                        #if($allowas-in == "true" AND $allowas_in_value != null)
+                        allowas-in $allowas_in_value
+                    </command-string>
+                    <command-string>
+                        #if($soft-reconfiguration)
+                        soft-reconfiguration inbound always
+                    </command-string>
+                    <command-string>
+                        #if($as-override)
+                        as-override
+                    </command-string>
+                    <command-string>
+                        #if($inbound-routepolicy != null)
+                        route-policy $inbound-routepolicy in
+                    </command-string>
+                    <command-string>
+                        #if($outbound-routepolicy != null)
+                        route-policy $outbound-routepolicy out
+                    </command-string>
+                    <command-string>
+                        #if($default-originate == "true" AND $def-originate-route-map != null)
+                        default-originate route-policy $def-originate-route-map
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateRouterBGPNeighbor</name>
+                    <type>UPDATE</type>
+                    <command-string>router bgp $../as-number</command-string>
+                    <command-string>
+                        #if($../../name != null AND $../../name != "GLOBAL")
+                        vrf $../../name
+                    </command-string>
+                    <command-string>neighbor $ip-address</command-string>
+                    <command-string>address-family ipv4 unicast</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteRouterBGPNeighbor</name>
+                    <type>DELETE</type>
+                    <command-string>router bgp $../as-number</command-string>
+                    <command-string>
+                        #if($../../name != null AND $../../name != "GLOBAL")
+                        vrf $../../name
+                    </command-string>
+                    <command-string>no neighbor $ip-address</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/router-bgp/neighbor/def-originate-route-map</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateDefOriginateBGPNeighbor</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($../default-originate == "true" AND $def-originate-route-map != null)
+                        default-originate route-policy $def-originate-route-map
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateDefOriginateBGPNeighbor</name>
+                    <type>UPDATE</type>
+                    <command-string>
+                        #if($../default-originate == "true" AND $def-originate-route-map != null)
+                        default-originate route-policy $def-originate-route-map
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteDefOriginateBGPNeighbor</name>
+                    <type>DELETE</type>
+                    <command-string>no default-originate route-policy $def-originate-route-map.%previous</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/router-bgp/neighbor/inbound-routepolicy</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInboundRoutePolicy</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($inbound-routepolicy != null)
+                        route-policy $inbound-routepolicy in
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateInboundRoutePolicy</name>
+                    <type>UPDATE</type>
+                    <command-string>
+                        #if($inbound-routepolicy != null)
+                        route-policy $inbound-routepolicy in
+                        #else if($inbound-routepolicy == null)
+                        no route-policy $inbound-routepolicy.%previous in
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteInboundRoutePolicy</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($inbound-routepolicy == null)
+                        no route-policy $inbound-routepolicy.%previous in
+                        #else if($inbound-routepolicy != null)
+                        no route-policy $inbound-routepolicy in
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/router-bgp/neighbor/outbound-routepolicy</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateOutboundRoutePolicy</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($outbound-routepolicy != null)
+                        route-policy $outbound-routepolicy out
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateOutboundRoutePolicy</name>
+                    <type>UPDATE</type>
+                    <command-string>
+                        #if($outbound-routepolicy != null)
+                        route-policy $outbound-routepolicy out
+                        #else if($outbound-routepolicy == null)
+                        no route-policy $outbound-routepolicy.%previous out
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteOutboundRoutePolicy</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($outbound-routepolicy == null)
+                        no route-policy $outbound-routepolicy.%previous out
+                        #else if($outbound-routepolicy != null)
+                        no route-policy $outbound-routepolicy out
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/router-bgp/peer-group</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateRouterBGPPeerGroup</name>
+                    <type>CREATE</type>
+                    <command-string>router bgp $../as-number</command-string>
+                    <command-string>[bgp listen range $cidr peer-group $name]</command-string>
+                    <command-string>
+                        #if($../../name != "GLOBAL" AND $../address-family == "ipv4-vpnv4")
+                        address-family ipv4 vrf $../../name
+                        #else if($../../name != "GLOBAL")
+                        address-family $../address-family vrf $../../name
+                        #else if($../../name == "GLOBAL" AND $../address-family == "ipv4-vpnv4")
+                        address-family ipv4
+                        #else
+                        address-family $../address-family
+                    </command-string>
+                    <command-string>[neighbor $name peer-group]</command-string>
+                    <command-string>[neighbor $name remote-as $remote-as]</command-string>
+                    <command-string>[neighbor $name local-as $local-as-number]</command-string>
+                    <command-string>[neighbor $name description $description]</command-string>
+                    <command-string>[neighbor $name password $password]</command-string>
+                    <command-string>[neighbor $name timers $keepalive-interval $holdtime]</command-string>
+                    <command-string>[neighbor $name ebgp-multihop $ebgp-multihop]</command-string>
+                    <command-string>[neighbor $name update-source $local-interface]</command-string>
+                    <command-string>neighbor $name activate</command-string>
+                    <command-string>
+                        #if($send-community == "true")
+                        neighbor $name send-community both
+                    </command-string>
+                    <command-string>
+                        #if($next-hop-unchanged)
+                        neighbor $name next-hop-unchanged
+                    </command-string>
+                    <command-string>
+                        #if($next-hop-self)
+                        neighbor $name next-hop-self
+                    </command-string>
+                    <command-string>
+                        #if($as-override)
+                        neighbor $name as-override
+                    </command-string>
+                    <command-string>
+                        #if($soft-reconfiguration)
+                        neighbor $name soft-reconfiguration inbound
+                    </command-string>
+                    <command-string>
+                        #if($route-reflector-client)
+                        neighbor $name route-reflector-client
+                    </command-string>
+                    <command-string>
+                        #if($default-originate)
+                        neighbor $name default-originate
+                    </command-string>
+                    <command-string>
+                        #if($default-originate AND $def-originate-route-map != null)
+                        neighbor $name default-originate route-map $def-originate-route-map
+                    </command-string>
+                    <command-string>[neighbor $name weight $weight]</command-string>
+                    <command-string>
+                        #if($allowas-in)
+                        neighbor $name allowas-in
+                    </command-string>
+                    <command-string>[neighbor $name maximum-prefix $maximum-prefix]</command-string>
+                    <command-string>[neighbor $name route-map $in-route-map in]</command-string>
+                    <command-string>[neighbor $name route-map $out-route-map out]</command-string>
+                    <command-string>exit-address-family</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteRouterBGPPeerGroup</name>
+                    <type>DELETE</type>
+                    <command-string>router bgp $../as-number</command-string>
+                    <command-string>[no bgp listen range $cidr peer-group $name]</command-string>
+                    <command-string>
+                        #if($../../name != "GLOBAL" AND $../address-family == "ipv4-vpnv4")
+                        address-family ipv4 vrf $../../name
+                        #else if($../../name != "GLOBAL")
+                        address-family $../address-family vrf $../../name
+                        #else if($../../name == "GLOBAL" AND $../address-family == "ipv4-vpnv4")
+                        address-family ipv4
+                        #else
+                        address-family $../address-family
+                    </command-string>
+                    <command-string>[no neighbor $name peer-group]</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/router-bgp/aggregate-summary-network</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateRouterBGPAggregateSummaryNetwork</name>
+                    <type>CREATE</type>
+                    <command-string>router bgp $../as-number</command-string>
+                    <command-string>
+                        #if($../../name != null AND $../../name != "GLOBAL")
+                        vrf $../../name
+                    </command-string>
+                    <command-string>address-family ipv4 unicast</command-string>
+                    <command-string>
+                        #if ($aggregate-summary-only != null AND $aggregate-summary-only)
+                        aggregate-address $network summary-only
+                        #else
+                        aggregate-address $network
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteRouterBGPAggregateSummaryNetwork</name>
+                    <type>DELETE</type>
+                    <command-string>router bgp $../as-number</command-string>
+                    <command-string>
+                        #if ($aggregate-summary-only != null AND $aggregate-summary-only)
+                        no aggregate-address $network summary-only
+                        #else
+                        no aggregate-address $network
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/router-bgp/network</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateRouterBGPNetwork</name>
+                    <type>CREATE</type>
+                    <command-string>router bgp $../as-number</command-string>
+                    <command-string>
+                        #if($../../name != "GLOBAL" AND $address-family == "ipv4")
+                        address-family ipv4 vrf $../../name
+                        #else if($../../name != "GLOBAL")
+                        address-family $../address-family vrf $../../name
+                        #else
+                        address-family $../address-family
+                    </command-string>
+                    <command-string>network $ip-address [mask $netmask]</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteRouterBGPNetwork</name>
+                    <type>DELETE</type>
+                    <command-string>router bgp $../as-number</command-string>
+                    <command-string>
+                        #if($../../name != "GLOBAL" AND $address-family == "ipv4")
+                        address-family ipv4 vrf $../../name
+                        #else if($../../name != "GLOBAL")
+                        address-family $../address-family vrf $../../name
+                        #else
+                        address-family $../address-family
+                    </command-string>
+                    <command-string>no network $ip-address [mask $netmask]</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/router-bgp/redistribute</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateRouterBGPRedistribute</name>
+                    <type>CREATE</type>
+                    <command-string>router bgp $../as-number</command-string>
+                    <command-string>
+                        #if($../../name != "GLOBAL" AND $../address-family == "ipv4")
+                        address-family ipv4 vrf $../../name
+                    </command-string>
+                    <command-string>
+                        #if($../../name != null AND $../../name != "GLOBAL")
+                        vrf $../../name
+                    </command-string>
+                    <command-string>address-family ipv4 unicast</command-string>
+                    <command-string>
+                        #if($protocol == "static")
+                        redistribute static [route-policy $route-map]
+                        #if($protocol == "static-connected")
+                        redistribute static
+                        #else if($protocol == "ospf")
+                        redistribute ospf $ospf-process-id
+                        #else if($protocol == "rip")
+                        redistribute rip
+                        #else if ($protocol == "redistribute-connected" AND $rconnected-route-map != null)
+                        redistribute connected [route-policy $rconnected-route-map]
+                        #else if($protocol == "redistribute-connected")
+                        redistribute connected
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateRouterBGPRedistribute</name>
+                    <type>UPDATE</type>
+                    <command-string>router bgp $../as-number</command-string>
+                    <command-string>
+                        #if($../../name != null AND $../../name != "GLOBAL")
+                        vrf $../../name
+                    </command-string>
+                    <command-string>address-family ipv4 unicast</command-string>
+                    <command-string>
+                        #if($protocol == "static")
+                        redistribute static [route-policy $route-map]
+                        #if($protocol == "static-connected")
+                        redistribute static
+                        #else if($protocol == "ospf")
+                        redistribute ospf $ospf-process-id
+                        #else if($protocol == "rip")
+                        redistribute rip
+                        #else if ($protocol == "redistribute-connected" AND $rconnected-route-map != null)
+                        redistribute connected [route-policy $rconnected-route-map]
+                        #else if($protocol == "redistribute-connected")
+                        redistribute connected
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteRouterBGPRedistribute</name>
+                    <type>DELETE</type>
+                    <command-string>router bgp $../as-number</command-string>
+                    <command-string>
+                        #if($../../name != null AND $../../name != "GLOBAL")
+                        vrf $../../name
+                    </command-string>
+                    <command-string>
+                        #if($../../rd != null)
+                        rd $../../rd
+                    </command-string>
+                    <command-string>address-family ipv4 unicast</command-string>
+                    <!--command-string>
+                        #if($../../name != "GLOBAL")
+                        address-family ipv4 vrf $../../name
+                        #else
+                        address-family ipv4
+                    </command-string-->
+                    <command-string>
+                        #if($protocol == "static") no redistribute static
+                        #else if($protocol == "ospf") no redistribute ospf
+                        #else if($protocol == "rip") no redistribute rip
+                        #else if($protocol == "static-connected") no redistribute static
+                        #else if($protocol == "redistribute-connected") no redistribute connected
+                    </command-string>
+                    <!--command-string>
+
+                        #if($protocol != 'ospf' AND $route-map != null AND $metric != null)
+                        no redistribute $protocol route-map $route-map metric $metric
+                        #else if($protocol != 'ospf' AND $route-map == null AND $metric != null)
+                        no redistribute $protocol metric $metric
+                        #else if($protocol != 'ospf' AND $route-map != null AND $metric == null)
+                        no redistribute $protocol route-map $route-map
+                        #else if($protocol == "static-connected")
+                        no redistribute connected
+                        #else if($protocol != 'ospf')
+                        no redistribute $protocol
+                        #if($protocol == 'ospf' AND $route-map != null AND $metric != null)
+                        no redistribute $protocol $ospf-process-id route-map $route-map metric $metric
+                        #else if($protocol == 'ospf' AND $route-map == null AND $metric != null)
+                        no redistribute $protocol $ospf-process-id metric $metric
+                        #else if($protocol == 'ospf' AND $route-map != null AND $metric == null)
+                        no redistribute $protocol $ospf-process-id route-map $route-map
+                        #else if($protocol == 'ospf')
+                        no redistribute $protocol $ospf-process-id
+                    </command-string-->
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/RouterBGPprocess</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>deleteRouterBGPprocess</name>
+                    <type>DELETE</type>
+                    <command-string>router bgp $localAsNumber</command-string>
+                    <command-string>no vrf $tenantvrf</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/router-ospf</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateRouterOspf</name>
+                    <type>CREATE</type>
+                    <command-string>router ospf $process-id</command-string>
+                    <command-string>
+                        #if($../name != "GLOBAL")
+                        vrf $../name
+                    </command-string>
+                    <command-string>
+                        #if($router-id != null)
+                        router-id $router-id
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteRouterOspf</name>
+                    <type>DELETE</type>
+                    <command-string>router ospf $process-id</command-string>
+                    <command-string>
+                        #if($../name != "GLOBAL")
+                        no vrf $../name
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/router-ospf/neighbor</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateRouterOspfNeighbor</name>
+                    <type>CREATE</type>
+                    <command-string>router ospf $../process-id</command-string>
+                    <command-string>neighbor $ip-address</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteRouterOspfNeighbor</name>
+                    <type>DELETE</type>
+                    <command-string>router ospf $../process-id</command-string>
+                    <command-string>no neighbor $ip-address</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/router-ospf/interface</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateRouterOspfInterface</name>
+                    <type>CREATE</type>
+                    <command-string>router ospf $../process-id</command-string>
+                    <command-string>vrf $vrf</command-string>
+                    <command-string>area $area</command-string>
+                    <command-string>interface $interface-name</command-string>
+                    <command-string>
+                        #if($cost != null)
+                        cost $cost
+                    </command-string>
+                    <command-string>
+                        #if($mtu != null)
+                        mtu enable
+                    </command-string>
+                    <command-string>
+                        #if($priority != null)
+                        priority $priority
+                    </command-string>
+                    <command-string>
+                        #if($network-type != null)
+                        network $network-type
+                    </command-string>
+                    <command-string>
+                        #if($auth-type != null)
+                        authentication message-digest
+                    </command-string>
+                    <command-string>
+                        #if($auth-type != null)
+                        message-digest-key $key-id $auth-type $md5-key
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteRouterOspfInterface</name>
+                    <type>DELETE</type>
+                    <command-string>router ospf $../process-id</command-string>
+                    <command-string>vrf $vrf</command-string>
+                    <command-string>area $area</command-string>
+                    <command-string>no interface $interface-name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/router-ospf/network</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateRouterOspfNetwork</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($../../name != "GLOBAL")
+                        router ospf $../process-id vrf $../../name
+                        #else
+                        router ospf $../process-id
+                    </command-string>
+                    <command-string>network $ip-address $wild-card area $area</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteRouterOspfNetwork</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($../../name != "GLOBAL")
+                        router ospf $../process-id vrf $../../name
+                        #else
+                        router ospf $../process-id
+                    </command-string>
+                    <command-string>no network $ip-address $wild-card area $area</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/router-ospf/redistribute/ospf-redistribute</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateRouterOspfRedistribute</name>
+                    <type>CREATE</type>
+                    <command-string>router ospf $../../process-id</command-string>
+                    <command-string>
+                        #if($../../../name != "GLOBAL")
+                        vrf $../../../name
+                    </command-string>
+                    <command-string>
+                        #if($protocol == "bgp" AND $bgp-as-number != null)
+                        redistribute bgp $bgp-as-number
+                        #else
+                        redistribute $protocol
+                    </command-string>
+                    <command-string>
+                        #if(($protocol == "static" OR $protocol == "connected") AND $route-map != null)
+                        redistribute $protocol route-map $route-map
+                    </command-string>
+                    <command-string>
+                        #if($protocol == "bgp" AND $bgp-as-number != null AND $metric != null)
+                        redistribute bgp $bgp-as-number metric $metric
+                        #else if($protocol != "rip" AND $metric != null)
+                        redistribute $protocol metric $metric
+                    </command-string>
+                    <command-string>
+                        #if($protocol == "bgp" AND $bgp-as-number != null AND $metric-type != null)
+                        redistribute bgp $bgp-as-number metric-type $metric-type
+                        #else if($protocol != "rip" AND $metric-type != null)
+                        redistribute $protocol metric-type $metric-type
+                    </command-string>
+                    <command-string>
+                        #if($protocol == "bgp" AND $bgp-as-number != null AND $subnet == 'true')
+                        redistribute bgp $bgp-as-number subnets
+                        #else if($protocol != "rip" AND $subnet != null AND $subnet == 'true')
+                        redistribute $protocol subnets
+                    </command-string>
+                    <command-string>
+                        #if($protocol == "bgp" AND $bgp-as-number != null AND $tag != null)
+                        redistribute bgp $bgp-as-number tag $tag
+                        #else if($protocol != "rip" AND $tag != null)
+                        redistribute $protocol tag $tag
+                    </command-string>
+                    <command-string>
+                        #if($protocol == "bgp" AND $bgp-as-number != null AND $nssa-only == 'true')
+                        redistribute bgp $bgp-as-number nssa-only
+                        #else if($protocol != "rip" AND $nssa-only != null AND $nssa-only == 'true')
+                        redistribute $protocol nssa-only
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteRouterOspfRedistribute</name>
+                    <type>DELETE</type>
+                    <command-string>router ospf $../../process-id</command-string>
+                    <command-string>
+                        #if($../../../name != "GLOBAL")
+                        vrf $../../../name
+                    </command-string>
+                    <command-string>
+                        #if($protocol == "bgp" AND $bgp-as-number != null)
+                        no redistribute bgp $bgp-as-number
+                        #else
+                        no redistribute $protocol
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/mpls</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateMpls</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($../name == "GLOBAL")
+                        mpls ip
+                    </command-string>
+                    <command-string>
+                        #if($../name == "GLOBAL")
+                        mpls label protocol ldp
+                    </command-string>
+                    <command-string>
+                        #if($../name == "GLOBAL")
+                        mpls ldp router-id $loopback-interface
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteMpls</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($../name == "GLOBAL")
+                        no mpls ldp router-id $loopback-interface
+                    </command-string>
+                    <command-string>
+                        #if($../name == "GLOBAL")
+                        no mpls label protocol ldp
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/OspfRedistribute</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>ConfigOspfRedistribute</name>
+                    <type>CREATE</type>
+                    <command-string>router ospf $ospfProcessId</command-string>
+                    <command-string>redistribute connected</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/routeTargetExport</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>routeTargetExport</name>
+                    <type>CREATE</type>
+                    <command-string>vrf $vrfName</command-string>
+                    <command-string>address-family ipv4 unicast</command-string>
+                    <command-string>export route-target $rdAsNumber</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/static-routes</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateStaticRouteVrf</name>
+                    <type>CREATE</type>
+                    <command-string>router static</command-string>
+                    <command-string>vrf $../name</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteStaticRouteVrf</name>
+                    <type>DELETE</type>
+                    <command-string>router static</command-string>
+                    <command-string>no vrf $../name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/static-routes/static-route</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateVrfStaticRouteEntry</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if ($next-hop-ip != null)
+                        router static
+                    </command-string>
+                    <command-string>vrf $../../name</command-string>
+                    <command-string>address-family ipv4 unicast</command-string>
+                    <command-string>
+                        #if($interface-name != null AND $dest-ip-address != null AND $dest-mask != null AND $metric != null)
+                        @convertToCidr($dest-ip-address,$dest-mask) $interface-name $metric
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateVrfStaticRouteEntry</name>
+                    <type>UPDATE</type>
+                    <command-string>router static</command-string>
+                    <command-string>vrf $../../name</command-string>
+                    <command-string>
+                        #if ($description != null)
+                        address-family ipv4 unicast $dest-ip-address/$dest-mask $next-hop-ip description $description
+                        #else if($next-hop-ip != null)
+                        address-family ipv4 unicast $dest-ip-address/$dest-mask $next-hop-ip
+                        #else
+                        address-family ipv4 unicast
+                    </command-string>
+                    <command-string>
+                        #if($interface-name != null AND $dest-ip-address != null AND $dest-mask != null AND $metric != null)
+                        @convertToCidr($dest-ip-address,$dest-mask) $interface-name $metric
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteVrfStaticRouteEntry</name>
+                    <type>DELETE</type>
+                    <command-string>router static</command-string>
+                    <command-string>vrf $../../name</command-string>
+                    <command-string>address-family ipv4 unicast</command-string>
+                    <command-string>no @convertToCidr($dest-ip-address,$dest-mask) $interface-name $metric</command-string>
+                    <command-string>exit</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/static-routes/static-route/next-hop-ip</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateVrfStaticRouteNextHopEntry</name>
+                    <type>CREATE</type>
+                    <command-string>router static</command-string>
+                    <command-string>vrf $../../../name</command-string>
+                    <command-string>
+                        #if ($description != null)
+                        address-family ipv4 unicast $../dest-ip-address/$../dest-mask $next-hop-ip description
+                        $description
+                        #else
+                        address-family ipv4 unicast $../dest-ip-address/$../dest-mask $next-hop-ip
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteVrfStaticRouteNextHopEntry</name>
+                    <type>DELETE</type>
+                    <command-string>router static</command-string>
+                    <command-string>vrf $../../../name</command-string>
+                    <command-string>no address-family ipv4 unicast $../dest-ip-address/$../dest-mask $next-hop-ip
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/prefix-sets/prefix-set/custom-prefix-set</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateCustomPrefixSet</name>
+                    <type>CREATE</type>
+                    <command-string>prefix-set $../name</command-string>
+                    <command-string>$prefix-set-buf</command-string>
+                    <command-string>end-set</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateCustomPrefixSet</name>
+                    <type>UPDATE</type>
+                    <command-string>prefix-set $../name</command-string>
+                    <command-string>$prefix-set-buf</command-string>
+                    <command-string>end-set</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteCustomPrefixSet</name>
+                    <type>DELETE</type>
+                    <command-string>no prefix-set $../name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:route-policies/route-policy/route-policy-entries</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateRoutePolicyEntries</name>
+                    <type>CREATE</type>
+                    <command-string>route-policy $../name</command-string>
+                    <command-string>if destination in $prefix-set then</command-string>
+                    <command-string>pass</command-string>
+                    <command-string>set med $med</command-string>
+                    <command-string>else</command-string>
+                    <command-string>drop</command-string>
+                    <command-string>endif</command-string>
+                    <command-string>
+                        #if ($cpl-string != null)
+                        $cpl-string
+                    </command-string>
+                    <command-string>end-policy</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateRoutePolicyEntries</name>
+                    <type>UPDATE</type>
+                    <command-string>route-policy $../name</command-string>
+                    <command-string>if destination in $prefix-set then</command-string>
+                    <command-string>pass</command-string>
+                    <command-string>set med $med</command-string>
+                    <command-string>else</command-string>
+                    <command-string>drop</command-string>
+                    <command-string>endif</command-string>
+                    <command-string>
+                        #if ($cpl-string != null)
+                        $cpl-string
+                    </command-string>
+                    <command-string>end-policy</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:prefix-sets/prefix-set</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreatePrefixSet</name>
+                    <type>CREATE</type>
+                    <command-string>prefix-set $name</command-string>
+                    <command-string>$description</command-string>
+                    <command-string>end-set</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdatePrefixSet</name>
+                    <type>UPDATE</type>
+                    <command-string>prefix-set $name</command-string>
+                    <command-string>$description</command-string>
+                    <command-string>end-set</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeletePrefixSet</name>
+                    <type>DELETE</type>
+                    <command-string>no prefix-set $name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/prefix-sets/prefix-set/match-conditions/match-condition</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreatePrefixSetMatchCondition</name>
+                    <type>CREATE</type>
+                    <command-string>prefix-set $../../name</command-string>
+                    <command-string>
+                        #if($mask-length == null)
+                        $ip-address
+                        #else if($mask-length != null AND $min-match-length == null AND $max-match-length == null)
+                        $ip-address/$mask-length
+                        #else if($mask-length != null AND $min-match-length != null AND $max-match-length == null)
+                        $ip-address/$mask-length ge $min-match-length
+                        #else if($mask-length != null AND $min-match-length == null AND $max-match-length != null)
+                        $ip-address/$mask-length le $max-match-length
+                        #else if($mask-length != null AND $min-match-length == $max-match-length)
+                        $ip-address/$mask-length eq $max-match-length
+                        #else if($mask-length != null AND $min-match-length != null AND $max-match-length != null)
+                        $ip-address/$mask-length ge $min-match-length le $max-match-length
+                    </command-string>
+                    <command-string>end-set</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeletePrefixSetMatchCondition</name>
+                    <type>DELETE</type>
+                    <command-string>prefix-set $../../name</command-string>
+                    <command-string>
+                        #if($mask-length == null)
+                        no $ip-address
+                        #else if($mask-length != null AND $min-match-length == null AND $max-match-length == null)
+                        no $ip-address/$mask-length
+                        #else if($mask-length != null AND $min-match-length != null AND $max-match-length == null)
+                        no $ip-address/$mask-length ge $min-match-length
+                        #else if($mask-length != null AND $min-match-length == null AND $max-match-length != null)
+                        no $ip-address/$mask-length le $max-match-length
+                        #else if($mask-length != null AND $min-match-length == $max-match-length)
+                        no $ip-address/$mask-length eq $max-match-length
+                        #else if($mask-length != null AND $min-match-length != null AND $max-match-length != null)
+                        no $ip-address/$mask-length ge $min-match-length le $max-match-length
+                    </command-string>
+                    <command-string>end-set</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:prefix-sets/prefix-set/match-conditions/match-condition</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreatePrefixSetsMatchCondition</name>
+                    <type>CREATE</type>
+                    <command-string>exit</command-string>
+                    <command-string>
+                        #if($mask-length == null)
+                        edit prefix-set $../../name inline add $ip-address
+                        #else if($mask-length != null AND $min-match-length == null AND $max-match-length == null)
+                        edit prefix-set $../../name inline add $ip-address/$mask-length
+                        #else if($mask-length != null AND $min-match-length != null AND $max-match-length == null)
+                        edit prefix-set $../../name inline add $ip-address/$mask-length ge $min-match-length
+                        #else if($mask-length != null AND $min-match-length == null AND $max-match-length != null)
+                        edit prefix-set $../../name inline add $ip-address/$mask-length le $max-match-length
+                        #else if($mask-length != null AND $min-match-length == $max-match-length)
+                        edit prefix-set $../../name inline add $ip-address/$mask-length eq $max-match-length
+                        #else if($mask-length != null AND $min-match-length != null AND $max-match-length != null)
+                        edit prefix-set $../../name inline add $ip-address/$mask-length ge $min-match-length le $max-match-length
+                    </command-string>
+                    <command-string>config t</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeletePrefixSetsMatchCondition</name>
+                    <type>DELETE</type>
+                    <command-string>exit</command-string>
+                    <command-string>
+                        #if($mask-length == null)
+                        edit prefix-set $../../name inline remove $ip-address
+                        #else if($mask-length != null AND $min-match-length == null AND $max-match-length == null)
+                        edit prefix-set $../../name inline remove $ip-address/$mask-length
+                        #else if($mask-length != null AND $min-match-length != null AND $max-match-length == null)
+                        edit prefix-set $../../name inline remove $ip-address/$mask-length ge $min-match-length
+                        #else if($mask-length != null AND $min-match-length == null AND $max-match-length != null)
+                        edit prefix-set $../../name inline remove $ip-address/$mask-length le $max-match-length
+                        #else if($mask-length != null AND $min-match-length == $max-match-length)
+                        edit prefix-set $../../name inline remove $ip-address/$mask-length eq $max-match-length
+                        #else if($mask-length != null AND $min-match-length != null AND $max-match-length != null)
+                        edit prefix-set $../../name inline remove $ip-address/$mask-length ge $min-match-length le $max-match-length
+                    </command-string>
+                    <command-string>config t</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/HSRPinterface</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>createHSRPinterface</name>
+                    <type>CREATE</type>
+                    <command-string>router hsrp</command-string>
+                    <command-string>interface $interfaceName</command-string>
+                    <command-string>hsrp authentication $authKey</command-string>
+                    <command-string>hsrp ipv4 $ipAddress</command-string>
+                    <command-string>hsrp preempt</command-string>
+                    <command-string>hsrp priority $priority</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/DefaultRouteTOBGP</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>AddDefaultRouteTOBGP</name>
+                    <type>CREATE</type>
+                    <command-string>router bgp $localAsNumber</command-string>
+                    <command-string>vrf $vrfName</command-string>
+                    <command-string>address-family ipv4 unicast</command-string>
+                    <command-string>network $subnet</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/HSRPinterface</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>createHSRPinterface</name>
+                    <type>CREATE</type>
+                    <command-string>router hsrp</command-string>
+                    <command-string>interface $interfaceName</command-string>
+                    <command-string>hsrp authentication $authKey</command-string>
+                    <command-string>hsrp ipv4 $ipAddress</command-string>
+                    <command-string>hsrp preempt</command-string>
+                    <command-string>hsrp priority $priority</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/DefaultRouteTOBGP</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>AddDefaultRouteTOBGP</name>
+                    <type>CREATE</type>
+                    <command-string>router bgp $localAsNumber</command-string>
+                    <command-string>vrf $vrfName</command-string>
+                    <command-string>address-family ipv4 unicast</command-string>
+                    <command-string>network $subnet</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/HSRPinterface</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>createHSRPinterface</name>
+                    <type>CREATE</type>
+                    <command-string>router hsrp</command-string>
+                    <command-string>interface $interfaceName</command-string>
+                    <command-string>hsrp authentication $authKey</command-string>
+                    <command-string>hsrp ipv4 $ipAddress</command-string>
+                    <command-string>hsrp preempt</command-string>
+                    <command-string>hsrp priority $priority</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/DefaultRouteTOBGP</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>AddDefaultRouteTOBGP</name>
+                    <type>CREATE</type>
+                    <command-string>router bgp $localAsNumber</command-string>
+                    <command-string>vrf $vrfName</command-string>
+                    <command-string>address-family ipv4 unicast</command-string>
+                    <command-string>network $subnet</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:ip-prefixlist-list/ip-prefixlist/ip-prefixlist-entries/ip-prefixlist-entry</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateIpPrefixListEntry</name>
+                    <type>CREATE</type>
+                    <command-string>prefix-set $../../name</command-string>
+                    <command-string>$subnet $compare $num</command-string>
+                    <command-string>end-set</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteIpPrefixListEntry</name>
+                    <type>DELETE</type>
+                    <command-string>no prefix-set $../../name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/qos:policy-maps/policy-map</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateQPolicyMap</name>
+                    <type>CREATE</type>
+                    <command-string>policy-map $name</command-string>
+                    <command-string>[description $description]</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteQPolicyMap</name>
+                    <type>DELETE</type>
+                    <command-string>no policy-map $name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/qos:policy-maps/policy-map/class-entry</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateQPolicyMapClassEntry</name>
+                    <type>CREATE</type>
+                    <command-string>policy-map $../name</command-string>
+                    <command-string>class $class-name</command-string>
+                    <command-string>
+                        #if($shape-average != null)
+                        shape average $shape-average
+                    </command-string>
+                    <command-string>
+                        #if($shape-average == null AND $police-cir-percentage == null AND $bandwidth-percentage != null)
+                        bandwidth percent $bandwidth-percentage
+                    </command-string>
+                    <command-string>
+                        #if($shape-average == null AND $police-cir-percentage == null AND $bandwidth-percentage == null AND $bandwidth-remaining-percentage != null)
+                        bandwidth remaining percent $bandwidth-remaining-percentage
+                    </command-string>
+                    <command-string>
+                        #if($shape-average == null AND $police-cir-percentage == null AND $bandwidth-percentage == null AND $bandwidth-remaining-percentage == null AND $bandwidth-remaining-ratio != null)
+                        bandwidth remaining ratio $bandwidth-remaining-ratio
+                    </command-string>
+                    <command-string>
+                        #if($priority-value != null)
+                        priority $priority-value
+                    </command-string>
+                    <command-string>
+                        #if($priority-percentage != null)
+                        priority percent $priority-percentage
+                    </command-string>
+                    <command-string>
+                        #if($priority-level != null)
+                        priority level $priority-level
+                    </command-string>
+                    <command-string>
+                        #if($fair-queue != null AND $fair-queue == "true")
+                        fair-queue
+                    </command-string>
+                    <command-string>
+                        #if($is-dscp-tunnel == "true" AND $dscp-value != null)
+                        set dscp tunnel $dscp-value
+                        #else if($dscp-value != null)
+                        set ip dscp $dscp-value
+                    </command-string>
+                    <command-string>
+                        #if($random-detect != null AND $random-detect == "default")
+                        random-detect
+                        #else if($random-detect != null AND $random-detect != "none")
+                        random-detect $random-detect
+                    </command-string>
+                    <command-string>
+                        #if($service-policy != null)
+                        service-policy $service-policy
+                    </command-string>
+                    <command-string>
+                        #if($police-cir-percentage != null)
+                        police cir percent $police-cir-percentage
+                    </command-string>
+                    <command-string>
+                        #if($police-cir-percentage != null AND $police-cir-conform-action != null)
+                        conform-action $police-cir-conform-action
+                    </command-string>
+                    <command-string>
+                        #if($police-cir-percentage != null AND $police-cir-exceed-action != null)
+                        exceed-action $police-cir-exceed-action
+                    </command-string>
+                    <command-string>
+                        #if($precedence != null)
+                        set precedence $precedence
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteQPolicyMapClassEntry</name>
+                    <type>DELETE</type>
+                    <command-string>policy-map $../name</command-string>
+                    <command-string>no class $class-name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/qos:class-maps/class-map</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateQClassMap</name>
+                    <type>CREATE</type>
+                    <command-string>class-map $match-type $name</command-string>
+                    <command-string>[description "$description"]</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteQClassMap</name>
+                    <type>DELETE</type>
+                    <command-string>no class-map $match-type $name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/qos:class-maps/class-map/class-match-condition</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateQClassMapMatchCondition</name>
+                    <type>CREATE</type>
+                    <command-string>class-map $../match-type $../name</command-string>
+                    <command-string>
+                        #if($condition-type == "dscp" AND $match-value != null)
+                        match dscp $match-value
+                        #else if($condition-type == "access-group" AND $match-value != null)
+                        match access-group name $match-value
+                        #else if($condition-type == "protocol" AND $match-value != null)
+                        match protocol $match-value
+                        #else if($condition-type == "ip-dscp" AND $match-value != null)
+                        match ip dscp $match-value
+                        #else
+                        match any
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteQClassMapMatchCondition</name>
+                    <type>DELETE</type>
+                    <command-string>class-map $../match-type $../name</command-string>
+                    <command-string>
+                        #if($condition-type == "dscp" AND $match-value != null)
+                        no match dscp $match-value
+                        #else if($condition-type == "access-group" AND $match-value != null)
+                        no match access-group name $match-value
+                        #else if($condition-type == "protocol" AND $match-value != null)
+                        no match protocol $match-value
+                        #else if($condition-type == "ip-dscp" AND $match-value != null)
+                        no match ip dscp $match-value
+                        #else
+                        no match any
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/router-eigrp</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>createRouterEigrp</name>
+                    <type>CREATE</type>
+                    <command-string>router eigrp $process-id</command-string>
+                    <command-string>no auto-summary</command-string>
+                    <command-string>
+                        #if($../name != "GLOBAL")
+                        address-family ipv4 vrf $../name
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>removeRouterEigrp</name>
+                    <type>DELETE</type>
+                    <command-string>no router eigrp $process-id</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/router-eigrp/network</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>createRouterEigrpNetwork</name>
+                    <type>CREATE</type>
+                    <command-string>router eigrp $../process-id</command-string>
+                    <command-string>
+                        #if($../../name != "GLOBAL")
+                        address-family ipv4 vrf $../../name
+                    </command-string>
+                    <command-string>network $ip-address $wild-card</command-string>
+                    <command-string>no auto-summary</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>ParseDmvpnTunnel</name>
+                    <type>PARSE</type>
+                    <command-string>interface $name</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>CreateDmvpnTunnel</name>
+                    <type>CREATE</type>
+                    <command-string>interface tunnel $name</command-string>
+                    <command-string>
+                        #if($description != null)
+                        description $description
+                    </command-string>
+                    <command-string>
+                        #if($vrf-name != null AND $vrf-name != "GLOBAL")
+                        ip vrf forwarding $vrf-name
+                    </command-string>
+                    <command-string>ip address $ipaddress $netmask</command-string>
+                    <command-string>no ip redirects</command-string>
+                    <command-string>ip mtu 1400</command-string>
+                    <command-string>ip tcp adjust-mss 1360</command-string>
+                    <command-string>[ip nhrp authentication $nhrp-auth-key]</command-string>
+                    <command-string>[ip nhrp network-id $nhrp-network-id]</command-string>
+                    <command-string>ip nhrp holdtime 600</command-string>
+                    <command-string>
+                        #if($type == "HUB")
+                        ip nhrp redirect
+                    </command-string>
+                    <command-string>
+                        #if($type == "SPOKE")
+                        ip nhrp registration timeout 60
+                    </command-string>
+                    <command-string>
+                        #if($type == "SPOKE")
+                        ip nhrp registration no-unique
+                    </command-string>
+                    <command-string>
+                        #if($type == "SPOKE")
+                        ip nhrp shortcut
+                    </command-string>
+                    <command-string>
+                        #if($type == "SPOKE")
+                        if-state nhrp
+                    </command-string>
+                    <command-string>load-interval 30</command-string>
+                    <command-string>[delay $delay]</command-string>
+                    <command-string>[bandwidth $bandwidth]</command-string>
+                    <command-string>tunnel source $tunnel-source</command-string>
+                    <command-string>tunnel mode $tunnel-mode multipoint</command-string>
+                    <command-string>tunnel key $tunnel-key</command-string>
+                    <command-string>
+                        #if($front-vrf-name != null AND $front-vrf-name != "GLOBAL")
+                        tunnel vrf $front-vrf-name
+                    </command-string>
+                    <command-string>
+                        #if($type == "HUB" AND $domain-name != null)
+                        domain IWAN path $domain-name path-id $path-id
+                    </command-string>
+                    <command-string>
+                        #if($authentication-type != null)
+                        ip authentication mode eigrp $eigrpProcessNumber $authentication-type
+                    </command-string>
+                    <command-string>
+                        #if($key-chain != null)
+                        ip authentication key-chain eigrp $eigrpProcessNumber $key-chain
+                    </command-string>
+                    <command-string>
+                        #if($routing-protocol == 'ospf')
+                        ip ospf network broadcast
+                    </command-string>
+                    <command-string>
+                        #if($routing-protocol == 'ospf')
+                        ip ospf mtu-ignore
+                    </command-string>
+                    <command-string>
+                        #if($type == "HUB")
+                        ip nhrp map multicast dynamic
+                    </command-string>
+                    <command-string>[tunnel protection ipsec profile $ipsec-profile-name]</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteDmvpnTunnel</name>
+                    <type>DELETE</type>
+                    <command-string>no interface tunnel $name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/domain-path</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateDmvpnTunnelDomain</name>
+                    <type>CREATE</type>
+                    <command-string>interface tunnel $../name</command-string>
+                    <command-string>
+                        #if($../type == "HUB" AND $domain-name != null)
+                        domain IWAN path $domain-name path-id $path-id
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteDmvpnTunnelDomain</name>
+                    <type>CREATE</type>
+                    <command-string>interface tunnel $../name</command-string>
+                    <command-string>
+                        #if($../type == "HUB" AND $domain-name != null)
+                        no domain IWAN path $domain-name path-id $path-id
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/hub-list</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>ParseHubList</name>
+                    <type>PARSE</type>
+                    <command-string>interface $../name</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>CreateHubList</name>
+                    <type>CREATE</type>
+                    <command-string>interface tunnel $../name</command-string>
+                    <command-string>ip nhrp nhs $ip-address</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/nhrp-qos-maps</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>ParseDmvpnTunnelNhrpQosMap</name>
+                    <type>PARSE</type>
+                    <command-string>interface $../name</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>CreateDmvpnTunnelNhrpQosMap</name>
+                    <type>CREATE</type>
+                    <command-string>interface tunnel $../name</command-string>
+                    <command-string>ip nhrp map group $name service-policy output $policy-map</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteDmvpnTunnelNhrpQosMap</name>
+                    <type>DELETE</type>
+                    <command-string>interface tunnel $../name</command-string>
+                    <command-string>no ip nhrp map group $name service-policy output $policy-map</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/nhrp-maps</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>ParseDmvpnTunnelNhrpMap</name>
+                    <type>PARSE</type>
+                    <command-string>interface $../name</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>CreateDmvpnTunnelNhrpMap</name>
+                    <type>CREATE</type>
+                    <command-string>interface tunnel $../name</command-string>
+                    <command-string>
+                        #if($nhrp-type == "nhs")
+                        ip nhrp nhs $sourceip
+                        #else
+                        ip nhrp map $sourceip $destip
+                    </command-string>
+                    <command-string>ip nhrp map multicast $sourceip</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:domain</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>createDMVPNDomain</name>
+                    <type>CREATE</type>
+                    <command-string>domain $domain-name</command-string>
+                    <command-string>
+                        #if($vrf-name != "GLOBAL")
+                        vrf $vrf-name
+                        #else
+                        vrf default
+                    </command-string>
+                    <command-string>
+                        #if($role == "hub-master")
+                        master hub
+                        #else if($role == "transit")
+                        master transit $transid-id
+                        #else
+                        border
+                    </command-string>
+                    <command-string>
+                        #if($role == "mcbr")
+                        source-interface $source-interface-border
+                    </command-string>
+                    <command-string>
+                        #if($role == "mcbr")
+                        master local
+                    </command-string>
+                    <command-string>
+                        #if($role == "mcbr")
+                        exit
+                    </command-string>
+                    <command-string>
+                        #if($role == "mcbr")
+                        master branch
+                    </command-string>
+                    <command-string>source-interface $source-interface</command-string>
+                    <command-string>
+                        #if($role == "hub-master" OR $role=="transit")
+                        site-prefixes prefix-list $site-prefix-list
+                    </command-string>
+                    <command-string>
+                        #if($role == "mcbr" OR $role=="transit")
+                        hub $hub-ip
+                    </command-string>
+                    <command-string>
+                        #if($role == "border-router")
+                        master $master-ip
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>RemoveDMVPNDomain</name>
+                    <type>DELETE</type>
+                    <command-string>no domain $domain-name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:domain/monitor-interval-dscp</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateDomainMonitorIntervalDscpEntry</name>
+                    <type>CREATE</type>
+                    <command-string>domain $../domain-name</command-string>
+                    <command-string>
+                        #if($../vrf-name != "GLOBAL")
+                        vrf $../vrf-name
+                        #else
+                        vrf default
+                    </command-string>
+                    <command-string>master hub</command-string>
+                    <command-string>monitor-interval 2 dscp $monitor-interval-dscp</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteDomainMonitorIntervalDscpEntry</name>
+                    <type>DELETE</type>
+                    <command-string>domain $../domain-name</command-string>
+                    <command-string>
+                        #if($../vrf-name != "GLOBAL")
+                        vrf $../vrf-name
+                        #else
+                        vrf default
+                    </command-string>
+                    <command-string>master hub</command-string>
+                    <command-string>no monitor-interval 2 dscp $monitor-interval-dscp</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/interface:interfaces/interface/ip-address</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <sequence-number>2</sequence-number>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInterfaceIpAddress</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($../netmask != null)
+                        ipv4 address $ip-address $../netmask
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateInterfaceIpAddress</name>
+                    <type>UPDATE</type>
+                    <command-string>
+                        #if($../netmask != null)
+                        ipv4 address $ip-address $../netmask
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteInterfaceIpAddress</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($../netmask != null)
+                        no ipv4 address $ip-address $../netmask
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/interface:interfaces/interface/description</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInterfaceDescription</name>
+                    <type>CREATE</type>
+                    <command-string>description $description</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateInterfaceDescription</name>
+                    <type>UPDATE</type>
+                    <command-string>description $description</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteInterfaceDescription</name>
+                    <type>DELETE</type>
+                    <command-string>no description</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/interface:interfaces/interface/mode</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInterfaceMode</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($mode == "sub-interface" AND $../inner-vlan != null)
+                        encapsulation dot1q $../l2features:vlan second-dot1q $../inner-vlan [$../encap-mode]
+                        #else if($mode == "sub-interface" AND $../inner-vlan == null)
+                        encapsulation dot1q $../l2features:vlan
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateInterfaceMode</name>
+                    <type>UPDATE</type>
+                    <command-string>
+                        #if($mode == "sub-interface" AND $../inner-vlan != null)
+                        encapsulation dot1q $../l2features:vlan second-dot1q $../inner-vlan [$../encap-mode]
+                        #else if($mode == "sub-interface" AND $../inner-vlan == null)
+                        encapsulation dot1q $../l2features:vlan
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:domain</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>createDMVPNDomain</name>
+                    <type>CREATE</type>
+                    <command-string>domain $domain-name</command-string>
+                    <command-string>
+                        #if($vrf-name != "GLOBAL")
+                        vrf $vrf-name
+                        #else
+                        vrf default
+                    </command-string>
+                    <command-string>
+                        #if($role == "hub-master")
+                        master hub
+                        #else if($role == "transit")
+                        master transit $transid-id
+                        #else
+                        border
+                    </command-string>
+                    <command-string>
+                        #if($role == "mcbr")
+                        source-interface $source-interface-border
+                    </command-string>
+                    <command-string>
+                        #if($role == "mcbr")
+                        master local
+                    </command-string>
+                    <command-string>
+                        #if($role == "mcbr")
+                        exit
+                    </command-string>
+                    <command-string>
+                        #if($role == "mcbr")
+                        master branch
+                    </command-string>
+                    <command-string>source-interface $source-interface</command-string>
+                    <command-string>
+                        #if($role == "hub-master" OR $role=="transit")
+                        site-prefixes prefix-list $site-prefix-list
+                    </command-string>
+                    <command-string>
+                        #if($role == "mcbr" OR $role=="transit")
+                        hub $hub-ip
+                    </command-string>
+                    <command-string>
+                        #if($role == "border-router")
+                        master $master-ip
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>RemoveDMVPNDomain</name>
+                    <type>DELETE</type>
+                    <command-string>no domain $domain-name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:domain/monitor-interval-dscp</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateDomainMonitorIntervalDscpEntry</name>
+                    <type>CREATE</type>
+                    <command-string>domain $../domain-name</command-string>
+                    <command-string>
+                        #if($../vrf-name != "GLOBAL")
+                        vrf $../vrf-name
+                        #else
+                        vrf default
+                    </command-string>
+                    <command-string>master hub</command-string>
+                    <command-string>monitor-interval 2 dscp $monitor-interval-dscp</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteDomainMonitorIntervalDscpEntry</name>
+                    <type>DELETE</type>
+                    <command-string>domain $../domain-name</command-string>
+                    <command-string>
+                        #if($../vrf-name != "GLOBAL")
+                        vrf $../vrf-name
+                        #else
+                        vrf default
+                    </command-string>
+                    <command-string>master hub</command-string>
+                    <command-string>no monitor-interval 2 dscp $monitor-interval-dscp</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+    </operations>
+</device-support>

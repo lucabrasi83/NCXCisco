@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order>
+   <file>DeviceDetails.xml</file>
+   <file>DeviceOperations.xml</file>
+   <file>DeviceConfigs.xml</file>
+   <file>capacitylimits.xml</file>
+   <file>syslog-event-specs.xml</file>
+</order>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<network-functions>
+    <config-retrieval>
+        <config>
+            <platform>ALL|ALL|ALL|ALL|Cisco Systems</platform>
+            <running-config>
+                <wait-time>15</wait-time>
+                <command-string>terminal length 0</command-string>
+                <command-string>show running-config</command-string>
+            </running-config>
+            <!-- We can enable it explicitly for the required platform -->
+            <excluded-targets>/controller:devices/device/wanoptimizer:wanop</excluded-targets>
+            <excluded-targets>/controller:devices/device/l3features:route-policies/route-policy/cpl-string</excluded-targets>
+            <excluded-targets>/controller:devices/device/l3features:route-policies/route-policy/skip-cpl-string</excluded-targets>
+            <excluded-targets>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/type</excluded-targets>
+            <excluded-targets>/controller:devices/device/l3features:static-routes/static-route</excluded-targets>
+            <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/static-routes/static-route</excluded-targets>
+            <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/interface</excluded-targets>
+            <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/network</excluded-targets>
+            <excluded-targets>/controller:devices/device/dmvpn:ipsec-profiles/ipsec-profile/life-time</excluded-targets>
+            <excluded-targets>/controller:devices/device/interface:interfaces/interface/speed</excluded-targets>
+            <excluded-targets>/controller:devices/device/interface:interfaces/interface/speed/speed</excluded-targets>
+            <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-bgp/neighbor/password</excluded-targets>
+            <excluded-targets>/controller:devices/device/acl:object-groups-acl/object-group/networks/network/description</excluded-targets>
+            <excluded-targets>/controller:devices/device/acl:object-groups-acl/object-group/securities/security/description</excluded-targets>
+            <excluded-targets>/controller:devices/device/acl:object-groups-acl/object-group/services/service/description</excluded-targets>
+            <excluded-targets>/controller:devices/device/interface:interfaces/interface/mode</excluded-targets>
+	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/default-inf-metric</excluded-targets>
+	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/default-inf-metric1</excluded-targets>
+	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/default-inf-metric2</excluded-targets>
+	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/redistribute/ospf-redistribute/metric1</excluded-targets>
+	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/redistribute/ospf-redistribute/metric2</excluded-targets>
+	<excluded-targets>/controller:devices/device/dmvpn:domain/mcbr/password</excluded-targets>
+	<excluded-targets>/controller:devices/device/dmvpn:domain/password</excluded-targets>
+	<excluded-targets>/controller:devices/device/l3features:eigrp/router-eigrp/address-family/af-interface/summary-network/ip-address</excluded-targets>
+	<excluded-targets>/controller:devices/device/l3features:eigrp/router-eigrp/address-family/af-interface/summary-network/netmask</excluded-targets>
+	<excluded-targets>/controller:devices/device/qos:pfr-policy-maps/pfr-policy-map/pfr-class-entry/class-name</excluded-targets>
+	<excluded-targets>/controller:devices/device/qos:pfr-policy-maps/pfr-policy-map/pfr-class-entry/sequence-number</excluded-targets>
+	<excluded-targets>/controller:devices/device/qos:class-maps/class-map/description</excluded-targets>
+	<!--<excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-eigrp/eigrp/network/wild-card</excluded-targets> -->
+        </config>
+    </config-retrieval>
+    <config-retrieval>
+        <config>
+            <platform>ALL|ALL|ALL|ASAOS|Cisco Systems</platform>
+            <running-config>
+                <wait-time>15</wait-time>
+                <command-string>terminal pager 0</command-string>
+                <command-string>configure terminal</command-string>
+                <command-string>terminal width 0</command-string>
+                <command-string>end</command-string>
+                <command-string>show running-config</command-string>
+            </running-config>
+            <!-- We can enable it explicitly for the required platform -->
+            <excluded-targets>/controller:devices/device/wanoptimizer:wanop</excluded-targets>
+            <excluded-targets>/controller:devices/device/l3features:route-policies/route-policy/cpl-string</excluded-targets>
+            <excluded-targets>/controller:devices/device/l3features:route-policies/route-policy/skip-cpl-string</excluded-targets>
+            <excluded-targets>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/type</excluded-targets>
+            <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/interface</excluded-targets>
+            <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/network</excluded-targets>
+            <excluded-targets>/controller:devices/device/dmvpn:ipsec-profiles/ipsec-profile/life-time</excluded-targets>
+            <excluded-targets>/controller:devices/device/interface:interfaces/interface/speed</excluded-targets>
+            <excluded-targets>/controller:devices/device/interface:interfaces/interface/speed/speed</excluded-targets>
+            <excluded-targets>/controller:devices/device/acl:object-groups-acl/object-group/networks/network/description</excluded-targets>
+            <excluded-targets>/controller:devices/device/acl:object-groups-acl/object-group/securities/security/description</excluded-targets>
+            <excluded-targets>/controller:devices/device/acl:object-groups-acl/object-group/services/service/description</excluded-targets>
+            <excluded-targets>/controller:devices/device/interface:interfaces/interface/ospf/hello-interval</excluded-targets>
+            <excluded-targets>/controller:devices/device/interface:interfaces/interface/ospf/hello-multiplier</excluded-targets>
+            <excluded-targets>/controller:devices/device/interface:interfaces/interface/ospf/dead-interval</excluded-targets>
+            <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-bgp/as-number</excluded-targets>
+            <excluded-targets>/controller:devices/device/interface:interfaces/interface/mode</excluded-targets>
+	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/default-inf-metric</excluded-targets>
+	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/default-inf-metric1</excluded-targets>
+	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/default-inf-metric2</excluded-targets>
+	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/redistribute/ospf-redistribute/metric1</excluded-targets>
+	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/redistribute/ospf-redistribute/metric2</excluded-targets>
+	<excluded-targets>/controller:devices/device/dmvpn:domain/mcbr/password</excluded-targets>
+	<excluded-targets>/controller:devices/device/dmvpn:domain/password</excluded-targets>
+        </config>
+    </config-retrieval>
+    <config-retrieval>
+        <config>
+            <platform>ALL|ALL|ALL|IOSXE|Cisco Systems</platform>
+            <running-config>
+                <wait-time>15</wait-time>
+                <command-string>terminal length 0</command-string>
+                <command-string>show running-config</command-string>
+            </running-config>
+            <excluded-targets>/controller:devices/device/l3features:route-policies/route-policy/cpl-string</excluded-targets>
+            <excluded-targets>/controller:devices/device/l3features:route-policies/route-policy/skip-cpl-string</excluded-targets>
+            <excluded-targets>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/type</excluded-targets>
+            <excluded-targets>/controller:devices/device/l3features:static-routes/static-route</excluded-targets>
+            <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/static-routes/static-route</excluded-targets>
+            <excluded-targets>/controller:devices/device/wanoptimizer:wanop</excluded-targets>
+            <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/interface</excluded-targets>
+            <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/network</excluded-targets>
+            <excluded-targets>/controller:devices/device/dmvpn:ipsec-profiles/ipsec-profile/life-time</excluded-targets>
+            <excluded-targets>/controller:devices/device/interface:interfaces/interface/speed</excluded-targets>
+            <excluded-targets>/controller:devices/device/interface:interfaces/interface/speed/speed</excluded-targets>
+	    <excluded-targets>/controller:devices/device/interface:interfaces/interface/duplex</excluded-targets>
+            <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-bgp/neighbor/password</excluded-targets>
+            <excluded-targets>/controller:devices/device/acl:object-groups-acl/object-group/networks/network/description</excluded-targets>
+            <excluded-targets>/controller:devices/device/acl:object-groups-acl/object-group/securities/security/description</excluded-targets>
+            <excluded-targets>/controller:devices/device/acl:object-groups-acl/object-group/services/service/description</excluded-targets>
+            <excluded-targets>/controller:devices/device/interface:interfaces/interface/mode</excluded-targets>
+	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/default-inf-metric</excluded-targets>
+	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/default-inf-metric1</excluded-targets>
+	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/default-inf-metric2</excluded-targets>
+	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/redistribute/ospf-redistribute/metric1</excluded-targets>
+	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/redistribute/ospf-redistribute/metric2</excluded-targets>
+	<excluded-targets>/controller:devices/device/dmvpn:domain/mcbr/password</excluded-targets>
+	<excluded-targets>/controller:devices/device/dmvpn:domain/password</excluded-targets>
+	<excluded-targets>/controller:devices/device/l3features:eigrp/router-eigrp/address-family/af-interface/summary-network/ip-address</excluded-targets>
+	<excluded-targets>/controller:devices/device/l3features:eigrp/router-eigrp/address-family/af-interface/summary-network/netmask</excluded-targets>
+	<excluded-targets>/controller:devices/device/qos:pfr-policy-maps/pfr-policy-map/pfr-class-entry/class-name</excluded-targets>
+	<excluded-targets>/controller:devices/device/qos:pfr-policy-maps/pfr-policy-map/pfr-class-entry/sequence-number</excluded-targets>
+	<excluded-targets>/controller:devices/device/qos:class-maps/class-map/description</excluded-targets>
+	<!--<excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-eigrp/eigrp/network/wild-card</excluded-targets>-->
+        </config>
+    </config-retrieval>
+</network-functions>

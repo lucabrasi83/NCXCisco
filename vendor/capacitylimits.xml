@@ -1,0 +1,1730 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<device-capacities xmlns="http://anutanetworks.com/capacities">
+   <device-capacity>
+      <device-type>Cisco ASR 1006</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>1000</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco 2921 is 1000
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on Cisco 2921 is 30
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>wsc1900sysID</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on wsc1900sysID is 30
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>1</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on wsc1900sysID is 1
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco 891F</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco 891F Integrated Services Router is 30
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco ASR 1001</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco ASR 1001
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Catalyst4507</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco Catalyst 3560G-48TS
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>ciscoASA5520sc</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>2</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on ciscoASA5520sc
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco 3945</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco 3945
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco3945SPE250</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco3945SPE250 is 30
+            </description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned on Cisco3945SPE250 is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco 2901</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>45</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco 2901 is 45
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>1</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on Cisco 2901 is 1
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco 1941</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco 1941 is 30
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>1</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on Cisco 1941 is 1
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco Nexus 7010</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco Nexus 7010
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco 1841</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco 2921 is 30
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco Nexus 7018</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco Nexus 7018
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco ASR 1013</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>4000</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco ASR 1013 is 45
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco ASR 9010</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>1000</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco ASR 9010 is 1000
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>CiscoISR4321</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on CiscoISR4321 is 30
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>ciscoASA5540</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on ciscoASA5540
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>wsc1900isysID</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on wsc1900isysID is 30
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>1</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on wsc1900isysID is 1
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco CSR 1000V</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>10</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be
+			provisioned on Cisco CSR 1000V is 1
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>FW_ZONE</capacity-type>
+            <entity>/controller:devices/device/firewall:zones/zone</entity>
+            <max-limit>10</max-limit>
+            <description>Maximum Number of Firewall Zones that can be provisioned on Cisco CSR 1000V is 10
+            </description>
+         </capacity>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>100</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco CSR 1000V is 1
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Catalyst6509-V-E</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Catalyst6509-V-E
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco ASR 9006</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>1000</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco ASR 9006 is 45
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco Catalyst 3560G-48PS</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco Catalyst 3560G-48PS
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco ME 3600X-24TS-M</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco ME 3600X-24TS-M
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco 3825</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco 3825
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>ciscoVASA</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>1</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on ciscoVASA
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>catalyst3750E24TD</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco catalyst3750E24TD
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>ciscoACE4710K9</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>LB_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/loadbalancer:contexts/context</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of LoadBalancer Contexts that can be provisioned on ciscoACE4710K9
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VIP</capacity-type>
+            <entity>/controller:devices/device/loadbalancer:virtual-servers/virtual-server</entity>
+            <max-limit>300</max-limit>
+            <description>Maximum Number of VIP that can be provisioned on ciscoACE4710K9
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>REALSERVER</capacity-type>
+            <entity>/controller:devices/device/loadbalancer:real-servers/real-server</entity>
+            <max-limit>300</max-limit>
+            <description>Maximum Number of REALSERVER that can be provisioned on ciscoACE4710K9
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Catalyst4507R+E</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco Catalyst 3560G-48TS
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco 3925</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>1</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on Cisco 3925 is 1
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco 3925
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>ciscoC68xxVirtualSwitch</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on ciscoC68xxVirtualSwitch
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Catalyst6504-E</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Catalyst6504-E
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco ME 3600X-24FS-M</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco ME 3600X-24FS-M
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>ciscoASA5520</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on CiscoASA5520
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Catalyst6509-E</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Catalyst6509-E
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>ciscoOeVWaas</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>WAN_OPTIMIZER</capacity-type>
+            <max-limit>1</max-limit>
+            <description>Maximum Number of WAN Optimization context
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>catalyst355048</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>26</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco Catalyst 355048 is 26
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>CiscoISR4451</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on CiscoISR4451 is 30
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco 871</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco 871 Integrated Services Router is 30
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco 2951</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco 2951
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>1</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on Cisco 2951 is 1
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Catalyst6506</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Catalyst6506
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco ASA 5580</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on CiscoASA5540sc
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>ciscoASA5510</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>10</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on ciscoASA5510
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Catalyst6503</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Catalyst6503
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco 3845</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco 3845
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>CiscoISR4351</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on CiscoISR4351 is 30
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>catalyst375024T</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on catalyst375024T
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>ciscoACE30K9</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>LB_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/loadbalancer:contexts/context</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of LoadBalancer Contexts that can be provisioned on ciscoACE30K9
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VIP</capacity-type>
+            <entity>/controller:devices/device/loadbalancer:virtual-servers/virtual-server</entity>
+            <max-limit>300</max-limit>
+            <description>Maximum Number of VIP that can be provisioned on ciscoACE30K9
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>REALSERVER</capacity-type>
+            <entity>/controller:devices/device/loadbalancer:real-servers/real-server</entity>
+            <max-limit>300</max-limit>
+            <description>Maximum Number of REALSERVER that can be provisioned on ciscoACE30K9
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco Catalyst 3560E-24TD</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>26</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco Catalyst 3560E-24TD is 26
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>ciscoACE10K9</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>LB_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/loadbalancer:contexts/context</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of LoadBalancer Contexts that can be provisioned on ciscoACE10K9
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VIP</capacity-type>
+            <entity>/controller:devices/device/loadbalancer:virtual-servers/virtual-server</entity>
+            <max-limit>300</max-limit>
+            <description>Maximum Number of VIP that can be provisioned on ciscoACE10K9
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>REALSERVER</capacity-type>
+            <entity>/controller:devices/device/loadbalancer:real-servers/real-server</entity>
+            <max-limit>300</max-limit>
+            <description>Maximum Number of REALSERVER that can be provisioned on ciscoACE10K9
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco ASR 1002-F</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>4000</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco ASR 1002-F is 45
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>ciscoOeSmSre900</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>WAN_OPTIMIZER</capacity-type>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of WAN_OPTIMIZER  that can be provisioned on ciscoOeSmSre700 is 3
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Catalyst6513</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Catalyst6513
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco 892</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco 892 is 30
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>catalyst37xxStack</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on catalyst37xxStack
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco 891</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco 891 Integrated Services Router is 30
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco Virtual ASA</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>1</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on Cisco Virtual ASA
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco Catalyst 3560X-24</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco Catalyst 3560X-24
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>cisco1921k9</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on cisco1921k9 is 30
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>1</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on cisco1921k9 is 1
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>ciscoASASm1sc</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>20</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on ciscoASASm1sc
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>ciscoOeSmSre700</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>WAN_OPTIMIZER</capacity-type>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of WAN_OPTIMIZER  that can be provisioned on ciscoOeSmSre700 is 3
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>WAN_OPTIMIZER</capacity-type>
+            <max-limit>1</max-limit>
+            <description>Maximum Number of WAN Optimization context
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>wsc1900csysID</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on wsc1900csysID is 30
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>1</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on wsc1900csysID is 1
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>CiscoASA5540sc</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on CiscoASA5540sc
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco Catalyst 3560G-48TS</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco Catalyst 3560G-48TS
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>catalyst375048</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on catalyst375048
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>CiscoISR4431</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on CiscoISR4431 is 30
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco Catalyst 3850-48P-E Switch</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>25</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco Catalyst 3850-48P-E Switch
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco 2921</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>1</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on Cisco 2921 is 1
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on Cisco 2921 is 30
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>wsc1900LiteFxsysID</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on wsc1900LiteFxsysID is 30
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>1</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on wsc1900LiteFxsysID is 1
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>ciscoACE20K9</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>LB_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/loadbalancer:contexts/context</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of LoadBalancer Contexts that can be provisioned on ciscoACE20K9
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VIP</capacity-type>
+            <entity>/controller:devices/device/loadbalancer:virtual-servers/virtual-server</entity>
+            <max-limit>300</max-limit>
+            <description>Maximum Number of LoadBalancer Contexts that can be provisioned on ciscoACE20K9
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>REALSERVER</capacity-type>
+            <entity>/controller:devices/device/loadbalancer:real-servers/real-server</entity>
+            <max-limit>300</max-limit>
+            <description>Maximum Number of REALSERVER that can be provisioned on ciscoACE20K9
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>CiscoISR4331</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on CiscoISR4331 is 30
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>ciscoWsSvcFwm1sc</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on ciscoWsSvcFwm1sc
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco ASR 9001</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>4000</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco ASR 9001 is 45
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Catalyst65XXVS</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Catalyst65XXVS
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco VNMC</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VNMC</capacity-type>
+            <max-limit>250</max-limit>
+            <description>Maximum Number of Compute VNMCs that can be provisioned on Cisco VNMC
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco Nexus 1000V</device-type>
+      <capacity-limits>
+        <!-- <capacity>
+            <capacity-type>VIRTUAL_ACCESS_PORT</capacity-type>
+            <entity>/controller:devices/device/AccessPort</entity>
+            <max-limit>2000</max-limit>
+            <description>Maximum Number of VirtualAccessPort that can be provisioned on Cisco Nexus 1000V
+		</description>
+         </capacity> -->
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco 2911</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>45</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco 2911 is 45
+        </description>
+         </capacity>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>1</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on Cisco 2911 is 1
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco 2851</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>15</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco 2851
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco Nexus 7009</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco Nexus 7009
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Cisco Nexus 7004</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Cisco Nexus 7004
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>Catalyst6509-NEB-A</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>30</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on Catalyst6509-NEB-A
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>ciscoASASm1</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>FW_CONTEXT</capacity-type>
+            <entity>/controller:devices/device/firewall:virtual-devices/virtual-device</entity>
+            <max-limit>10</max-limit>
+            <description>Maximum Number of Firewall Contexts that can be provisioned on ciscoASASm1
+		</description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>CiscoCRS16S</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VRF</capacity-type>
+            <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+            <max-limit>1000</max-limit>
+            <description>Maximum Number of VRFs that can be provisioned on CiscoCRS16S is 1000
+            </description>
+         </capacity>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+   <device-capacity>
+      <device-type>cat3850-24T</device-type>
+      <capacity-limits>
+         <capacity>
+            <capacity-type>VLAN</capacity-type>
+            <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+            <max-limit>4096</max-limit>
+            <description>Maximum Number of vlans that can be provisioned is 4096
+            </description>
+         </capacity>
+      </capacity-limits>
+   </device-capacity>
+</device-capacities>
