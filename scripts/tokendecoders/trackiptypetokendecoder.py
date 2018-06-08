@@ -15,11 +15,11 @@ import traceback
 class TrackIPTokenDecoder(tokendecoder.AbstractTokenDecoder):
 
     def __init__(self):
-        util.log_info('Initializing BgpNeighborTokenDecoder')
+        util.log_info('Initializing TrackIPTypeTokenDecoder')
 
     def decodeToken(self, dc):
         try:
-            util.log_info('BgpNeighborTokenDecoder: Decode token for Bgp neighbor ip-address leaf value')
+            util.log_info('TrackIPTypeTokenDecoder: Decode token')
             decoderhandler = tokendecoderhandler.TokenDecoderHandler(dc)
             tokenText = decoderhandler.getTokenText()
 

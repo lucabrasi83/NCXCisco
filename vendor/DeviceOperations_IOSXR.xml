@@ -25,8 +25,10 @@
                     <name>CreateInterface</name>
                     <type>CREATE</type>
                     <command-string>
-                        #if($mode == "vlan") interface vlan $l2features:vlan
-                        #else interface $name
+                        #if($mode == "vlan") 
+                        interface vlan $l2features:vlan
+                        #else 
+                        interface $name
                     </command-string>
                     <command-string>[description $description]</command-string>
                     <command-string>
@@ -61,11 +63,9 @@
                         ip nat $nat-name
                     </command-string>
                     <command-string>
-                        #if($mode == "sub-interface" OR $mode == "l3-interface" AND $inbound-qos != null)
                         service-policy input $inbound-qos
                     </command-string>
                     <command-string>
-                        #if($mode == "sub-interface" OR $mode == "l3-interface" AND $outbound-qos != null)
                         service-policy output $outbound-qos
                     </command-string>
                     <command-string>
@@ -76,7 +76,44 @@
                         #if($link-negotiation != null AND $mode == "l3-interface")
                         negotiation $link-negotiation
                     </command-string>
-                    <command-string>no shutdown</command-string>
+					<command-string>
+					#if ($interface-ext:attach-generic-interface != null)
+					attach generic-interface-list $interface-ext:attach-generic-interface
+					</command-string>
+					<command-string>
+					#if ($interface-ext:load-interval != null)
+					load-interval $interface-ext:load-interval
+					</command-string>
+					<command-string>
+					#if ($cdp == "enable")
+					cdp
+					</command-string>
+					<command-string>
+					#if ($interface-ext:ipv4-redirects == "true")
+					ipv4 redirects
+					</command-string>
+					<command-string>
+					#if ($interface-ext:ipv4-unreachables-disable == "true")
+					ipv4 unreachables disable
+					</command-string>
+					<command-string>
+					#if ($interface-ext:carrier-delay-up != null)
+					carrier-delay up $interface-ext:carrier-delay-up
+                    </command-string>
+                    <command-string>
+                    #if ($interface-ext:carrier-delay-down != null)
+					carrier-delay down $interface-ext:carrier-delay-down
+					</command-string>
+					<command-string>
+					#if ($interface-ext:dampening == "true")
+					dampening
+					</command-string>
+                    <command-string>
+                        #if($admin-state == "UP")
+                        no shutdown
+                        #else if($admin-state == "DOWN")
+                        shutdown
+                    </command-string>
                 </device-operation>
                 <device-operation>
                     <name>UpdateInterface</name>
@@ -109,6 +146,14 @@
                     <command-string>
                         #if($link-negotiation != null AND $mode == "l3-interface")
                         negotiation $link-negotiation
+                    </command-string>
+                    <command-string>
+                    #if ($interface-ext:carrier-delay-up != null)
+                    carrier-delay up $interface-ext:carrier-delay-up
+                    </command-string>
+                    <command-string>
+                    #if ($interface-ext:carrier-delay-down != null)
+                    carrier-delay down $interface-ext:carrier-delay-down
                     </command-string>
                     <!--command-string>no shutdown</command-string> -->
                 </device-operation>
@@ -143,6 +188,34 @@
                         #if($mode == "trunk" OR $mode == "access" OR $mode == "voice" OR $mode == "l3-interface")
                         [no ipv6 address $ipv6-address/$ipv6-prefix-length]
                     </command-string>
+					<command-string>
+					#if ($attach-generic-interface != null)
+					no attach generic-interface-list $attach-generic-interface
+					</command-string>
+					<command-string>
+					#if ($interface-ext:load-interval != null)
+					no load-interval [$interface-ext:load-interval]
+					</command-string>
+					<command-string>
+					#if ($cdp == "enable")
+					no cdp
+					</command-string>
+					<command-string>
+					#if ($interface-ext:ipv4-redirects == "true")
+					no ipv4 redirects
+					</command-string>
+					<command-string>
+					#if ($interface-ext:ipv4-unreachables-disable == "true")
+					no ipv4 unreachables disable
+					</command-string>
+					<command-string>
+					#if ($interface-ext:dampening == "true")
+					no dampening
+					</command-string>
+					<command-string>
+					#if ($interface-ext:carrier-delay-up != null OR $interface-ext:carrier-delay-down != null)
+					no carrier-delay
+					</command-string>
                 </device-operation>
             </device-operations>
         </operation>
@@ -180,11 +253,17 @@
         <operation>
             <target>/controller:devices/device/interface:interfaces/interface/admin-state</target>
             <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <sequence-number>3</sequence-number>
             <device-operations>
                 <device-operation>
                     <name>CreateInterfaceAdminState</name>
                     <type>CREATE</type>
-                    <command-string>no shutdown</command-string>
+                    <command-string>
+                        #if($admin-state == "UP")
+                        no shutdown
+                        #else if($admin-state == "DOWN")
+                        shutdown
+                    </command-string>                    
                 </device-operation>
                 <device-operation>
                     <name>UpdateInterfaceAdminState</name>
@@ -199,10 +278,38 @@
                 <device-operation>
                     <name>DeleteInterfaceAdminState</name>
                     <type>DELETE</type>
-                    <command-string>shutdown</command-string>
+                    <command-string>
+                        #if($admin-state == "UP")
+                        shutdown
+                        #else if($admin-state == "DOWN")
+                        no shutdown
+                    </command-string>                    
                 </device-operation>
             </device-operations>
         </operation>
+
+        <operation>
+            <target>/controller:devices/device/interface:interfaces/interface/maximum-segment-size</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>AddMSSToInterface</name>
+                    <type>CREATE</type>
+                    <command-string>ip tcp adjust-mss $maximum-segment-size</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateMSSToInterface</name>
+                    <type>UPDATE</type>
+                    <command-string>ip tcp adjust-mss $maximum-segment-size</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>RemoveMSSToInterface</name>
+                    <type>DELETE</type>
+                    <command-string>no ip tcp adjust-mss $maximum-segment-size</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+
         <operation>
             <target>/controller:devices/device/interface:interfaces/interface/duplex</target>
             <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
@@ -303,28 +410,6 @@
         </operation>
         <operation>
             <target>/controller:devices/device/interface:interfaces/interface/hsrp:hsrp</target>
-            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
-            <device-operations>
-                <device-operation>
-                    <name>CreateInterfaceHSRP</name>
-                    <type>CREATE</type>
-                    <command-string>
-                        #if($../mode == "vlan")
-                        interface vlan $../vlan
-                        #else
-                        interface $../name
-                    </command-string>
-                    <command-string>router hsrp</command-string>
-                    <command-string>interface $name</command-string>
-                    <command-string>hsrp authentication $auth-key</command-string>
-                    <command-string>hsrp ipv4 $ip-address</command-string>
-                    <command-string>hsrp preempt</command-string>
-                    <command-string>hsrp priority $priority</command-string>
-                </device-operation>
-            </device-operations>
-        </operation>
-        <operation>
-            <target>/controller:devices/device/interface:interfaces/interface/hsrp:hsrp</target>
             <platform>ALL|ALL|Cisco ASR 9000|IOSXR|Cisco Systems</platform>
             <device-operations>
                 <device-operation>
@@ -394,18 +479,6 @@
                     <type>DELETE</type>
                     <command-string>router hsrp</command-string>
                     <command-string>no interface $../name</command-string>
-                </device-operation>
-            </device-operations>
-        </operation>
-        <operation>
-            <target>/controller:devices/device/CopyToDevice</target>
-            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
-            <device-operations>
-                <device-operation>
-                    <name>CopyToDevice</name>
-                    <type>CREATE</type>
-                    <command-string>copy $srcFile $destFile</command-string>
-                    <command-string>reload</command-string>
                 </device-operation>
             </device-operations>
         </operation>
@@ -596,7 +669,7 @@
                 </device-operation>
             </device-operations>
         </operation>
-        <operation>
+        <!--operation>
             <target>/controller:devices/device/l3features:route-policies/route-policy</target>
             <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
             <device-operations>
@@ -624,6 +697,259 @@
                     <name>DeleteRoutePolicy</name>
                     <type>DELETE</type>
                     <command-string>no route-policy $name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation-->
+        <operation>
+            <target>/controller:devices/device/l3features:routepolicies/routepolicy</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateROUTEPOLICY</name>
+                    <type>CREATE</type>
+                    <command-string>route-policy $name</command-string>
+                    <command-string>end-policy</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateROUTEPOLICY</name>
+                    <type>UPDATE</type>
+                    <command-string>route-policy $name</command-string>
+                    <command-string>end-policy</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteROUTEPOLICY</name>
+                    <type>DELETE</type>
+                    <command-string>no route-policy $name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+		<operation>
+            <target>/controller:devices/device/l3features:routepolicies/routepolicy/if_rp_set</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>ParseIFROUTEPOLICY</name>
+                    <type>PARSE_TEMPLATE</type>
+                    <command-string>route-policy $../name</command-string>
+                    <command-string>
+                        #if ($match != null AND $prefix-set != null)
+                        if $match in $prefix-set then
+                    </command-string>
+				</device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:routepolicies/routepolicy/action</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateROUTEPOLICYACTION</name>
+                    <type>CREATE</type>
+                    <command-string>route-policy $../name</command-string>
+                    <command-string>
+                        #if ($as-path != null)
+                        prepend as-path $as-path
+                    </command-string>
+                    <command-string>
+                        #if ($med != null)
+                        set med $med
+                    </command-string>
+                    <command-string>
+                        #if ($local-preference != null)
+                        set local-preference $local-preference
+                    </command-string>
+                    <command-string>
+                        #if ($next-hop-self == 'true')
+                        set next-hop self
+                    </command-string>
+                    <command-string>
+                        #if ($next-hop != null)
+                        set next-hop $next-hop
+                    </command-string>
+                    <command-string>
+                        #if ($community != null)
+                        set community $community
+                    </command-string>
+                    <command-string>
+                        #if ($weight != null)
+                        set weight $weight
+                    </command-string>
+                    <command-string>
+                        #if ($pass == 'true')
+                        pass
+                    </command-string>
+                    <command-string>
+                        #if ($drop == 'true')
+                        drop
+                    </command-string>
+                    <command-string>
+                        #if ($done == 'true')
+                        done
+                    </command-string>
+                    <command-string>end-policy</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateROUTEPOLICYACTION</name>
+                    <type>UPDATE</type>
+                    <command-string>route-policy $../name</command-string>
+                    <command-string>
+                        #if ($as-path != null)
+                        prepend as-path $as-path
+                    </command-string>
+                    <command-string>
+                        #if ($med != null)
+                        set med $med
+                    </command-string>
+                    <command-string>
+                        #if ($local-preference != null)
+                        set local-preference $local-preference
+                    </command-string>
+                    <command-string>
+                        #if ($next-hop-self == 'true')
+                        set next-hop self
+                    </command-string>
+                    <command-string>
+                        #if ($next-hop != null)
+                        set next-hop $next-hop
+                    </command-string>
+                    <command-string>
+                        #if ($community != null)
+                        set community $community
+                    </command-string>
+                    <command-string>
+                        #if ($weight != null)
+                        set weight $weight
+                    </command-string>
+                    <command-string>
+                        #if ($pass == 'true')
+                        pass
+                    </command-string>
+                    <command-string>
+                        #if ($drop == 'true')
+                        drop
+                    </command-string>
+                    <command-string>
+                        #if ($done == 'true')
+                        done
+                    </command-string>
+                    <command-string>end-policy</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:routepolicies/routepolicy/if_rp_set/action</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+				<device-operation>
+                    <name>ParseIFROUTEPOLICY</name>
+                    <type>PARSE_TEMPLATE</type>
+                    <command-string>route-policy $../../name</command-string>
+                    <command-string>
+                        #if ($../match != null AND $../prefix-set != null)
+                        if $../match in $../prefix-set then
+                    </command-string>
+				</device-operation>
+                <device-operation>
+                    <name>CreateIFROUTEPOLICY</name>
+                    <type>CREATE</type>
+                    <command-string>route-policy $../../name</command-string>
+                    <command-string>
+                        #if ($../match != null AND $../prefix-set != null)
+                          if $../match in $../prefix-set then
+                    </command-string>
+                    <command-string>
+                        #if ($as-path != null)
+                          prepend as-path $as-path
+                    </command-string>
+                    <command-string>
+                        #if ($med != null)
+                          set med $med
+                    </command-string>
+                    <command-string>
+                        #if ($local-preference != null)
+                          set local-preference $local-preference
+                    </command-string>
+                    <command-string>
+                        #if ($next-hop-self == 'true')
+                          set next-hop self
+                    </command-string>
+                    <command-string>
+                        #if ($next-hop != null)
+                          set next-hop $next-hop
+                    </command-string>
+                    <command-string>
+                        #if ($community != null)
+                          set community $community
+                    </command-string>
+                    <command-string>
+                        #if ($weight != null)
+                          set weight $weight
+                    </command-string>
+                    <command-string>
+                        #if ($pass == 'true')
+                        pass
+                    </command-string>
+                    <command-string>
+                        #if ($drop == 'true')
+                        drop
+                    </command-string>
+                    <command-string>
+                        #if ($done == 'true')
+                        done
+                    </command-string>
+                    <command-string>endif</command-string>
+                    <command-string>end-policy</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateIFROUTEPOLICY</name>
+                    <type>UPDATE</type>
+                    <command-string>route-policy $../../name</command-string>
+                    <command-string>
+                        #if ($../match != null AND $../prefix-set != null)
+                        if $../match in $../prefix-set then
+                    </command-string>
+                    <command-string>
+                        #if ($as-path != null)
+                        prepend as-path $as-path
+                    </command-string>
+                    <command-string>
+                        #if ($med != null)
+                        set med $med
+                    </command-string>
+                    <command-string>
+                        #if ($local-preference != null)
+                        set local-preference $local-preference
+                    </command-string>
+                    <command-string>
+                        #if ($next-hop-self == 'true')
+                        set next-hop self
+                    </command-string>
+                    <command-string>
+                        #if ($next-hop != null)
+                        set next-hop $next-hop
+                    </command-string>
+                    <command-string>
+                        #if ($community != null)
+                        set community $community
+                    </command-string>
+                    <command-string>
+                        #if ($weight != null)
+                        set weight $weight
+                    </command-string>
+                    <command-string>
+                        #if ($pass == 'true')
+                        pass
+                    </command-string>
+                    <command-string>
+                        #if ($drop == 'true')
+                        drop
+                    </command-string>
+                    <command-string>
+                        #if ($done == 'true')
+                        done
+                    </command-string>
+                    <command-string>endif</command-string>
+                    <command-string>end-policy</command-string>
                 </device-operation>
             </device-operations>
         </operation>
@@ -777,7 +1103,7 @@
                 </device-operation>
             </device-operations>
         </operation>
-        <operation>
+        <!--operation>
             <target>/controller:devices/device/l3features:vrfs/vrf/name</target>
             <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
             <device-operations>
@@ -794,7 +1120,7 @@
                     <command-string>no vrf name</command-string>
                 </device-operation>
             </device-operations>
-        </operation>
+        </operation-->
         <operation>
             <target>/controller:devices/device/LoggingHost</target>
             <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
@@ -833,7 +1159,7 @@
                 </device-operation>
             </device-operations>
         </operation>
-        <operation>
+        <!--operation>
             <target>/controller:devices/device/l3features:route-maps/route-map/route-map-entries/match-condition</target>
             <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
             <device-operations>
@@ -924,7 +1250,7 @@
                     <command-string>no route-policy $../name</command-string>
                 </device-operation>
             </device-operations>
-        </operation>
+        </operation-->
         <operation>
             <target>/controller:devices/device/SubInterfaceL2Trunk</target>
             <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
@@ -994,14 +1320,43 @@
                         rd $../rd
                     </command-string>
                     <command-string>address-family ipv4 unicast</command-string>
+                    <command-string>
+                        #if($bfd-minimum-interval != null)
+                        bfd minimum-interval $bfd-minimum-interval
+                    </command-string>
+                    <command-string>
+                        #if($bfd-multiplier != null)
+                        bfd multiplier $bfd-multiplier
+                    </command-string>
                 </device-operation>
+                <device-operation>
+                    <name>UpdateRouterBGP</name>
+                    <type>UPDATE</type>
+                    <command-string>router bgp $as-number</command-string>
+                    <command-string>
+                        #if($router-id != null)
+                        bgp router-id $router-id
+                    </command-string>
+                    <command-string>
+                        #if($../name != null AND $../name != "GLOBAL")
+                        vrf $../name
+                    </command-string>
+                    <command-string>
+                        #if($../rd != null)
+                        rd $../rd
+                    </command-string>
+                    <command-string>address-family ipv4 unicast</command-string>
+                </device-operation>                
                 <device-operation>
                     <name>DeleteRouterBGP</name>
                     <type>DELETE</type>
-                    <command-string>
+                    <!--command-string>
                         #if($../name != null AND $../name == "GLOBAL")
                         no router bgp $as-number
                         #else
+                        router bgp $as-number
+                    </command-string-->
+                    <command-string>
                         router bgp $as-number
                     </command-string>
                     <command-string>
@@ -1020,10 +1375,10 @@
                     <name>CreateRouterBGPNeighbor</name>
                     <type>CREATE</type>
                     <command-string>router bgp $../as-number</command-string>
-                    <command-string>
+                    <!--command-string>
                         #if($../log-neighbor-changes != null AND $../log-neighbor-changes == "true")
                         bgp log-neighbor-changes
-                    </command-string>
+                    </command-string-->
                     <command-string>
                         #if($local-interface != null AND $next-hop-self != null AND $next-hop-self == "false")
                         neighbor $ip-address update-source $local-interface
@@ -1045,6 +1400,18 @@
                     </command-string>
                     <command-string>remote-as $remote-as</command-string>
                     <command-string>description $description</command-string>
+                    <command-string>
+                        #if($bfd-fast-detect == "true")
+                        bfd fast-detect
+                    </command-string>
+                    <command-string>
+                        #if($bfd-minimum-interval != null)
+                        bfd minimum-interval $bfd-minimum-interval
+                    </command-string>
+                    <command-string>
+                        #if($bfd-multiplier != null)
+                        bfd multiplier $bfd-multiplier
+                    </command-string>
                     <command-string>address-family ipv4 unicast</command-string>
                     <command-string>
                         #if($next-hop-self)
@@ -1095,6 +1462,102 @@
                         vrf $../../name
                     </command-string>
                     <command-string>no neighbor $ip-address</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+		<operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/router-bgp/neighbor/bfd-fast-detect</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateBfdFastDetect</name>
+                    <type>CREATE</type>
+                    <command-string>
+						#if($bfd-fast-detect == "true")
+						bfd fast-detect
+					</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateBfdFastDetect</name>
+                    <type>UPDATE</type>
+                    <command-string>
+						#if($bfd-fast-detect == "true")
+						bfd fast-detect
+						#else if($bfd-fast-detect == "false")
+						no bfd fast-detect
+					</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteBfdFastDetect</name>
+                    <type>DELETE</type>
+                    <command-string>
+						#if($bfd-fast-detect == "true")
+						no bfd fast-detect
+					</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+		<operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/router-bgp/neighbor/bfd-minimum-interval</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateBfdMinimumInterval</name>
+                    <type>CREATE</type>
+                    <command-string>
+						#if($bfd-minimum-interval != null)
+						bfd minimum-interval $bfd-minimum-interval
+					</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateBfdMinimumInterval</name>
+                    <type>UPDATE</type>
+                    <command-string>
+						#if($bfd-minimum-interval != null)
+						bfd minimum-interval $bfd-minimum-interval
+						#else if($bfd-minimum-interval == null)
+						no bfd minimum-interval $bfd-minimum-interval
+					</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteBfdMinimumInterval</name>
+                    <type>DELETE</type>
+                    <command-string>
+						#if($bfd-minimum-interval != null)
+						no bfd minimum-interval $bfd-minimum-interval
+					</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+		<operation>
+            <target>/controller:devices/device/l3features:vrfs/vrf/router-bgp/neighbor/bfd-multiplier</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateBfdMultiplier</name>
+                    <type>CREATE</type>
+                    <command-string>
+						#if($bfd-multiplier != null)
+						bfd multiplier $bfd-multiplier
+					</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateBfdMultiplier</name>
+                    <type>UPDATE</type>
+                    <command-string>
+						#if($bfd-multiplier != null)
+						bfd multiplier $bfd-multiplier
+						#else if($bfd-multiplier == null)
+						no bfd multiplier $bfd-multiplier
+					</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteBfdMultiplier</name>
+                    <type>DELETE</type>
+                    <command-string>
+						#if($bfd-multiplier != null)
+						no bfd multiplier $bfd-multiplier
+					</command-string>
                 </device-operation>
             </device-operations>
         </operation>
@@ -1357,10 +1820,10 @@
                     <name>CreateRouterBGPRedistribute</name>
                     <type>CREATE</type>
                     <command-string>router bgp $../as-number</command-string>
-                    <command-string>
+                    <!--command-string>
                         #if($../../name != "GLOBAL" AND $../address-family == "ipv4")
                         address-family ipv4 vrf $../../name
-                    </command-string>
+                    </command-string-->
                     <command-string>
                         #if($../../name != null AND $../../name != "GLOBAL")
                         vrf $../../name
@@ -1808,32 +2271,32 @@
                 </device-operation>
             </device-operations>
         </operation>
-        <operation>
-            <target>/controller:devices/device/l3features:vrfs/vrf/prefix-sets/prefix-set/custom-prefix-set</target>
-            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
-            <device-operations>
-                <device-operation>
-                    <name>CreateCustomPrefixSet</name>
-                    <type>CREATE</type>
-                    <command-string>prefix-set $../name</command-string>
-                    <command-string>$prefix-set-buf</command-string>
-                    <command-string>end-set</command-string>
-                </device-operation>
-                <device-operation>
-                    <name>UpdateCustomPrefixSet</name>
-                    <type>UPDATE</type>
-                    <command-string>prefix-set $../name</command-string>
-                    <command-string>$prefix-set-buf</command-string>
-                    <command-string>end-set</command-string>
-                </device-operation>
-                <device-operation>
-                    <name>DeleteCustomPrefixSet</name>
-                    <type>DELETE</type>
-                    <command-string>no prefix-set $../name</command-string>
-                </device-operation>
-            </device-operations>
-        </operation>
-        <operation>
+        <!--<operation>-->
+            <!--<target>/controller:devices/device/l3features:vrfs/vrf/prefix-sets/prefix-set/custom-prefix-set</target>-->
+            <!--<platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>-->
+            <!--<device-operations>-->
+                <!--<device-operation>-->
+                    <!--<name>CreateCustomPrefixSet</name>-->
+                    <!--<type>CREATE</type>-->
+                    <!--<command-string>prefix-set $../name</command-string>-->
+                    <!--<command-string>$prefix-set-buf</command-string>-->
+                    <!--<command-string>end-set</command-string>-->
+                <!--</device-operation>-->
+                <!--<device-operation>-->
+                    <!--<name>UpdateCustomPrefixSet</name>-->
+                    <!--<type>UPDATE</type>-->
+                    <!--<command-string>prefix-set $../name</command-string>-->
+                    <!--<command-string>$prefix-set-buf</command-string>-->
+                    <!--<command-string>end-set</command-string>-->
+                <!--</device-operation>-->
+                <!--<device-operation>-->
+                    <!--<name>DeleteCustomPrefixSet</name>-->
+                    <!--<type>DELETE</type>-->
+                    <!--<command-string>no prefix-set $../name</command-string>-->
+                <!--</device-operation>-->
+            <!--</device-operations>-->
+        <!--</operation>-->
+        <!--operation>
             <target>/controller:devices/device/l3features:route-policies/route-policy/route-policy-entries</target>
             <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
             <device-operations>
@@ -1870,7 +2333,7 @@
                     <command-string>end-policy</command-string>
                 </device-operation>
             </device-operations>
-        </operation>
+        </operation-->
         <operation>
             <target>/controller:devices/device/l3features:prefix-sets/prefix-set</target>
             <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
@@ -1879,14 +2342,14 @@
                     <name>CreatePrefixSet</name>
                     <type>CREATE</type>
                     <command-string>prefix-set $name</command-string>
-                    <command-string>$description</command-string>
+                    <!--<command-string>$description</command-string>-->
                     <command-string>end-set</command-string>
                 </device-operation>
                 <device-operation>
                     <name>UpdatePrefixSet</name>
                     <type>UPDATE</type>
                     <command-string>prefix-set $name</command-string>
-                    <command-string>$description</command-string>
+                    <!--<command-string>$description</command-string>-->
                     <command-string>end-set</command-string>
                 </device-operation>
                 <device-operation>
@@ -1946,23 +2409,27 @@
             <target>/controller:devices/device/l3features:prefix-sets/prefix-set/match-conditions/match-condition</target>
             <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
             <device-operations>
+				<device-operation>
+					<name>ParsePrefixSetsMatchCondition</name>
+                    <type>PARSE_TEMPLATE</type>
+					<command-string>prefix-set $../../name</command-string>
+					<command-string>$ip-prefix</command-string>
+				</device-operation>
                 <device-operation>
                     <name>CreatePrefixSetsMatchCondition</name>
                     <type>CREATE</type>
                     <command-string>exit</command-string>
                     <command-string>
-                        #if($mask-length == null)
-                        edit prefix-set $../../name inline add $ip-address
-                        #else if($mask-length != null AND $min-match-length == null AND $max-match-length == null)
-                        edit prefix-set $../../name inline add $ip-address/$mask-length
-                        #else if($mask-length != null AND $min-match-length != null AND $max-match-length == null)
-                        edit prefix-set $../../name inline add $ip-address/$mask-length ge $min-match-length
-                        #else if($mask-length != null AND $min-match-length == null AND $max-match-length != null)
-                        edit prefix-set $../../name inline add $ip-address/$mask-length le $max-match-length
-                        #else if($mask-length != null AND $min-match-length == $max-match-length)
-                        edit prefix-set $../../name inline add $ip-address/$mask-length eq $max-match-length
-                        #else if($mask-length != null AND $min-match-length != null AND $max-match-length != null)
-                        edit prefix-set $../../name inline add $ip-address/$mask-length ge $min-match-length le $max-match-length
+                        #if($ip-prefix != null)
+                          edit prefix-set $../../name inline add $ip-prefix
+                        #else if($ip-prefix != null AND $max-match-length == null)
+                          edit prefix-set $../../name inline add $ip-prefix le $max-match-length
+                        #else if($ip-prefix != null AND $min-match-length != null)
+                          edit prefix-set $../../name inline add $ip-prefix ge $min-match-length
+                        #else if($ip-prefix != null AND $min-match-length != null AND $max-match-length != null)
+                          edit prefix-set $../../name inline add $ip-prefix ge $min-match-length le $max-match-length
+                        #else if($ip-prefix != null AND $mask-length != null)
+                          edit prefix-set $../../name inline add $ip-prefix eq $mask-length
                     </command-string>
                     <command-string>config t</command-string>
                 </device-operation>
@@ -1971,18 +2438,16 @@
                     <type>DELETE</type>
                     <command-string>exit</command-string>
                     <command-string>
-                        #if($mask-length == null)
-                        edit prefix-set $../../name inline remove $ip-address
-                        #else if($mask-length != null AND $min-match-length == null AND $max-match-length == null)
-                        edit prefix-set $../../name inline remove $ip-address/$mask-length
-                        #else if($mask-length != null AND $min-match-length != null AND $max-match-length == null)
-                        edit prefix-set $../../name inline remove $ip-address/$mask-length ge $min-match-length
-                        #else if($mask-length != null AND $min-match-length == null AND $max-match-length != null)
-                        edit prefix-set $../../name inline remove $ip-address/$mask-length le $max-match-length
-                        #else if($mask-length != null AND $min-match-length == $max-match-length)
-                        edit prefix-set $../../name inline remove $ip-address/$mask-length eq $max-match-length
-                        #else if($mask-length != null AND $min-match-length != null AND $max-match-length != null)
-                        edit prefix-set $../../name inline remove $ip-address/$mask-length ge $min-match-length le $max-match-length
+                        #if($ip-prefix != null)
+                        edit prefix-set $../../name inline remove $ip-prefix
+                        #else if($ip-prefix != null AND $max-match-length == null)
+                        edit prefix-set $../../name inline remove $ip-prefix le $max-match-length
+                        #else if($ip-prefix != null AND $min-match-length != null)
+                        edit prefix-set $../../name inline remove $ip-prefix ge $min-match-length
+                        #else if($ip-prefix != null AND $min-match-length != null AND $max-match-length != null)
+                        edit prefix-set $../../name inline remove $ip-prefix ge $min-match-length le $max-match-length
+                        #else if($ip-prefix != null AND $mask-length != null)
+                        edit prefix-set $../../name inline remove $ip-prefix eq $mask-length
                     </command-string>
                     <command-string>config t</command-string>
                 </device-operation>
@@ -2018,67 +2483,7 @@
                 </device-operation>
             </device-operations>
         </operation>
-        <operation>
-            <target>/controller:devices/device/HSRPinterface</target>
-            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
-            <device-operations>
-                <device-operation>
-                    <name>createHSRPinterface</name>
-                    <type>CREATE</type>
-                    <command-string>router hsrp</command-string>
-                    <command-string>interface $interfaceName</command-string>
-                    <command-string>hsrp authentication $authKey</command-string>
-                    <command-string>hsrp ipv4 $ipAddress</command-string>
-                    <command-string>hsrp preempt</command-string>
-                    <command-string>hsrp priority $priority</command-string>
-                </device-operation>
-            </device-operations>
-        </operation>
-        <operation>
-            <target>/controller:devices/device/DefaultRouteTOBGP</target>
-            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
-            <device-operations>
-                <device-operation>
-                    <name>AddDefaultRouteTOBGP</name>
-                    <type>CREATE</type>
-                    <command-string>router bgp $localAsNumber</command-string>
-                    <command-string>vrf $vrfName</command-string>
-                    <command-string>address-family ipv4 unicast</command-string>
-                    <command-string>network $subnet</command-string>
-                </device-operation>
-            </device-operations>
-        </operation>
-        <operation>
-            <target>/controller:devices/device/HSRPinterface</target>
-            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
-            <device-operations>
-                <device-operation>
-                    <name>createHSRPinterface</name>
-                    <type>CREATE</type>
-                    <command-string>router hsrp</command-string>
-                    <command-string>interface $interfaceName</command-string>
-                    <command-string>hsrp authentication $authKey</command-string>
-                    <command-string>hsrp ipv4 $ipAddress</command-string>
-                    <command-string>hsrp preempt</command-string>
-                    <command-string>hsrp priority $priority</command-string>
-                </device-operation>
-            </device-operations>
-        </operation>
-        <operation>
-            <target>/controller:devices/device/DefaultRouteTOBGP</target>
-            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
-            <device-operations>
-                <device-operation>
-                    <name>AddDefaultRouteTOBGP</name>
-                    <type>CREATE</type>
-                    <command-string>router bgp $localAsNumber</command-string>
-                    <command-string>vrf $vrfName</command-string>
-                    <command-string>address-family ipv4 unicast</command-string>
-                    <command-string>network $subnet</command-string>
-                </device-operation>
-            </device-operations>
-        </operation>
-        <operation>
+        <!--operation>
             <target>/controller:devices/device/l3features:ip-prefixlist-list/ip-prefixlist/ip-prefixlist-entries/ip-prefixlist-entry</target>
             <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
             <device-operations>
@@ -2095,7 +2500,7 @@
                     <command-string>no prefix-set $../../name</command-string>
                 </device-operation>
             </device-operations>
-        </operation>
+        </operation-->
         <operation>
             <target>/controller:devices/device/qos:policy-maps/policy-map</target>
             <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
@@ -2110,6 +2515,96 @@
                     <name>DeleteQPolicyMap</name>
                     <type>DELETE</type>
                     <command-string>no policy-map $name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/qos:policy-maps/policy-map/class-entry/bit-rate</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateQPolicyMapClassEntryBitRate</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($bit-rate != null)
+                        police rate $bit-rate
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateQPolicyMapClassEntryBitRate</name>
+                    <type>UPDATE</type>
+                    <command-string>
+                        #if($bit-rate != null AND $bit-rate != $bit-rate.%previous)
+                        police rate $bit-rate
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteQPolicyMapClassEntryBitRate</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($bit-rate != null)
+                        no police rate $bit-rate
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/qos:policy-maps/policy-map/class-entry/cir-rate</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateQPolicyMapClassCirRate</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($cir-rate != null)
+                        police cir $cir-rate
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateQPolicyMapClassCirRate</name>
+                    <type>UPDATE</type>
+                    <command-string>
+                        #if($cir-rate != null AND $cir-rate != $cir-rate.%previous)
+                        police cir $cir-rate
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteQPolicyMapClassCirRate</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($cir-rate != null)
+                        no police cir $cir-rate
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/qos:policy-maps/policy-map/class-entry/qos-group</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateQPolicyMapClassEntryQosGroup</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($qos-group != null)
+                        set qos-group $qos-group
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateQPolicyMapClassEntryQosGroup</name>
+                    <type>UPDATE</type>
+                    <command-string>
+                        #if($qos-group != null AND $qos-group != $qos-group.%previous)
+                        set qos-group $qos-group
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteQPolicyMapClassEntryQosGroup</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($qos-group != null)
+                        no set qos-group $qos-group
+                    </command-string>
                 </device-operation>
             </device-operations>
         </operation>
@@ -2143,6 +2638,10 @@
                         priority $priority-value
                     </command-string>
                     <command-string>
+                        #if($qos-group != null)
+                        set qos-group $qos-group
+                    </command-string>
+                    <command-string>
                         #if($priority-percentage != null)
                         priority percent $priority-percentage
                     </command-string>
@@ -2171,27 +2670,46 @@
                         service-policy $service-policy
                     </command-string>
                     <command-string>
+                        #if($bit-rate != null)
+                        police rate $bit-rate
+                    </command-string>
+                    <command-string>
+                       police rate $cir-rate
+                    </command-string>
+                    <command-string>
                         #if($police-cir-percentage != null)
                         police cir percent $police-cir-percentage
                     </command-string>
                     <command-string>
-                        #if($police-cir-percentage != null AND $police-cir-conform-action != null)
+                        #if($police-cir-conform-action != null)
                         conform-action $police-cir-conform-action
                     </command-string>
                     <command-string>
-                        #if($police-cir-percentage != null AND $police-cir-exceed-action != null)
+                        #if($police-cir-exceed-action != null)
                         exceed-action $police-cir-exceed-action
                     </command-string>
                     <command-string>
                         #if($precedence != null)
                         set precedence $precedence
                     </command-string>
+                    <command-string>
+                        conform-action set mpls experimental imposition $mpls-imposition
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateQPolicyMapClassEntry</name>
+                    <type>UPDATE</type>
+                    <command-string>policy-map $../name</command-string>
+                    <command-string>class $class-name</command-string>
                 </device-operation>
                 <device-operation>
                     <name>DeleteQPolicyMapClassEntry</name>
                     <type>DELETE</type>
                     <command-string>policy-map $../name</command-string>
-                    <command-string>no class $class-name</command-string>
+                    <command-string>
+                        #if($class-name != "class-default" AND $class-name != 'CLASS-DEFAULT')
+                        no class $class-name
+                    </command-string>
                 </device-operation>
             </device-operations>
         </operation>
@@ -2202,13 +2720,19 @@
                 <device-operation>
                     <name>CreateQClassMap</name>
                     <type>CREATE</type>
-                    <command-string>class-map $match-type $name</command-string>
+                    <command-string>
+                        #if($name != "class-default" AND $name != 'CLASS-DEFAULT')
+                         class-map $match-type $name
+                     </command-string>
                     <command-string>[description "$description"]</command-string>
                 </device-operation>
                 <device-operation>
                     <name>DeleteQClassMap</name>
                     <type>DELETE</type>
-                    <command-string>no class-map $match-type $name</command-string>
+                    <command-string>
+                        #if($name != "class-default" AND $name != 'CLASS-DEFAULT')
+                        no class-map $match-type $name
+                    </command-string>
                 </device-operation>
             </device-operations>
         </operation>
@@ -2229,6 +2753,8 @@
                         match protocol $match-value
                         #else if($condition-type == "ip-dscp" AND $match-value != null)
                         match ip dscp $match-value
+                        #else if($condition-type == "vlan" AND $match-value != null)
+                        match vlan $match-value
                         #else
                         match any
                     </command-string>
@@ -2246,8 +2772,101 @@
                         no match protocol $match-value
                         #else if($condition-type == "ip-dscp" AND $match-value != null)
                         no match ip dscp $match-value
+                        #else if($condition-type == "vlan" AND $match-value != null)
+                        no match vlan $match-value
                         #else
                         no match any
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+
+        <operation>
+            <target>/controller:devices/device/qos:policy-maps/policy-map/class-entry/police-cir-exceed-action</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateQPolicyMapPoliceCirExceedAction</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($police-cir-exceed-action != null)
+                        exceed-action $police-cir-exceed-action
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateQPolicyMapPoliceCirExceedAction</name>
+                    <type>UPDATE</type>
+                    <command-string>
+                        #if($police-cir-exceed-action != null AND $police-cir-exceed-action != $police-cir-exceed-action.%previous)
+                        exceed-action $police-cir-exceed-action
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteQPolicyMapPoliceCirExceedAction</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($police-cir-exceed-action != null)
+                        no exceed-action $police-cir-exceed-action
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+
+        <operation>
+            <target>/controller:devices/device/qos:policy-maps/policy-map/class-entry/police-cir-conform-action</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateQPolicyMapClassEntryPoliceCirConformAction</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($police-cir-conform-action != null)
+                        conform-action $police-cir-conform-action
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateQPolicyMapClassEntryPoliceCirConformAction</name>
+                    <type>UPDATE</type>
+                    <command-string>
+                        #if($police-cir-conform-action != null AND $police-cir-conform-action != $police-cir-conform-action.%previous)
+                        conform-action $police-cir-conform-action
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteQPolicyMapClassEntryPoliceCirConformAction</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($police-cir-conform-action != null)
+                        no conform-action $police-cir-conform-action
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+
+        <operation>
+            <target>/controller:devices/device/qos:policy-maps/policy-map/class-entry/mpls-imposition</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateQPolicyMapClassEntryMplsImposition</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        conform-action set mpls experimental imposition $mpls-imposition
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateQPolicyMapClassEntryMplsImposition</name>
+                    <type>UPDATE</type>
+                    <command-string>
+                        conform-action set mpls experimental imposition $mpls-imposition
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteQPolicyMapClassEntryMplsImposition</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($mpls-imposition != null)
+                        no conform-action set mpls experimental imposition $mpls-imposition
                     </command-string>
                 </device-operation>
             </device-operations>
@@ -2469,65 +3088,6 @@
             </device-operations>
         </operation>
         <operation>
-            <target>/controller:devices/device/dmvpn:domain</target>
-            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
-            <device-operations>
-                <device-operation>
-                    <name>createDMVPNDomain</name>
-                    <type>CREATE</type>
-                    <command-string>domain $domain-name</command-string>
-                    <command-string>
-                        #if($vrf-name != "GLOBAL")
-                        vrf $vrf-name
-                        #else
-                        vrf default
-                    </command-string>
-                    <command-string>
-                        #if($role == "hub-master")
-                        master hub
-                        #else if($role == "transit")
-                        master transit $transid-id
-                        #else
-                        border
-                    </command-string>
-                    <command-string>
-                        #if($role == "mcbr")
-                        source-interface $source-interface-border
-                    </command-string>
-                    <command-string>
-                        #if($role == "mcbr")
-                        master local
-                    </command-string>
-                    <command-string>
-                        #if($role == "mcbr")
-                        exit
-                    </command-string>
-                    <command-string>
-                        #if($role == "mcbr")
-                        master branch
-                    </command-string>
-                    <command-string>source-interface $source-interface</command-string>
-                    <command-string>
-                        #if($role == "hub-master" OR $role=="transit")
-                        site-prefixes prefix-list $site-prefix-list
-                    </command-string>
-                    <command-string>
-                        #if($role == "mcbr" OR $role=="transit")
-                        hub $hub-ip
-                    </command-string>
-                    <command-string>
-                        #if($role == "border-router")
-                        master $master-ip
-                    </command-string>
-                </device-operation>
-                <device-operation>
-                    <name>RemoveDMVPNDomain</name>
-                    <type>DELETE</type>
-                    <command-string>no domain $domain-name</command-string>
-                </device-operation>
-            </device-operations>
-        </operation>
-        <operation>
             <target>/controller:devices/device/dmvpn:domain/monitor-interval-dscp</target>
             <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
             <device-operations>
@@ -2725,6 +3285,582 @@
                     </command-string>
                     <command-string>master hub</command-string>
                     <command-string>no monitor-interval 2 dscp $monitor-interval-dscp</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <!--operation>
+            <target>/controller:devices/device/l3features:ERPS/profiles</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateERPSProfile</name>
+                    <type>CREATE</type>
+                    <command-string>ethernet ring g8032 profile $name</command-string>
+                    <command-string>timer wrt $WRT-timer</command-string>
+                    <command-string>timer guard $guard-timer</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteERPSProfile</name>
+                    <type>DELETE</type>
+                    <command-string>no ethernet ring g8032 profile $name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:ERPS/rings</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateERPSRings</name>
+                    <type>CREATE</type>
+                    <command-string>ethernet ring g8032 $name</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteERPSPRings</name>
+                    <type>DELETE</type>
+                    <command-string>no ethernet ring g8032 $name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:ERPS/rings/ring-ports</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateERPSRingPorts</name>
+                    <type>CREATE</type>
+                    <command-string>ethernet ring g8032 $../name</command-string>
+                    <command-string>port$port-id interface $interface</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteERPSRingPorts</name>
+                    <type>DELETE</type>
+                    <command-string>ethernet ring g8032 $../name</command-string>
+                    <command-string>no port$port-id interface $interface</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:ERPS/rings/instance</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateERPSInstance</name>
+                    <type>CREATE</type>
+                    <command-string>ethernet ring g8032 $../name</command-string>
+                    <command-string>instance $ring-id</command-string>
+                    <command-string>description $description</command-string>
+                    <command-string>profile $profile-name</command-string>
+                    <command-string>inclusion-list vlan-ids $vlan-ids</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteERPSInstance</name>
+                    <type>DELETE</type>
+                    <command-string>ethernet ring g8032 $../name</command-string>
+                    <command-string>no instance $ring-id</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l3features:ERPS/rings/instance/aps/ports</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateERPSAPSPorts</name>
+                    <type>CREATE</type>
+                    <command-string>ethernet ring g8032 $../../../name</command-string>
+                    <command-string>instance $../../ring-id</command-string>
+                    <command-string>aps-channel</command-string>
+                    <command-string>port$port-id service instance $EFP-ID</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteERPSAPSPorts</name>
+                    <type>DELETE</type>
+                    <command-string>ethernet ring g8032 $../../../name</command-string>
+                    <command-string>instance $../../ring-id</command-string>
+                    <command-string>aps-channel</command-string>
+                    <command-string>no port$port-id service instance $EFP-ID</command-string>
+                </device-operation>
+            </device-operations>
+        </operation-->
+		<operation>
+            <target>/controller:devices/device/l2features:generic-interface-lists/generic-interface-list</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateGenericInterfaceList</name>
+                    <type>CREATE</type>
+                    <command-string>generic-interface-list $list-name</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteGenericInterfaceList</name>
+                    <type>DELETE</type>
+                    <command-string>no generic-interface-list $list-name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+		<operation>
+            <target>/controller:devices/device/l2features:generic-interface-lists/generic-interface-list/interface-names</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateGenericInterfaceList</name>
+                    <type>CREATE</type>
+                    <command-string>generic-interface-list $../list-name</command-string>
+                    <command-string>interface $interface-name</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteGenericInterfaceList</name>
+                    <type>DELETE</type>
+					<command-string>generic-interface-list $../list-name</command-string>
+                    <command-string>no interface $interface-name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+		<operation>
+            <target>/controller:devices/device/interface:interfaces/interface/interface-ext:attach-generic-interface</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateAttachGenericInterface</name>
+                    <type>CREATE</type>
+					<command-string>
+					#if($interface-ext:attach-generic-interface != null)
+					attach generic-interface-list $interface-ext:attach-generic-interface
+					</command-string>
+				</device-operation>
+				<device-operation>
+                    <name>UpdateAttachGenericInterface</name>
+                    <type>UPDATE</type>
+					<command-string>
+					#if($interface-ext:attach-generic-interface != null)
+					attach generic-interface-list $interface-ext:attach-generic-interface
+					#else if($interface-ext:attach-generic-interface == null)
+					no attach generic-interface-list $interface-ext:attach-generic-interface
+					</command-string>
+				</device-operation>
+                <device-operation>
+                    <name>DeleteAttachGenericInterface</name>
+                    <type>DELETE</type>
+                    <command-string>
+					#if($interface-ext:attach-generic-interface != null)
+					no attach generic-interface-list $interface-ext:attach-generic-interface
+					</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+		<operation>
+            <target>/controller:devices/device/interface:interfaces/interface/interface-ext:load-interval</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInterfaceLoadInterval</name>
+                    <type>CREATE</type>
+					<command-string>
+					#if ($interface-ext:load-interval != null)
+					load-interval $interface-ext:load-interval
+					</command-string>
+				</device-operation>
+				<device-operation>
+                    <name>UpdateInterfaceLoadInterval</name>
+                    <type>UPDATE</type>
+					<command-string>
+					#if ($interface-ext:load-interval != null)
+					load-interval $interface-ext:load-interval
+					#else if ($interface-ext:load-interval == null)
+					no load-interval [$interface-ext:load-interval]
+					</command-string>
+				</device-operation>
+                <device-operation>
+                    <name>DeleteInterfaceLoadInterval</name>
+                    <type>DELETE</type>
+                    <command-string>
+					#if ($interface-ext:load-interval != null)
+					no load-interval [$interface-ext:load-interval]
+					</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+		<operation>
+            <target>/controller:devices/device/interface:interfaces/interface/cdp</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInterfaceCdp</name>
+                    <type>CREATE</type>
+					<command-string>
+					#if ($cdp == "enable")
+					cdp
+					</command-string>
+				</device-operation>
+				<device-operation>
+                    <name>UpdateInterfaceCdp</name>
+                    <type>UPDATE</type>
+					<command-string>
+					#if ($cdp == "enable")
+					cdp
+					#else if ($cdp == "disable")
+					no cdp
+					</command-string>
+				</device-operation>
+                <device-operation>
+                    <name>DeleteInterfaceCdp</name>
+                    <type>DELETE</type>
+                    <command-string>
+					#if ($cdp == "enable")
+					no cdp
+					</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+		<operation>
+            <target>/controller:devices/device/interface:interfaces/interface/interface-ext:ipv4-redirects</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInterfaceIpv4Redirects</name>
+                    <type>CREATE</type>
+					<command-string>
+					#if ($interface-ext:ipv4-redirects == "true")
+					ipv4 redirects
+					</command-string>
+				</device-operation>
+				<device-operation>
+                    <name>UpdateInterfaceIpv4Redirects</name>
+                    <type>UPDATE</type>
+					<command-string>
+					#if ($interface-ext:ipv4-redirects == "true")
+					ipv4 redirects
+					#else if ($interface-ext:ipv4-redirects == "false")
+					no ipv4 redirects
+					</command-string>
+				</device-operation>
+                <device-operation>
+                    <name>DeleteInterfaceIpv4Redirects</name>
+                    <type>DELETE</type>
+                    <command-string>
+					#if ($interface-ext:ipv4-redirects == "true")
+					no ipv4 redirects
+					</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+		<operation>
+            <target>/controller:devices/device/interface:interfaces/interface/interface-ext:ipv4-unreachables-disable</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInterfaceIpv4Unreachables</name>
+                    <type>CREATE</type>
+					<command-string>
+					#if ($interface-ext:ipv4-unreachables-disable == "true")
+					ipv4 unreachables disable
+					</command-string>
+				</device-operation>
+				<device-operation>
+                    <name>UpdateInterfaceIpv4Unreachables</name>
+                    <type>UPDATE</type>
+					<command-string>
+					#if ($interface-ext:ipv4-unreachables-disable == "true")
+					ipv4 unreachables disable
+					#else if ($interface-ext:ipv4-unreachables-disable == "false")
+					no ipv4 unreachables disable
+					</command-string>
+				</device-operation>
+                <device-operation>
+                    <name>DeleteInterfaceIpv4Unreachables</name>
+                    <type>DELETE</type>
+                    <command-string>
+					#if ($interface-ext:ipv4-unreachables-disable == "true")
+					no ipv4 unreachables disable
+					</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+		<operation>
+            <target>/controller:devices/device/interface:interfaces/interface/interface-ext:dampening</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInterfaceDampening</name>
+                    <type>CREATE</type>
+					<command-string>
+					#if ($interface-ext:dampening == "true")
+					dampening
+					</command-string>
+				</device-operation>
+				<device-operation>
+                    <name>UpdateInterfaceDampening</name>
+                    <type>UPDATE</type>
+					<command-string>
+					#if ($interface-ext:dampening == "true")
+					dampening
+					#else if ($interface-ext:dampening == "false")
+					no dampening
+					</command-string>
+				</device-operation>
+                <device-operation>
+                    <name>DeleteInterfaceDampening</name>
+                    <type>DELETE</type>
+                    <command-string>
+					#if ($interface-ext:dampening == "true")
+					no dampening
+					</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+		<operation>
+            <target>/controller:devices/device/l2features:psuedo-wire/pw-class</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreatePWL2VpnPWClass</name>
+                    <type>CREATE</type>
+                    <command-string>l2vpn</command-string>
+                    <command-string>pw-class $pw-class-name</command-string>
+                    <command-string>
+					#if($pw-class-options == "encapsulation")
+					encapsulation $encapsulation-type
+					</command-string>
+                </device-operation>
+				<device-operation>
+                    <name>UpdatePWL2VpnPWClass</name>
+                    <type>UPDATE</type>
+					<command-string> </command-string>
+				</device-operation>
+                <device-operation>
+                    <name>DeletePWL2VpnPWClass</name>
+                    <type>DELETE</type>
+                    <command-string>l2vpn</command-string>
+                    <command-string>
+						#if($pw-class-name != null)
+						no pw-class $pw-class-name
+					</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+		<operation>
+            <target>/controller:devices/device/l2features:psuedo-wire/pw-class/encapsulation-type</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreatePWClassEncapsulationType</name>
+                    <type>CREATE</type>
+                    <command-string>
+					#if($../pw-class-options == "encapsulation")
+					encapsulation $encapsulation-type
+					</command-string>
+                </device-operation>
+				<device-operation>
+                    <name>UpdatePWClassEncapsulationType</name>
+                    <type>UPDATE</type>
+					<command-string>
+						#if($encapsulation-type != null AND $../pw-class-options != null)
+						encapsulation $encapsulation-type
+						#else if($encapsulation-type == null OR $../pw-class-options == null)
+						no encapsulation $encapsulation-type
+					</command-string>
+				</device-operation>
+                <device-operation>
+                    <name>DeletePWClassEncapsulationType</name>
+                    <type>DELETE</type>
+                    <command-string>
+						#if($encapsulation-type != null)
+						no encapsulation $encapsulation-type
+					</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+		<operation>
+            <target>/controller:devices/device/l2features:psuedo-wire/xconnect-group</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreatePWL2VpnXconnectGroup</name>
+                    <type>CREATE</type>
+                    <command-string>l2vpn</command-string>
+                    <command-string>xconnect group $xconnect-group-name</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeletePWL2Vpn</name>
+                    <type>DELETE</type>
+                    <command-string>l2vpn</command-string>
+                    <command-string>no xconnect group $xconnect-group-name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l2features:psuedo-wire/xconnect-group/p2p</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreatePWXconnectGroupP2P</name>
+                    <type>CREATE</type>
+                    <command-string>l2vpn</command-string>
+                    <command-string>xconnect group $../xconnect-group-name</command-string>
+                    <command-string>p2p $p2p-name</command-string>
+                    <command-string>interface $interface-name</command-string>
+                    <command-string>neighbor [$address-family] $peer-ip-address pw-id $pw-id</command-string>
+                    <command-string>pw-class $pw-class-name</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeletePWXconnectGroupP2P</name>
+                    <type>DELETE</type>
+                    <command-string>l2vpn</command-string>
+                    <command-string>xconnect group $../xconnect-group-name</command-string>
+                    <command-string>no p2p $p2p-name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l2features:psuedo-wire/xconnect-group/p2p/interface-name</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateXconnectGroupP2PInterface</name>
+                    <type>CREATE</type>
+                    <command-string>l2vpn</command-string>
+                    <command-string>xconnect group $../../xconnect-group-name</command-string>
+                    <command-string>p2p $../p2p-name</command-string>
+                    <command-string>interface $interface-name</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateXconnectGroupP2PInterface</name>
+                    <type>UPDATE</type>
+                    <command-string>l2vpn</command-string>
+                    <command-string>xconnect group $../../xconnect-group-name</command-string>
+                    <command-string>p2p $../p2p-name</command-string>
+                    <command-string>
+                        #if($interface-name != null)
+                        interface $interface-name
+                        #else if($interface-name == null)
+                        no interface $interface-name
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteXconnectGroupP2PInterface</name>
+                    <type>DELETE</type>
+                    <command-string>l2vpn</command-string>
+                    <command-string>xconnect group $../../xconnect-group-name</command-string>
+                    <command-string>p2p $../p2p-name</command-string>
+                    <command-string>no interface $interface-name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l2features:psuedo-wire/xconnect-group/p2p/peer-ip-address</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateXconnectGroupP2PIpaddress</name>
+                    <type>CREATE</type>
+                    <command-string>l2vpn</command-string>
+                    <command-string>xconnect group $../../xconnect-group-name</command-string>
+                    <command-string>p2p $../p2p-name</command-string>
+                    <command-string>interface $../interface-name</command-string>
+                    <command-string>neighbor [$../address-family] $peer-ip-address pw-id $../pw-id</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateXconnectGroupP2PIpaddress</name>
+                    <type>UPDATE</type>
+                    <command-string>l2vpn</command-string>
+                    <command-string>xconnect group $../../xconnect-group-name</command-string>
+                    <command-string>p2p $../p2p-name</command-string>
+                    <command-string>interface $../interface-name</command-string>
+                    <command-string>
+                        #if($peer-ip-address != null)
+                        neighbor [$../neighbor-options] $peer-ip-address pw-id $../pw-id
+                        #else if($peer-ip-address == null)
+                        no neighbor [$../address-family] $peer-ip-address pw-id $../pw-id
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteXconnectGroupP2PIpaddress</name>
+                    <type>DELETE</type>
+                    <command-string>l2vpn</command-string>
+                    <command-string>xconnect group $../../xconnect-group-name</command-string>
+                    <command-string>p2p $../p2p-name</command-string>
+                    <command-string>interface $../interface-name</command-string>
+                    <command-string>no neighbor [$../address-family] $peer-ip-address pw-id $../pw-id</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l2features:psuedo-wire/xconnect-group/p2p/pw-id</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateXconnectGroupP2PPwid</name>
+                    <type>CREATE</type>
+                    <command-string>l2vpn</command-string>
+                    <command-string>xconnect group $../../xconnect-group-name</command-string>
+                    <command-string>p2p $../p2p-name</command-string>
+                    <command-string>interface $../interface-name</command-string>
+                    <command-string>neighbor [$../address-family] $../peer-ip-address pw-id $pw-id</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateXconnectGroupP2PPwid</name>
+                    <type>UPDATE</type>
+                    <command-string>l2vpn</command-string>
+                    <command-string>xconnect group $../../xconnect-group-name</command-string>
+                    <command-string>p2p $../p2p-name</command-string>
+                    <command-string>interface $../interface-name</command-string>
+                    <command-string>
+                        #if($pw-id != null)
+                        neighbor [$../address-family] $../peer-ip-address pw-id $pw-id
+                        #else if($pw-id == null)
+                        no neighbor [$../address-family] $peer-ip-address pw-id $../pw-id
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteXconnectGroupP2PPwid</name>
+                    <type>DELETE</type>
+                    <command-string>l2vpn</command-string>
+                    <command-string>xconnect group $../../xconnect-group-name</command-string>
+                    <command-string>p2p $../p2p-name</command-string>
+                    <command-string>interface $../name</command-string>
+                    <command-string>no neighbor [$../address-family] $../peer-ip-address pw-id $pw-id</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/l2features:psuedo-wire/xconnect-group/p2p/pw-class-name</target>
+            <platform>ALL|ALL|ALL|IOSXR|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateXconnectGroupP2PPwid</name>
+                    <type>CREATE</type>
+                    <command-string>l2vpn</command-string>
+                    <command-string>xconnect group $../../xconnect-group-name</command-string>
+                    <command-string>p2p $../p2p-name</command-string>
+                    <command-string>interface $../interface-name</command-string>
+                    <command-string>neighbor [$../address-family] $../peer-ip-address pw-id $../pw-id</command-string>
+                    <command-string>pw-class $pw-class-name</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateXconnectGroupP2PPwid</name>
+                    <type>UPDATE</type>
+                    <command-string>l2vpn</command-string>
+                    <command-string>xconnect group $../../xconnect-group-name</command-string>
+                    <command-string>p2p $../p2p-name</command-string>
+                    <command-string>interface $../interface-name</command-string>
+                    <command-string>neighbor [$../address-family] $../peer-ip-address pw-id $../pw-id</command-string>
+                    <command-string>
+                        #if($pw-class-name != null)
+                        pw-class $pw-class-name
+                        #else if($pw-class-name == null)
+                        no pw-class
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteXconnectGroupP2PPwid</name>
+                    <type>DELETE</type>
+                    <command-string>l2vpn</command-string>
+                    <command-string>xconnect group $../../xconnect-group-name</command-string>
+                    <command-string>p2p $../p2p-name</command-string>
+                    <command-string>interface $../interface-name</command-string>
+                    <command-string>no neighbor [$../address-family] $../peer-ip-address pw-id $pw-id</command-string>
+                    <command-string>no pw-class</command-string>
                 </device-operation>
             </device-operations>
         </operation>

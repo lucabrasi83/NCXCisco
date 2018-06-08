@@ -43,7 +43,11 @@ class PolicyMapRandomTokenDecoder(tokendecoder.AbstractTokenDecoder):
             lines = [line.strip(' ') for line in lines]
             detect_pattern = '^random-detect$'
             dscp_tunnel_pattern = '^set dscp tunnel'
+            police_rate_percent_pattern = '^police rate percent'
+            set_dscp_pattern = '^set dscp'
+            police_rate_percent_found = False
             dscp_tunnel_found = False
+            set_dscp_found = False
 
             for line in lines:
                 detect_match = re.search(detect_pattern, line)
@@ -55,8 +59,24 @@ class PolicyMapRandomTokenDecoder(tokendecoder.AbstractTokenDecoder):
                     decoderhandler.addTokenValue("is-dscp-tunnel", "true")
                     dscp_tunnel_found = True
 
+                police_rate_percent_match = re.search(police_rate_percent_pattern, line)
+                if police_rate_percent_match is not None:
+                    police_rate_percent_found = True
+
+                set_dscp_match = re.search(set_dscp_pattern, line)
+                if set_dscp_match is not None:
+                    set_dscp_found = True
+                    dscp_value = line.split(' ')[-1]
+
+
             if not dscp_tunnel_found:
                 decoderhandler.addTokenValue("is-dscp-tunnel", "false")
+
+            if police_rate_percent_found:
+                decoderhandler.addTokenValue("bit-rate", "")
+
+            if set_dscp_found:
+                decoderhandler.addTokenValue("dscp-value", dscp_value)
 
             return 1
         except Exception:

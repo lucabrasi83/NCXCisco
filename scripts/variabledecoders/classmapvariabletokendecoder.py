@@ -43,21 +43,12 @@ class ClassMapVariableTokenDecoder(parser.DefaultVariableDecoder):
     def parseConditionType(self, dc, cursor):
         util.log_debug('ClassMapVariableTokenDecoder: parseConditionType')
         decoderhandler = tokendecoderhandler.TokenDecoderHandler(dc)
-        global conditiontype_new
-        global conditiontype
-        conditiontype = None
-        conditiontype_new = None
         if not cursor.hasNext():
             return
-        if "qos-group" == cursor.getNextToken() or "protocol" == cursor.getNextToken():
+        if "dscp" == cursor.getNextToken() or "qos-group" == cursor.getNextToken() or "protocol" == cursor.getNextToken():
             conditiontype = cursor.getNextToken()
             cursor.advance()
             decoderhandler.addTokenValue("condition-type", conditiontype)
-        if "dscp" == cursor.getNextToken():
-            conditiontype = cursor.getNextToken()
-            cursor.advance()
-            decoderhandler.addTokenValue("condition-type", conditiontype)
-            conditiontype_new = "dscp"
         if "access-group" == cursor.getNextToken():
             decoderhandler.addTokenValue("condition-type", cursor.getNextToken())
             cursor.advance()
@@ -66,11 +57,15 @@ class ClassMapVariableTokenDecoder(parser.DefaultVariableDecoder):
             cursor.advance()
             if "dscp" == cursor.getNextToken():
                 decoderhandler.addTokenValue("condition-type", "ip dscp")
+                global conditiontype
                 conditiontype = "ip dscp"
                 cursor.advance()
         if "any" == cursor.getNextToken():
             decoderhandler.addTokenValue("condition-type", cursor.getNextToken())
-
+        if "vlan" == cursor.getNextToken():
+            conditiontype = cursor.getNextToken()
+            decoderhandler.addTokenValue("condition-type", cursor.getNextToken())
+            cursor.advance()
 
     def parseMatchValue(self, dc, cursor):
         util.log_debug('ClassMapVariableTokenDecoder: parseMatchValue')
@@ -84,7 +79,7 @@ class ClassMapVariableTokenDecoder(parser.DefaultVariableDecoder):
                 cursor.advance()
             matchvalue1 = " ".join(matchvalue)
             decoderhandler.addTokenValue("match-value", matchvalue1)
-        elif conditiontype_new == "dscp":
+        if conditiontype == "dscp":
             matchvalue = []
             while cursor.getNextToken() is not None:
                 matchvalue.append(cursor.getNextToken())

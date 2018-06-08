@@ -24,8 +24,13 @@ from cisco.tokendecoders import staticroutenexthopinterfacetokendecoder, routema
     trackbooleantypetokendecoder, tracklisttypetokendecoder,netflowipv4optionstokendecoder, netflowapplicationoptiontokendecoder, \
     netflowartoptiontokendecoder, netflowcounteroptiontokendecoder, netflowtimestamptokendecoder, netflowtransporttokendecoder, trackdelaytokendecoder, cryptoprofilenametokendecoder, \
     nameservertokendecoder, ipnatpooloptionsdecoder, slasourceiptokendecoder, enablesecretpassworddecoder, legacynetflowsourcetokendecoder, \
-    legacynetflowversiontokendecoder, ntpservertokendecoder, eemactionstatementtokendecoder, newroutetargettokendecoder, cryptopolicyikeversion, \
-    routerbgpasnumbertokendecoder, snmpsystemshutdowntokendecoder, sladestinationiptokendecoder, netflowcollectinttokendecoder
+    legacynetflowversiontokendecoder, ntpserverprefertokendecoder, eemactionstatementtokendecoder, newroutetargettokendecoder, cryptopolicyikeversion, \
+    routerbgpasnumbertokendecoder, snmpsystemshutdowntokendecoder, sladestinationiptokendecoder, netflowcollectinttokendecoder, trackiptypetokendecoder, \
+    cryptopeertokendecoder, platformconfigtypetokendecoder, masteriptokendecoder, trackiptokendecoder, efpencapsulationtokendecoder, \
+    routerbgpallowasintokendecoder, efpserviceinstancetokendecoder, sshscpenabletokendecoder, erpsapsportidtokendecoder, interfacenametokendecoder, \
+    trackobjectlisttokendecoder, prefixsetmatchtokendecoder, hsrpauthtokendecoder, cryptopeersetattrtokendecoder, routerospfnettokendecoder, \
+    dmvpnnametokendecoder, mplsprioritytokendecoder, trafficengtokendecoder, secondaryipaddtokendecoder, secondarynetmasktokendecoder, \
+    nbarcustomtokendecoder
     
 
 from cisco.variabledecoders import objectgroupvariabledecoder, aclrulevariabledecoder, \
@@ -34,7 +39,9 @@ from cisco.variabledecoders import objectgroupvariabledecoder, aclrulevariablede
     routereigrpredistvariabledecoder, aaagroupvariabledecoder,portchannelipredirectsvariabletokendecoder,servicetimestampsvariabledecoder, \
     snmpifmibvariabletockendecoder, iphttpvariabletokendecoder,legacynetflowinterfacenamesvariabledecoder, nhrpmapsvariabletokendecoder, \
     routerospfredistvariabledecoder, routevariabledecoder, \
-    routepolicyentriesvariabledecoder, snmpviewnamevariabledecoder, routerospfdefalwaysvariabledecoder, routerbgpredistvariabledecoder
+    routepolicyentriesvariabledecoder, snmpviewnamevariabledecoder, routerospfdefalwaysvariabledecoder, routerbgpredistvariabledecoder, \
+    pfrclassvariabletokendecoder, ifrpsetactionvariabledecoder, objectgroupservicevariabledecoder, pseudowireinterfacedecoder, \
+    tacacsserverprivatevariabledecoder, aaaserverprivatevariabledecoder
 
 
 class CiscoParserConfigProvider(parser.AbstractParserConfigProvider):
@@ -48,9 +55,11 @@ class CiscoParserConfigProvider(parser.AbstractParserConfigProvider):
                 #'/controller:devices/device/l3features:vrfs/vrf/static-routes/static-route': staticroutervariabledecoder.StaticRouterVariableDecoder(),
                 #'/controller:devices/device/l3features:static-routes/static-route': staticroutervariabledecoder.StaticRouterVariableDecoder(),
                 '/controller:devices/device/acl:object-groups-acl/object-group/networks/network': objectgroupvariabledecoder.ObjectGroupVariableDecoder(),
+                '/controller:devices/device/acl:object-groups-acl/object-group/services/service': objectgroupservicevariabledecoder.ObjectGroupServiceVariableDecoder(),
                 '/controller:devices/device/acl:access-lists/access-list/acl-rules/acl-rule': aclrulevariabledecoder.AclRuleVariableDecoder(),
                 '/controller:devices/device/qos:class-maps/class-map/class-match-condition/http-url': classmaphttpurlvariabletokendecoder.ClassMapHttpUrlVariableTokenDecoder(),
                 '/controller:devices/device/qos:class-maps/class-map/class-match-condition': classmapvariabletokendecoder.ClassMapVariableTokenDecoder(),
+                '/controller:devices/device/qos:pfr-classes/pfr-class': pfrclassvariabletokendecoder.PfrClassVariableTokenDecoder(),
                 '/controller:devices/device/l3features:routes/route': newroutevariabledecoder.NewRouteVariableDecoder(),
                 '/controller:devices/device/l3features:routes/route/options': routevariabledecoder.RouteVariableDecoder(),
                 '/controller:devices/device/l3features:vrfs/vrf/routes/route/options': newvrfroutevariabledecoder.NewVrfRouteVariableDecoder(),
@@ -72,7 +81,18 @@ class CiscoParserConfigProvider(parser.AbstractParserConfigProvider):
                 '/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/nhrp-maps':nhrpmapsvariabletokendecoder.NhrpMapsVariableTokenDecoder(),
                 '/controller:devices/device/l3features:route-policies/route-policy/route-policy-entries':routepolicyentriesvariabledecoder.RoutePolicyEntriesVariableDecoder(),
                 '/controller:devices/device/basicDeviceConfigs:snmp/view-name':snmpviewnamevariabledecoder.SnmpViewNameVariableDecoder(),
-                '/controller:devices/device/l3features:vrfs/vrf/router-ospf/inject-default-route': routerospfdefalwaysvariabledecoder.RouterOspfDefAlwaysVariableDecoder()
+                '/controller:devices/device/l3features:vrfs/vrf/router-ospf/inject-default-route': routerospfdefalwaysvariabledecoder.RouterOspfDefAlwaysVariableDecoder(),
+                '/controller:devices/device/l3features:routepolicies/routepolicy/if_rp_set/action':ifrpsetactionvariabledecoder.IfrpsetActionVariableDecoder(),
+                '/controller:devices/device/l3features:routepolicies/routepolicy/action':ifrpsetactionvariabledecoder.IfrpsetActionVariableDecoder(),
+                 '/controller:devices/device/l2features:psuedo-wire/pseudo-wire-interface':pseudowireinterfacedecoder.PseudoWireInterfaceDecoder(),
+                '/controller:devices/device/l2features:psuedo-wire/pseudo-wire-interface/description':pseudowireinterfacedecoder.PseudoWireInterfaceDecoder(),
+                '/controller:devices/device/l2features:psuedo-wire/pseudo-wire-interface/encapsulation':pseudowireinterfacedecoder.PseudoWireInterfaceDecoder(),
+                '/controller:devices/device/l2features:psuedo-wire/pseudo-wire-interface/neighbor-ip':pseudowireinterfacedecoder.PseudoWireInterfaceDecoder(),
+                '/controller:devices/device/l2features:psuedo-wire/pseudo-wire-interface/interface-name':pseudowireinterfacedecoder.PseudoWireInterfaceDecoder(),
+                '/controller:devices/device/l2features:psuedo-wire/pseudo-wire-interface/vc-type':pseudowireinterfacedecoder.PseudoWireInterfaceDecoder(),
+                '/controller:devices/device/l2features:psuedo-wire/pseudo-wire-interface/control-world':pseudowireinterfacedecoder.PseudoWireInterfaceDecoder(),
+                '/controller:devices/device/basicDeviceConfigs:aaa-group/tacacs-group-servers/tacacs-servers-private':tacacsserverprivatevariabledecoder.TacacsServerPrivateVariableDecoder(),
+                '/controller:devices/device/basicDeviceConfigs:aaa-group/aaa-servers-private':aaaserverprivatevariabledecoder.AaaServerPrivateVariableDecoder()
                 }
 
             self.decoderMap = {
@@ -89,8 +109,12 @@ class CiscoParserConfigProvider(parser.AbstractParserConfigProvider):
                 '/controller:devices/device/l3features:netflow/flow-exports/version': legacynetflowversiontokendecoder.LegacyNetflowVersionTokenDecoder(),
                 #'/controller:devices/device/l3features:tracks/track/delay-down-time': trackdelaytokendecoder.TrackDelayTokenDecoder(),
                 '/controller:devices/device/l3features:tracks/track/ip-type': trackiptypetokendecoder.TrackIPTokenDecoder(),
-                #'/controller:devices/device/l3features:tracks/track/list-type': tracklisttypetokendecoder.TrackListTokenDecoder(),
-                #'/controller:devices/device/l3features:tracks/track/boolean-type': trackbooleantypetokendecoder.TrackBooleanTokenDecoder(),
+                '/controller:devices/device/l3features:tracks/track/list-type': tracklisttypetokendecoder.TrackListTokenDecoder(),
+                '/controller:devices/device/l3features:tracks/track/boolean-type': trackbooleantypetokendecoder.TrackBooleanTokenDecoder(),
+                '/controller:devices/device/l3features:tracks/track/ip-address': trackiptokendecoder.TrackIpTokenDecoder(),
+                '/controller:devices/device/l3features:tracks/track/netmask': trackiptokendecoder.TrackIpTokenDecoder(),
+                '/controller:devices/device/l3features:tracks/track/object-list/object-number': trackobjectlisttokendecoder.TrackObjectTokenDecoder(),
+                '/controller:devices/device/qos:platform-configs/platform-config/configure': platformconfigtypetokendecoder.PlatformConfigTypeTokenDecoder(),
                 '/controller:devices/device/l3features:vrfs/vrf/router-bgp/neighbor/ip-address':bgpneighbortokendecoder.BgpNeighborTokenDecoder(),
                 '/controller:devices/device/l3features:vrfs/vrf/router-bgp/peer-group/name':bgppeergrouptokendecoder.BgpPeerGroupTokenDecoder(),
                 '/controller:devices/device/l3features:ip-nat/address-translation/inside-global-ip':natstatictokendecoder.NatStaticTokenDecoder(),
@@ -107,6 +131,7 @@ class CiscoParserConfigProvider(parser.AbstractParserConfigProvider):
                 '/controller:devices/device/l3features:vrfs/vrf/rt-export/rt-export': newroutetargettokendecoder.NewRouteTargetTokenDecoder(),
                 #'/controller:devices/device/basicDeviceConfigs:snmp/snmp-version': snmpversiontokendecoder.SnmpVersionTokenDecoder(),
                 '/controller:devices/device/basicDeviceConfigs:snmp/comm-auth-type': commauthtypetokendecoder.CommAuthTypeTokenDecoder(),
+                '/controller:devices/device/interface:interfaces/interface/name': interfacenametokendecoder.InterfaceNameTokenDecoder(),
                 '/controller:devices/device/interface:interfaces/interface/ip-address': interfacetokendecoder.InterfaceTokenDecoder(),
                 #'/controller:devices/device/l3features:static-routes/static-route/interface-name': staticroutenexthopinterfacetokendecoder.StaticRouteNextHopInterfaceTokenDecoder(),
                 '/controller:devices/device/l3features:route-maps/route-map/route-map-entries/set-action/value': routemapsetactiontokendecoder.RouteMapSetActionTokenDecoder(),
@@ -114,6 +139,9 @@ class CiscoParserConfigProvider(parser.AbstractParserConfigProvider):
                 '/controller:devices/device/dmvpn:crypto/crypto-profile/match/ip-address': cryptoprofilematchipaddresstokendecoder.CryptoProfileMatchIpAddressTokenDecoder(),
                 '/controller:devices/device/dmvpn:crypto-policies/crypto-policy/hash': cryptopolicyhashtokendecoder.CryptoPolicyHashTokenDecoder(),
                 '/controller:devices/device/dmvpn:crypto-policies/crypto-policy/ike-encryption-type': cryptoikeencrptiontypetokendecoder.CryptoIkeEncryptionTypeTokenDecoder(),
+                '/controller:devices/device/dmvpn:crypto-peers/crypto-peer/address': cryptopeertokendecoder.CryptoPeerTokenDecoder(),
+                '/controller:devices/device/dmvpn:crypto-peers/crypto-peer/hostname': cryptopeertokendecoder.CryptoPeerTokenDecoder(),
+                '/controller:devices/device/dmvpn:crypto-peers/crypto-peer/set-attributes/attribute': cryptopeersetattrtokendecoder.CryptoPeerSetAttrTokenDecoder(),
                 '/controller:devices/device/qos:class-maps/class-map/class-match-condition/match-value': classmapmatchvaluetokendecoder.ClassMapMatchValueTokenDecoder(),
                 #'/controller:devices/device/l2features:port-channels/port-channel/name': interfacenumbertokendecoder.CiscoInterfaceNumberTokenDecoder(),
                 '/controller:devices/device/interface:interfaces/interface/ospf/ospf-id': interfaceospfospfidtokendecoder.InterfaceOspfOspfIdTokenDecoder(),
@@ -134,9 +162,19 @@ class CiscoParserConfigProvider(parser.AbstractParserConfigProvider):
                 '/controller:devices/device/l3features:netflow/flow-records/flow-record/description': greedytokendecoder.GreedyTokenDecoder(-1, True),
                 '/controller:devices/device/l3features:netflow/flow-monitors/flow-monitor/description': greedytokendecoder.GreedyTokenDecoder(-1, True),
                 '/controller:devices/device/l3features:route-maps/route-map/route-map-entries/description': greedytokendecoder.GreedyTokenDecoder(-1, True),
-                '/controller:devices/device/l3features:eem-script/eem-if-errors/interface/correlate': greedytokendecoder.GreedyTokenDecoder(-1, True),
+                '/controller:devices/device/l3features:eem-script/eem-if-errors/interface/correlate': greedytokendecoder.GreedyTokenDecoder(),
+                '/controller:devices/device/basicDeviceConfigs:clock/summer-time':greedytokendecoder.GreedyTokenDecoder(),
+                '/controller:devices/device/l3features:vrfs/vrf/description':greedytokendecoder.GreedyTokenDecoder(),
                 '/controller:devices/device/dmvpn:crypto/crypto-profile/description': greedytokendecoder.GreedyTokenDecoder(-1, True),
+                '/controller:devices/device/qos:nbar-custom-signatures/nbar-custom-signature/ip-address': greedytokendecoder.GreedyTokenDecoder(),
+                '/controller:devices/device/qos:nbar-custom-signatures/nbar-custom-signature/port-number': greedytokendecoder.GreedyTokenDecoder(),
+                '/controller:devices/device/qos:nbar-custom-signatures/nbar-custom-signature/name': nbarcustomtokendecoder.NbarCustomTokenDecoder(),
+                '/controller:devices/device/interface:interfaces/interface/interface-ext:protocol-discovery': greedytokendecoder.GreedyTokenDecoder(),
+                '/controller:devices/device/interface:interfaces/interface/interface-ext:secondary-ip-addresses/secondary-ip-address/ip-address': secondaryipaddtokendecoder.SecondaryIpTokenDecoder(),
+                '/controller:devices/device/interface:interfaces/interface/interface-ext:secondary-ip-addresses/secondary-ip-address/netmask': secondarynetmasktokendecoder.SecondaryNetmaskTokenDecoder(),
                 '/controller:devices/device/l3features:key-chain/router-key-chain/keys/key-string-password': greedytokendecoder.GreedyTokenDecoder(-1, True),
+                '/controller:devices/device/interface:interfaces/interface/hsrp:hsrp/auth-key': hsrpauthtokendecoder.HsrpAuthTokenDecoder(),
+                '/controller:devices/device/l3features:vrfs/vrf/router-ospf/process-id': routerospfnettokendecoder.RouterOspfNetTokenDecoder(),
                 '/controller:devices/device/l3features:vrfs/vrf/router-ospf/redistribute/ospf-redistribute/value1': routerospfmetrictokendecoder.RouterOspfMetricTokenDecoder(
                     'metric1'),
                 '/controller:devices/device/l3features:vrfs/vrf/router-ospf/redistribute/ospf-redistribute/value2': routerospfmetrictokendecoder.RouterOspfMetricTokenDecoder(
@@ -169,9 +207,10 @@ class CiscoParserConfigProvider(parser.AbstractParserConfigProvider):
                 '/controller:devices/device/l3features:community-lists/community-list/value': greedytokendecoder.GreedyTokenDecoder(),
                 '/controller:devices/device/basicDeviceConfigs:snmp/location': greedytokendecoder.GreedyTokenDecoder(),
                 '/controller:devices/device/basicDeviceConfigs:snmp/contact': greedytokendecoder.GreedyTokenDecoder(),
-                '/controller:devices/device/basicDeviceConfigs:ntp/ntp-server/ntp-server-address': ntpservertokendecoder.NtpServerTokenDecoder(),
+                '/controller:devices/device/basicDeviceConfigs:ntp/ntp-server/ntp-server-address':ntpserverprefertokendecoder.NtpServerPreferTokenDecoder(),
                 '/controller:devices/device/l3features:route-maps/route-map/route-map-entries/community-attribute': greedytokendecoder.GreedyTokenDecoder(),
                 '/controller:devices/device/l3features:dhcp-server/dns-server-ip': greedytokendecoder.GreedyTokenDecoder(),
+                '/controller:devices/device/l3features:dhcp-server/dhcp/dns-server-ip': greedytokendecoder.GreedyTokenDecoder(),
                 '/controller:devices/device/basicDeviceConfigs:snmp/snmp-traps/snmp-trap': greedytokendecoder.GreedyTokenDecoder(),
                 '/controller:devices/device/l3features:vrfs/vrf/router-bgp/router-id':routerbgprouteridtokendecoder.RouterBgpRouterIdTokenDecoder(),
                 '/controller:devices/device/dns:dns-server/name-server/server':nameservertokendecoder.NameServerTokenDecoder(),
@@ -179,7 +218,22 @@ class CiscoParserConfigProvider(parser.AbstractParserConfigProvider):
                 '/controller:devices/device/l3features:ip-sla/sla/source-interface-ip':slasourceiptokendecoder.SlaSourceIpTokenDecoder(),
                 '/controller:devices/device/l3features:ip-sla/sla/destination':sladestinationiptokendecoder.SlaDestinationIpTokenDecoder(),
                 '/controller:devices/device/basicDeviceConfigs:local-credentials/enable-secret-password':enablesecretpassworddecoder.EnableSecretPasswordDecoder(),
-                '/controller:devices/device/l3features:vrfs/vrf/router-bgp/as-number':routerbgpasnumbertokendecoder.RouterBgpAsnumberTokenDecoder()
+                '/controller:devices/device/l3features:vrfs/vrf/router-bgp/as-number':routerbgpasnumbertokendecoder.RouterBgpAsnumberTokenDecoder(),
+                '/controller:devices/device/basicDeviceConfigs:ssh/scp-enable':sshscpenabletokendecoder.SSHSCPenableTokenDecoder(),
+                '/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/name':dmvpnnametokendecoder.DmvpnNameTokenDecoder(),
+                '/controller:devices/device/l3features:vrfs/vrf/router-bgp/neighbor/allowas_in_value':routerbgpallowasintokendecoder.RouterBgpAllowasinTokenDecoder(),
+                '/controller:devices/device/l3features:vrfs/vrf/router-bgp/peer-group/allowas_in_value':routerbgpallowasintokendecoder.RouterBgpAllowasinTokenDecoder(),
+                '/controller:devices/device/interface:interfaces/interface/interface-ext:efp-service-instances/efp-service-instance/encapsulation-type':efpencapsulationtokendecoder.EfpEncapsulationTokenDecoder(),
+                '/controller:devices/device/interface:interfaces/interface/interface-ext:efp-service-instances/efp-service-instance/service-instance-number':efpserviceinstancetokendecoder.EfpServiceInstanceTokenDecoder(),
+                '/controller:devices/device/interface:interfaces/interface/interface-ext:efp-service-instances/efp-service-instance/vlan-id':efpencapsulationtokendecoder.EfpEncapsulationTokenDecoder(),
+                '/controller:devices/device/l3features:ERPS/rings/instance/aps/ports/port-id':erpsapsportidtokendecoder.ErpsApsPortidTokenDecoder(),
+                '/controller:devices/device/l3features:ERPS/rings/ring-ports/port-id':erpsapsportidtokendecoder.ErpsApsPortidTokenDecoder(),
+                '/controller:devices/device/dmvpn:domain/master-ip':masteriptokendecoder.MasterIpTokenDecoder(),
+                '/controller:devices/device/l3features:prefix-sets/prefix-set/match-conditions/match-condition/ip-prefix':prefixsetmatchtokendecoder.PrefixSetMatchTokenDecoder(),
+                '/controller:devices/device/interface:interfaces/interface/interface-ext:efp-service-instances/efp-service-instance/description':efpencapsulationtokendecoder.EfpEncapsulationTokenDecoder(),
+                '/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/tunnel-mpls/traffic-eng':trafficengtokendecoder.TrafficEngTokenDecoder(),
+                '/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/tunnel-mpls/setup-priority':mplsprioritytokendecoder.MplsPriorityTokenDecoder(),
+                '/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/tunnel-mpls/hold-priority':mplsprioritytokendecoder.MplsPriorityTokenDecoder()
                 }
             decoderutil.DecoderUtil().initCommanDecoders(self.decoderMap)
         except Exception:

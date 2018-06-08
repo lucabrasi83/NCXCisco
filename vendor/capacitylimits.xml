@@ -1,6 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <device-capacities xmlns="http://anutanetworks.com/capacities">
    <device-capacity>
+    <device-type>CiscoIOSXRv9000</device-type>
+ <capacity-limits>
+    <capacity>
+       <capacity-type>VRF</capacity-type>
+       <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+       <max-limit>1000</max-limit>
+       <description>Maximum Number of VRFs that can be provisioned on Cisco IOSXRv9000 is 1000
+</description>
+    </capacity>
+    <capacity>
+       <capacity-type>VLAN</capacity-type>
+       <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+       <max-limit>4096</max-limit>
+       <description>Maximum Number of vlans that can be provisioned is 4096
+       </description>
+    </capacity>
+ </capacity-limits>
+</device-capacity>
+<device-capacity>
+   <device-type>cisco899GLTELAK9</device-type>
+<capacity-limits>
+   <capacity>
+      <capacity-type>VRF</capacity-type>
+      <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+      <max-limit>30</max-limit>
+      <description>Maximum Number of VRFs that can be provisioned on cisco899GLAK9 Integrated Services Router is 30
+      </description>
+   </capacity>
+   <capacity>
+      <capacity-type>VLAN</capacity-type>
+      <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+      <max-limit>4096</max-limit>
+      <description>Maximum Number of vlans that can be provisioned is 4096
+      </description>
+   </capacity>
+</capacity-limits>
+</device-capacity>
+<device-capacity>
+   <device-type>cisco899GLTEJPK9</device-type>
+   <capacity-limits>
+      <capacity>
+         <capacity-type>VRF</capacity-type>
+         <entity>/controller:devices/device/l3features:vrfs/vrf</entity>
+         <max-limit>30</max-limit>
+         <description>Maximum Number of VRFs that can be provisioned on cisco899GJPK9 Integrated Services Router is 30
+         </description>
+      </capacity>
+      <capacity>
+         <capacity-type>VLAN</capacity-type>
+         <entity>/controller:devices/device/l2features:vlans/vlan</entity>
+         <max-limit>4096</max-limit>
+         <description>Maximum Number of vlans that can be provisioned is 4096
+         </description>
+      </capacity>
+   </capacity-limits>
+</device-capacity>
+
+   <device-capacity>
       <device-type>Cisco ASR 1006</device-type>
       <capacity-limits>
          <capacity>

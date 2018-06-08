@@ -6,15 +6,15 @@
             <group>com.anuta.ncx.packages</group>
             <name>ncxparser</name>
             <order>0</order>
-            <version>6.0.1.1</version>
+            <version>6.0.5</version>
         </dependency>
     </dependencies>
     <deploy-on-agent>true</deploy-on-agent>
     <description>Cisco Systems Base Package</description>
     <module-name>cisco</module-name>
     <name>Cisco Systems</name>
-    <ncx-version>[6.0.1,)</ncx-version>
+    <ncx-version>[6.0.3,)</ncx-version>
     <order>-1</order>
     <type>DEVICE</type>
-    <version>6.0.2.2</version>
+    <version>6.0.7.7</version>
 </package>

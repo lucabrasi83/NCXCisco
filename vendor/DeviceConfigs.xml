@@ -16,15 +16,19 @@
             <excluded-targets>/controller:devices/device/l3features:static-routes/static-route</excluded-targets>
             <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/static-routes/static-route</excluded-targets>
             <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/interface</excluded-targets>
-            <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/network</excluded-targets>
-            <excluded-targets>/controller:devices/device/dmvpn:ipsec-profiles/ipsec-profile/life-time</excluded-targets>
+            <!--excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/network</excluded-targets-->
+            <!--excluded-targets>/controller:devices/device/dmvpn:ipsec-profiles/ipsec-profile/life-time</excluded-targets-->
             <excluded-targets>/controller:devices/device/interface:interfaces/interface/speed</excluded-targets>
             <excluded-targets>/controller:devices/device/interface:interfaces/interface/speed/speed</excluded-targets>
             <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-bgp/neighbor/password</excluded-targets>
+            <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-bgp/peer-group/password</excluded-targets>
+            <excluded-targets>/controller:devices/device/interface:interfaces/interface/allowed-vlans</excluded-targets>
+             <!--excluded-targets>/controller:devices/device/interface:interfaces/interface/hsrp:hsrp/auth-key</excluded-targets-->
             <excluded-targets>/controller:devices/device/acl:object-groups-acl/object-group/networks/network/description</excluded-targets>
             <excluded-targets>/controller:devices/device/acl:object-groups-acl/object-group/securities/security/description</excluded-targets>
             <excluded-targets>/controller:devices/device/acl:object-groups-acl/object-group/services/service/description</excluded-targets>
-            <excluded-targets>/controller:devices/device/interface:interfaces/interface/mode</excluded-targets>
+            <!--excluded-targets>/controller:devices/device/l3features:key-chain/router-key-chain/keys/key-string-password</excluded-targets-->
+            <!--excluded-targets>/controller:devices/device/interface:interfaces/interface/mode</excluded-targets-->
 	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/default-inf-metric</excluded-targets>
 	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/default-inf-metric1</excluded-targets>
 	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/default-inf-metric2</excluded-targets>
@@ -37,6 +41,18 @@
 	<excluded-targets>/controller:devices/device/qos:pfr-policy-maps/pfr-policy-map/pfr-class-entry/class-name</excluded-targets>
 	<excluded-targets>/controller:devices/device/qos:pfr-policy-maps/pfr-policy-map/pfr-class-entry/sequence-number</excluded-targets>
 	<excluded-targets>/controller:devices/device/qos:class-maps/class-map/description</excluded-targets>
+    <excluded-targets>/controller:devices/device/interface:interfaces/interface/interface-ext:no-ip-address</excluded-targets>
+    <excluded-targets>/controller:devices/device/interface:interfaces/interface/interface-ext:efp-service-instances/efp-service-instance</excluded-targets>
+    <excluded-targets>/controller:devices/device/interface:interfaces/interface/admin-state</excluded-targets>
+    <excluded-targets>/controller:devices/device/l2features:vlans/vlan/id</excluded-targets>
+    <excluded-targets>/controller:devices/device/l2features:vlans/vlan/name</excluded-targets>
+    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/context</excluded-targets>
+    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/community</excluded-targets>
+    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/access</excluded-targets>
+    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/acl-name</excluded-targets>
+    <excluded-targets>/controller:devices/device/l3features:routepolicies/routepolicy/action</excluded-targets>
+    <excluded-targets>/controller:devices/device/l3features:routepolicies/routepolicy/if_rp_set/action</excluded-targets>
+    <excluded-targets>/controller:devices/device/l3features:routepolicies/routepolicy/if_rp_set</excluded-targets>
 	<!--<excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-eigrp/eigrp/network/wild-card</excluded-targets> -->
         </config>
     </config-retrieval>
@@ -68,7 +84,7 @@
             <excluded-targets>/controller:devices/device/interface:interfaces/interface/ospf/hello-multiplier</excluded-targets>
             <excluded-targets>/controller:devices/device/interface:interfaces/interface/ospf/dead-interval</excluded-targets>
             <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-bgp/as-number</excluded-targets>
-            <excluded-targets>/controller:devices/device/interface:interfaces/interface/mode</excluded-targets>
+            <!--excluded-targets>/controller:devices/device/interface:interfaces/interface/mode</excluded-targets-->
 	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/default-inf-metric</excluded-targets>
 	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/default-inf-metric1</excluded-targets>
 	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/default-inf-metric2</excluded-targets>
@@ -93,16 +109,19 @@
             <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/static-routes/static-route</excluded-targets>
             <excluded-targets>/controller:devices/device/wanoptimizer:wanop</excluded-targets>
             <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/interface</excluded-targets>
-            <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/network</excluded-targets>
-            <excluded-targets>/controller:devices/device/dmvpn:ipsec-profiles/ipsec-profile/life-time</excluded-targets>
+            <!--excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/network</excluded-targets-->
+            <!--excluded-targets>/controller:devices/device/dmvpn:ipsec-profiles/ipsec-profile/life-time</excluded-targets-->
             <excluded-targets>/controller:devices/device/interface:interfaces/interface/speed</excluded-targets>
             <excluded-targets>/controller:devices/device/interface:interfaces/interface/speed/speed</excluded-targets>
 	    <excluded-targets>/controller:devices/device/interface:interfaces/interface/duplex</excluded-targets>
             <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-bgp/neighbor/password</excluded-targets>
+            <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-bgp/peer-group/password</excluded-targets>
             <excluded-targets>/controller:devices/device/acl:object-groups-acl/object-group/networks/network/description</excluded-targets>
             <excluded-targets>/controller:devices/device/acl:object-groups-acl/object-group/securities/security/description</excluded-targets>
             <excluded-targets>/controller:devices/device/acl:object-groups-acl/object-group/services/service/description</excluded-targets>
-            <excluded-targets>/controller:devices/device/interface:interfaces/interface/mode</excluded-targets>
+            <excluded-targets>/controller:devices/device/interface:interfaces/interface/allowed-vlans</excluded-targets>
+            <!--excluded-targets>/controller:devices/device/interface:interfaces/interface/hsrp:hsrp/auth-key</excluded-targets-->
+            <!--excluded-targets>/controller:devices/device/interface:interfaces/interface/mode</excluded-targets-->
 	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/default-inf-metric</excluded-targets>
 	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/default-inf-metric1</excluded-targets>
 	    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/default-inf-metric2</excluded-targets>
@@ -115,6 +134,18 @@
 	<excluded-targets>/controller:devices/device/qos:pfr-policy-maps/pfr-policy-map/pfr-class-entry/class-name</excluded-targets>
 	<excluded-targets>/controller:devices/device/qos:pfr-policy-maps/pfr-policy-map/pfr-class-entry/sequence-number</excluded-targets>
 	<excluded-targets>/controller:devices/device/qos:class-maps/class-map/description</excluded-targets>
+    <excluded-targets>/controller:devices/device/interface:interfaces/interface/interface-ext:no-ip-address</excluded-targets>
+    <excluded-targets>/controller:devices/device/interface:interfaces/interface/interface-ext:efp-service-instances/efp-service-instance</excluded-targets>
+    <excluded-targets>/controller:devices/device/interface:interfaces/interface/admin-state</excluded-targets>
+    <excluded-targets>/controller:devices/device/l2features:vlans/vlan/id</excluded-targets>
+    <excluded-targets>/controller:devices/device/l2features:vlans/vlan/name</excluded-targets>
+    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/context</excluded-targets>
+    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/community</excluded-targets>
+    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/access</excluded-targets>
+    <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-ospf/acl-name</excluded-targets>
+    <excluded-targets>/controller:devices/device/l3features:routepolicies/routepolicy/action</excluded-targets>
+    <excluded-targets>/controller:devices/device/l3features:routepolicies/routepolicy/if_rp_set/action</excluded-targets>
+    <excluded-targets>/controller:devices/device/l3features:routepolicies/routepolicy/if_rp_set</excluded-targets>
 	<!--<excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-eigrp/eigrp/network/wild-card</excluded-targets>-->
         </config>
     </config-retrieval>

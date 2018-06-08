@@ -16,6 +16,7 @@ def get_plugin_info():
 from com.anuta.service.python.plugin import PythonPlugin
 from com.anuta.service.python.plugin import PythonPluginType
 import ciscoparserprovider
+import ciscoreconciliationprovider
 
 
 class Plugin(PythonPlugin):
@@ -27,11 +28,29 @@ class Plugin(PythonPlugin):
         self.setPluginType(PythonPluginType.SERVICE_MODEL)
         self.setDescription('Cisco Parser Plugin')
         self.provider = ciscoparserprovider.CiscoParserConfigProvider()
+        try:
+            self.reconciliationProvider = ciscoreconciliationprovider.CiscoReconciliationConfigProvider()
+        except AttributeError:
+            pass
+        self.version = version
 
     def init(self):
         print 'registering cisco parser'
         self.provider.register()
+        try:
+            self.reconciliationProvider.register(self.version)
+        except AttributeError:
+            pass
+        except ImportError:
+            pass
+
 
     def shutdown(self):
         print 'unregistering cisco praser'
         self.provider.unregister()
+        try:
+            self.reconciliationProvider.unregister(self.version)
+        except AttributeError:
+            pass
+        except ImportError:
+            pass

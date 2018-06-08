@@ -39,6 +39,7 @@ class NewVrfRouteVariableDecoder(parser.DefaultVariableDecoder):
             cursor.advance()
             if not InetAddressUtils.isIPv4Address(cursor.getNextToken()):
                 decoderhandler.addTokenValue("../../../name", cursor.getNextToken())
+                decoderhandler.addTokenValue("vrf-name", cursor.getNextToken())
                 cursor.advance()
 
 

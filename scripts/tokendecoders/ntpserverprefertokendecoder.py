@@ -10,24 +10,30 @@
 
 from ncxparser import util, parser, tokendecoderhandler, decoderutil
 from ncxparser import tokendecoder
-import traceback
+import traceback,re
 
-class TrackBooleanTokenDecoder(tokendecoder.AbstractTokenDecoder):
+class NtpServerPreferTokenDecoder(tokendecoder.AbstractTokenDecoder):
 
     def __init__(self):
-        util.log_info('Initializing TrackBooleanTokenDecoder')
+        util.log_info('Initializing NtpServerPreferTokenDecoder')
 
     def decodeToken(self, dc):
         try:
-            util.log_info('TrackBooleanTokenDecoder: ')
+            util.log_info('NtpServerPreferTokenDecoder: ')
             decoderhandler = tokendecoderhandler.TokenDecoderHandler(dc)
             tokenText = decoderhandler.getTokenText()
-            util.log_debug('Token text = %s' %(tokenText))
+            print 'Token text = %s' %(tokenText)
             value = decoderhandler.getValueAtCurrentIndex()
-            util.log_debug('Value = %s' %(value))
-            if value == 'or' or value == 'and':
-                decoderhandler.addTokenValue(tokenText, value)
-
+            print 'Value1 = %s' %(value)
+            decoderhandler.addTokenValue(tokenText,value)
+            current_block = decoderhandler.getCurrentBlock()
+            block = str(current_block)
+            util.log_info("current_block:"+str(block.split()))
+            if "prefer" in block:
+                decoderhandler.addTokenValue("../prefer","true")
+            else:
+                decoderhandler.addTokenValue("../prefer","false")
+           
         except Exception:
             traceback.print_exc()
 

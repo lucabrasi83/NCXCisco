@@ -11,25 +11,30 @@
 from ncxparser import util, parser, tokendecoderhandler, decoderutil
 from ncxparser import tokendecoder
 import traceback
+import re
 
-class TrackBooleanTokenDecoder(tokendecoder.AbstractTokenDecoder):
+
+class MplsPriorityTokenDecoder(tokendecoder.AbstractTokenDecoder):
 
     def __init__(self):
-        util.log_info('Initializing TrackBooleanTokenDecoder')
+        util.log_info('Initializing MplsPriorityTokenDecoder')
 
     def decodeToken(self, dc):
         try:
-            util.log_info('TrackBooleanTokenDecoder: ')
+            util.log_info('MplsPriorityTokenDecoder: Decode token')
             decoderhandler = tokendecoderhandler.TokenDecoderHandler(dc)
-            tokenText = decoderhandler.getTokenText()
-            util.log_debug('Token text = %s' %(tokenText))
+            token = dc.getToken()
             value = decoderhandler.getValueAtCurrentIndex()
             util.log_debug('Value = %s' %(value))
-            if value == 'or' or value == 'and':
-                decoderhandler.addTokenValue(tokenText, value)
-
+            if int(value) >= 0 and int(value) <= 7:
+                dc.addTokenValue(token.getText(), value)
+            else:
+                return 1
         except Exception:
             traceback.print_exc()
+
+    def matchToken(self, configParserContext, configToken, idx, toks):
+        return 1
 
     def isMultilineDecoder(self):
         return False
