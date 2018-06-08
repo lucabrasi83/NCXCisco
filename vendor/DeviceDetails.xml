@@ -21,9 +21,15 @@
                 <response-pattern>overlaps with</response-pattern>
                 <response-pattern>Password:</response-pattern>
                 <response-pattern>Username</response-pattern>
+                <response-pattern>% Access VLAN does not exist. Creating vlan</response-pattern>
+                <response-pattern>% Voice VLAN does not exist. Creating vlan</response-pattern>
+                <response-pattern>is in use by the crypto-map</response-pattern>
+                <response-pattern>% Subnet not in table</response-pattern>
+                <response-pattern>% Network not in table</response-pattern>
                 <response-pattern>></response-pattern>
                 <response-pattern>No more than 16 groups allowed for a module</response-pattern>
                 <response-pattern>already tied to group</response-pattern>
+                <response-pattern>Clear "show interface" counters on this interface [confirm]</response-pattern>
                 <response-pattern>BGP is already running;</response-pattern>
                 <response-pattern>bgp is already running;</response-pattern>
                 <response-pattern>cannot use it to create a VTP VLAN</response-pattern>
@@ -34,13 +40,19 @@
                 <response-pattern>removed due to enabling VRF</response-pattern>
                 <response-pattern>No more than one SVI is allowed</response-pattern>
                 <response-pattern>%Warning:</response-pattern>
+                <response-pattern>% Password expiration warning</response-pattern>
                 <response-pattern>%Portfast has been configured on</response-pattern>
                 <response-pattern>Please wait</response-pattern>
                 <response-pattern>% IPv4 and IPv6 addresses from all interfaces in VRF</response-pattern>
                 <response-pattern>not configured</response-pattern>
                 <response-pattern>Continue? [no]:</response-pattern>
+                <response-pattern>% Duplicate sequence number</response-pattern>
                 <response-pattern>% NBAR Error:</response-pattern>
                 <response-pattern>NBAR protocol</response-pattern>
+                <response-pattern>% BGP: Dynamic peergroup</response-pattern>
+                <response-pattern>Configured shape BC value results in the interval being out of range.</response-pattern>
+                <response-pattern>Error: Minimum frequency for HTTP should be 60 sec</response-pattern>
+                <response-pattern>Access rule can't be configured at higher sequence num as it is part of the existing rule at sequence num</response-pattern>
                 <response-pattern>Command authorization failed</response-pattern>
                 <response-pattern>Enter TEXT message.</response-pattern>
                 <response-pattern>%No matching route</response-pattern>
@@ -164,8 +176,12 @@
                 <response-pattern>Password:</response-pattern>
                 <response-pattern>Username</response-pattern>
                 <response-pattern>></response-pattern>
+                <response-pattern>% Access VLAN does not exist. Creating vlan</response-pattern>
+                <response-pattern>% Voice VLAN does not exist. Creating vlan</response-pattern>   
                 <response-pattern>IPv4 disabled and address(es) removed due to enabling VRF</response-pattern>
                 <response-pattern>BGP is already running;</response-pattern>
+                <response-pattern>% Subnet not in table</response-pattern>
+                <response-pattern>% Network not in table</response-pattern>
                 <response-pattern>bgp is already running;</response-pattern>
                 <response-pattern>IP addresses from all interfaces in VRF</response-pattern>
                 <response-pattern>IPv4 disabled and address(es) removed due to disabling VRF</response-pattern>
@@ -177,10 +193,17 @@
                 <response-pattern>% Hostname</response-pattern>
                 <response-pattern>%No specific protocol configured in class</response-pattern>
                 <response-pattern>%Warning:</response-pattern>
+                <response-pattern>Configured shape BC value results in the interval being out of range.</response-pattern>
+                 <response-pattern>% Duplicate sequence number</response-pattern>
+                <response-pattern>Error: Minimum frequency for HTTP should be 60 sec</response-pattern>
+                <response-pattern>Access rule can't be configured at higher sequence num as it is part of the existing rule at sequence num</response-pattern>
                 <response-pattern>% Warning:</response-pattern>
                 <response-pattern>Continue? [no]:</response-pattern>
                 <response-pattern>% NBAR Error:</response-pattern>
-                 <response-pattern>%% NBAR Error:</response-pattern>
+                <response-pattern>% BGP: Dynamic peergroup</response-pattern>
+                <response-pattern>Clear "show interface" counters on this interface [confirm]</response-pattern>
+                <response-pattern>%% NBAR Error:</response-pattern>
+                <response-pattern>% Password expiration warning</response-pattern>
                 <response-pattern>Command authorization failed</response-pattern>
                 <response-pattern>Enter TEXT message.</response-pattern>
                 <response-pattern>%No matching route</response-pattern>
@@ -236,6 +259,7 @@
 		<response-pattern>is not a member of this routing table</response-pattern>
         	<response-pattern>Error: Interface has sub-interface configured</response-pattern>
 		<response-pattern>Community name cannot have all digits</response-pattern>
+        <response-pattern>is in use by the crypto-map</response-pattern>
 		<response-pattern>%EEM: Warning correlate statement required when more than one event exists. This policy will not be registered</response-pattern>
             </response-patterns>
         </os-type>
@@ -1787,9 +1811,87 @@
             <device-family>Cisco 800</device-family>
         </device-type>
         <device-type>
+            <name>Cisco 892F</name>
+            <description>Cisco 892F Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.1249</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
             <name>Cisco 880</name>
             <description>Cisco 880 Integrated Services Router</description>
             <oid>1.3.6.1.4.1.9.1.847</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+         <device-type>
+            <name>Cisco 860AP</name>
+            <description>Cisco 860AP Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.869</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+         <device-type>
+            <name>Cisco 880AP</name>
+            <description>Cisco 880AP Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.870</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+         <device-type>
+            <name>Cisco 890AP</name>
+            <description>Cisco 890AP Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.871</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 1900AP</name>
+            <description>Cisco 1900AP Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.872</oid>
+            <device-family>Cisco 1900</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 880VOICE</name>
+            <description>Cisco 880 Voice Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.1601</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+         <device-type>
+            <name>Cisco 876</name>
+            <description>Cisco 876 Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.568</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 878</name>
+            <description>Cisco 878 Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.570</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+         <device-type>
+            <name>Cisco 887VAVW</name>
+            <description>Cisco 880VAVW Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.1602</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 1801M</name>
+            <description>Cisco 1801M Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.783</oid>
+            <device-family>Cisco 1800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 877M</name>
+            <description>Cisco 877M Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.782</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 887VAM</name>
+            <description>Cisco 887VAM Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.1271</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco C870</name>
+            <description>Cisco C870 Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.569</oid>
             <device-family>Cisco 800</device-family>
         </device-type>
         <device-type>
@@ -1813,6 +1915,13 @@
             <device-family>Cisco 800</device-family>
         </device-type>
 
+         <device-type>
+            <name>Cisco 881G2</name>
+            <description>Cisco 881G2 Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.1299</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+
         <device-type>
             <name>Cisco 892FSP</name>
             <description>Cisco 892FSPK9 Integrated Services Router</description>
@@ -1826,9 +1935,51 @@
             <device-family>Cisco 800</device-family>
         </device-type>
         <device-type>
+            <name>CiscoC867VAE</name>
+            <description>Cisco C867VAE Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.1360</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
+            <name>CiscoC866VAE</name>
+            <description>Cisco C866VAE Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.1361</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
             <name>CiscoC860</name>
             <description>Cisco C860 Integrated Services Router</description>
             <oid>1.3.6.1.4.1.9.1.834</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+         <device-type>
+            <name>Cisco 841Mx4XK9</name>
+            <description>C841M-4X/K9 router with 4GE LAN, 2GE WAN, 2 WIM slots</description>
+            <oid>1.3.6.1.4.1.9.1.2229</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 841Mx8XK9</name>
+            <description>C841M-8X/K9 router with 8GE LAN, 2GE WAN, 2 WIM slots</description>
+            <oid>1.3.6.1.4.1.9.1.2230</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
+            <name>CiscoIOSXRv9000</name>
+            <description>Cisco IOS-XR vRouter</description>
+            <oid>1.3.6.1.4.1.9.1.2264</oid>
+            <device-family>Cisco ASR 9000</device-family>
+        </device-type>
+        <device-type>
+            <name>cisco899GLTELAK9</name>
+            <description>C899G-LTE-LA-K9</description>
+            <oid>1.3.6.1.4.1.9.1.2381</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
+            <name>cisco899GLTEJPK9</name>
+            <description>C899G-LTE-JP-k9</description>
+            <oid>1.3.6.1.4.1.9.1.2308</oid>
             <device-family>Cisco 800</device-family>
         </device-type>
         <device-type>
@@ -1838,9 +1989,75 @@
             <device-family>Cisco 800</device-family>
         </device-type>
         <device-type>
+            <name>Cisco 867VA</name>
+            <description>Cisco 867VA Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.1272</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 886VA</name>
+            <description>Cisco 886VA Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.1273</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 887VA</name>
+            <description>Cisco 887VA Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.1274</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 888E</name>
+            <description>Cisco 888E Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.1096</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
             <name>Cisco 888</name>
             <description>Cisco 888 Integrated Services Router</description>
-            <oid>1.3.6.1.4.1.9.1.1096</oid>
+            <oid>1.3.6.1.4.1.9.1.852</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 888G</name>
+            <description>Cisco 888G Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.853</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 887SRST</name>
+            <description>Cisco 887SRST Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.851</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 888SRST</name>
+            <description>Cisco 888SRST Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.856</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 888EG</name>
+            <description>Cisco 888EG Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.1097</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco C881G-4G</name>
+            <description>Cisco C881G-4G</description>
+            <oid>1.3.6.1.4.1.9.1.2057</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco C899G-LTE-NA-K9</name>
+            <description>Cisco C899G-LTE-NA-K9</description>
+            <oid>1.3.6.1.4.1.9.1.2048</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco C819G-4G</name>
+            <description>Cisco C819G-4G</description>
+            <oid>1.3.6.1.4.1.9.1.2050</oid>
             <device-family>Cisco 800</device-family>
         </device-type>
          <device-type>
@@ -1856,8 +2073,8 @@
             <device-family>Cisco 800</device-family>
         </device-type>
         <device-type>
-            <name>Cisco 881G2</name>
-            <description>Cisco 881G2</description>
+            <name>Cisco 881GUK9</name>
+            <description>Cisco 881GUK9</description>
             <oid>1.3.6.1.4.1.9.1.1395</oid>
             <device-family>Cisco 800</device-family>
         </device-type>
@@ -1873,7 +2090,12 @@
             <oid>1.3.6.1.4.1.9.1.837</oid>
             <device-family>Cisco 800</device-family>
         </device-type>
-
+         <device-type>
+            <name>Cisco 887VDSL2</name>
+            <description>Cisco 887VDSL2 Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.1040</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
         <device-type>
             <name>Cisco VNMC</name>
             <description>Cisco VNMC</description>
@@ -1910,10 +2132,52 @@
             <oid>1.3.6.1.4.1.9.1.620</oid>
             <device-family>Cisco 1800</device-family>
         </device-type>
+         <device-type>
+            <name>Cisco 1841CK9</name>
+            <description>Cisco 1841CK9</description>
+            <oid>1.3.6.1.4.1.9.1.1236</oid>
+            <device-family>Cisco 1800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 1803</name>
+            <description>Cisco 1803</description>
+            <oid>1.3.6.1.4.1.9.1.640</oid>
+            <device-family>Cisco 1800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 1811</name>
+            <description>Cisco 1811</description>
+            <oid>1.3.6.1.4.1.9.1.641</oid>
+            <device-family>Cisco 1800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 1812</name>
+            <description>Cisco 1812</description>
+            <oid>1.3.6.1.4.1.9.1.642</oid>
+            <device-family>Cisco 1800</device-family>
+        </device-type>
 	<device-type>
             <name>Cisco C2801</name>
             <description>Cisco C2801</description>
             <oid>1.3.6.1.4.1.9.1.619</oid>
+            <device-family>Cisco 2800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 2801CK9</name>
+            <description>Cisco 2801CK9</description>
+            <oid>1.3.6.1.4.1.9.1.1237</oid>
+            <device-family>Cisco 2800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 2811CK9</name>
+            <description>Cisco 2811CK9</description>
+            <oid>1.3.6.1.4.1.9.1.1238</oid>
+            <device-family>Cisco 2800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 2821CK9</name>
+            <description>Cisco 2821CK9</description>
+            <oid>1.3.6.1.4.1.9.1.1239</oid>
             <device-family>Cisco 2800</device-family>
         </device-type>
         <device-type>
@@ -1933,6 +2197,12 @@
             <description>Cisco 2851</description>
             <oid>1.3.6.1.4.1.9.1.578</oid>
             <device-family>Cisco 2800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 1906CK9</name>
+            <description>Cisco 1906CK9</description>
+            <oid>1.3.6.1.4.1.9.1.1268</oid>
+            <device-family>Cisco 1900</device-family>
         </device-type>
         <device-type>
             <name>Cisco 1941</name>
@@ -1977,6 +2247,18 @@
             <device-family>Cisco 3800</device-family>
         </device-type>
         <device-type>
+            <name>Cisco 3825CK9</name>
+            <description>Cisco 3825CK9</description>
+            <oid>1.3.6.1.4.1.9.1.1241</oid>
+            <device-family>Cisco 3800</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco 3845CK9</name>
+            <description>Cisco 3845CK9</description>
+            <oid>1.3.6.1.4.1.9.1.1242</oid>
+            <device-family>Cisco 3800</device-family>
+        </device-type>
+        <device-type>
             <name>Cisco 3925</name>
             <description>Cisco 3925</description>
             <oid>1.3.6.1.4.1.9.1.1042</oid>
@@ -1986,6 +2268,12 @@
          <name>Cisco 3925SPE200</name>
             <description>Cisco 3925</description>
             <oid>1.3.6.1.4.1.9.1.1144</oid>
+            <device-family>Cisco 3900</device-family>
+        </device-type>
+        <device-type>
+         <name>Cisco 3925SPE250</name>
+            <description>Cisco 3925 SPE250</description>
+            <oid>1.3.6.1.4.1.9.1.1206</oid>
             <device-family>Cisco 3900</device-family>
         </device-type>
         <device-type>
@@ -2278,6 +2566,18 @@
             <oid>1.3.6.1.4.1.9.1.1021</oid>
             <device-family>Catalyst 3560</device-family>
         </device-type>
+         <device-type>
+            <name>Cisco Catalyst 3750V2-24TS</name>
+            <description>Cisco Catalyst 3750 V2 Series Switches-catalyst3750v224ts</description>
+            <oid>1.3.6.1.4.1.9.1.1022</oid>
+            <device-family>Catalyst 3750</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco Catalyst 3750V2-24PS</name>
+            <description>Cisco Catalyst 3750 V2 Series Switches-catalyst3750v224ps</description>
+            <oid>1.3.6.1.4.1.9.1.1023</oid>
+            <device-family>Catalyst 3750</device-family>
+        </device-type>
         <device-type>
             <name>Cisco Catalyst 3560V2-48TS</name>
             <description>Cisco Catalyst 3560 V2 Series Switches-catalyst3560v248ts</description>
@@ -2289,6 +2589,18 @@
             <description>Cisco Catalyst 3560 V2 Series Switches-catalyst3560v248ps</description>
             <oid>1.3.6.1.4.1.9.1.1025</oid>
             <device-family>Catalyst 3560</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco Catalyst 3750V2-48TS</name>
+            <description>Cisco Catalyst 3750 V2 Series Switches-catalyst3750v248ts</description>
+            <oid>1.3.6.1.4.1.9.1.1026</oid>
+            <device-family>Catalyst 3750</device-family>
+        </device-type>
+        <device-type>
+            <name>Cisco Catalyst 3750V2-48PS</name>
+            <description>Cisco Catalyst 3750 V2 Series Switches-catalyst3750v248ps</description>
+            <oid>1.3.6.1.4.1.9.1.1027</oid>
+            <device-family>Catalyst 3750</device-family>
         </device-type>
         <device-type>
             <name>Cisco Catalyst 3560X-24</name>
@@ -2313,6 +2625,12 @@
             <description>Cisco Catalyst 3560 X Series Switches-cat3560x48P</description>
             <oid>1.3.6.1.4.1.9.1.1229</oid>
             <device-family>Catalyst 3560</device-family>
+        </device-type>
+         <device-type>
+            <name>Cisco Catalyst 3750X-48P</name>
+            <description>Cisco Catalyst 3750 X Series Switches-cat3750x48P</description>
+            <oid>1.3.6.1.4.1.9.1.1225</oid>
+            <device-family>Catalyst 3750</device-family>
         </device-type>
         <device-type>
             <name>catalyst375024</name>
@@ -3192,6 +3510,49 @@
             <device-family>Cisco ASR 9000</device-family>
         </device-type>
         <device-type>
+            <name>cisco ASR 920</name>
+            <description>Cisco ASR920 Series - 12GE and 2-10GE - DC model</description>
+            <oid>1.3.6.1.4.1.9.1.2158</oid>
+            <device-family>Cisco ASR 900</device-family>
+        </device-type>
+        <device-type>
+            <name>cisco ASR 92010SZ0D</name>
+            <description>Cisco ASR920 Series - 10GE and 2-10GE - Outdoor DC model</description>
+            <oid>1.3.6.1.4.1.9.1.2160</oid>
+            <device-family>Cisco ASR 900</device-family>
+        </device-type>
+        <device-type>
+            <name>cisco ASR 9204SZD</name>
+            <description>Cisco ASR920 Series - 2GE and 4-10GE DC model</description>
+            <oid>1.3.6.1.4.1.9.1.2155</oid>
+            <device-family>Cisco ASR 900</device-family>
+        </device-type>
+        <device-type>
+            <name>cisco ASR 9208SZ0A</name>
+            <description>Cisco ASR920 Series - 8GE and 4-10GE - Outdoor AC model</description>
+            <oid>1.3.6.1.4.1.9.1.2156</oid>
+            <device-family>Cisco ASR 900</device-family>
+        </device-type>
+        <device-type>
+            <name>cisco ASR 92012CZA</name>
+            <description>Cisco ASR920 Series - 12GE and 2-10GE - AC model</description>
+            <oid>1.3.6.1.4.1.9.1.2157</oid>
+            <device-family>Cisco ASR 900</device-family>
+        </device-type>
+        <device-type>
+            <name>cisco ASR 9204SZA</name>
+            <description>Cisco ASR920 Series - 2GE and 4-10GE AC model</description>
+            <oid>1.3.6.1.4.1.9.1.2159</oid>
+            <device-family>Cisco ASR 900</device-family>
+        </device-type>
+
+        <device-type>
+            <name>cisco ASR 903</name>
+            <description>Cisco ASR 903 Series Aggregation Services Routers</description>
+            <oid>1.3.6.1.4.1.9.1.1441</oid>
+            <device-family>Cisco ASR 900</device-family>
+        </device-type>
+        <device-type>
             <name>CiscoCRS16S</name>
             <description>Cisco Carrier Routing System (CRS-1) Routers</description>
             <oid>1.3.6.1.4.1.9.1.613</oid>
@@ -3568,6 +3929,30 @@
             <oid>1.3.6.1.4.1.9.1.694</oid>
             <device-family>Catalyst 2960</device-family>
         </device-type>
+         <device-type>
+            <name>catalyst296024TCS</name>
+            <description>Cisco Catalyst 296024TCS</description>
+            <oid>1.3.6.1.4.1.9.1.928</oid>
+            <device-family>Catalyst 2960</device-family>
+        </device-type>
+        <device-type>
+            <name>catalyst296024S</name>
+            <description>Cisco Catalyst 296024S</description>
+            <oid>1.3.6.1.4.1.9.1.929</oid>
+            <device-family>Catalyst 2960</device-family>
+        </device-type>
+        <device-type>
+            <name>catalystWS296024PTCS</name>
+            <description>Cisco Catalyst WS2960P24TCS</description>
+            <oid>1.3.6.1.4.1.9.1.1757</oid>
+            <device-family>Catalyst 2960</device-family>
+        </device-type>
+        <device-type>
+            <name>catalystWS296048PTCS</name>
+            <description>Cisco Catalyst WS296048PTCS</description>
+            <oid>1.3.6.1.4.1.9.1.1756</oid>
+            <device-family>Catalyst 2960</device-family>
+        </device-type>
         <device-type>
             <name>catalyst296048</name>
             <description>Cisco Catalyst 296048</description>
@@ -3676,6 +4061,7 @@
             <oid>1.3.6.1.4.1.9.1.1006</oid>
             <device-family>Catalyst 2960</device-family>
         </device-type>
+        
         <device-type>
             <name>catalyst296048PSTL</name>
             <description>Cisco Catalyst 296048PSTL</description>
@@ -3974,6 +4360,7 @@
             <oid>1.3.6.1.4.1.9.1.1191</oid>
             <device-family>Cisco 1900</device-family>
         </device-type>
+
         <device-type>
             <name>wsc2820sysID</name>
             <description>wsc2820sysID</description>

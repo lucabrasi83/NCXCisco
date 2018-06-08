@@ -11,21 +11,22 @@
 from ncxparser import util, parser, tokendecoderhandler, decoderutil
 from ncxparser import tokendecoder
 import traceback
+from org.apache.http.conn.util import InetAddressUtils
 
-class TrackBooleanTokenDecoder(tokendecoder.AbstractTokenDecoder):
+class TrackIpTokenDecoder(tokendecoder.AbstractTokenDecoder):
 
     def __init__(self):
-        util.log_info('Initializing TrackBooleanTokenDecoder')
+        util.log_info('Initializing TrackIpTokenDecoder')
 
     def decodeToken(self, dc):
         try:
-            util.log_info('TrackBooleanTokenDecoder: ')
+            util.log_info('TrackIpTokenDecoder: ')
             decoderhandler = tokendecoderhandler.TokenDecoderHandler(dc)
             tokenText = decoderhandler.getTokenText()
             util.log_debug('Token text = %s' %(tokenText))
             value = decoderhandler.getValueAtCurrentIndex()
             util.log_debug('Value = %s' %(value))
-            if value == 'or' or value == 'and':
+            if value is not None and InetAddressUtils.isIPv4Address(value):
                 decoderhandler.addTokenValue(tokenText, value)
 
         except Exception:

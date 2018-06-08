@@ -70,7 +70,7 @@ class AclRuleVariableDecoder(parser.DefaultVariableDecoder):
         SOURCE_CONDITION = ["any","host","object-group","addrgroup"]
         DEST_CONDITION = ["any","host","object-group","addrgroup"]
         PORT_OPERATORS = ["eq","gt","lt","neq","range"]
-        MATCH_PKTS = ["dscp","fragments","log-input","option","precedence","time-range","tos","ttl","echo","echo-reply","tracked"]
+        MATCH_PKTS = ["dscp","fragments","log-input","option","precedence","time-range","tos","ttl","echo","echo-reply","tracked", "ttl-exceeded", "port-unreachable", "established"]
         PROTOCOL = ["object-group", "ahp", "eigrp", "esp", "gre", "icmp", "igmp", "ip", "ipinip", "nos", "ospf", "pcp", "pim", "tcp", "tcp-udp", "udp"]
         EXTRA_OPTIONS = ["log"]
         PORT = ["bgp", "chargen", "cmd", "daytime", "discard", "domain", "drip", "echo", "exec", "finger", "ftp", "ftp-data", "gopher", "hostname", "ident", "irc", "klogin", "kshell", "login", "lpd", "nntp", "onep-plain", "onep-tls", "pim-auto-rp","pop2", "pop3", "smtp", "sunrpc", "tacacs", "talk", "telnet", "time", "uucp", "whois", "www", "msrpc", "biff", "bootpc", "bootps", "dnsix", "isakmp", "msrpc", "mobile-ip", "nameserver", "netbios-dgm", "netbios-ns", "netbios-ss", "non500-isakmp", "ntp", "rip", "snmp", "snmptrap", "syslog", "tftp", "who", "xdmcp"]

@@ -15,21 +15,19 @@ import traceback
 class TrackListTokenDecoder(tokendecoder.AbstractTokenDecoder):
 
     def __init__(self):
-        util.log_info('Initializing BgpNeighborTokenDecoder')
+        util.log_info('Initializing TrackListTokenDecoder')
 
     def decodeToken(self, dc):
         try:
-            util.log_info('BgpNeighborTokenDecoder: Decode token for Bgp neighbor ip-address leaf value')
+            util.log_info('TrackListTokenDecoder: ')
             decoderhandler = tokendecoderhandler.TokenDecoderHandler(dc)
             tokenText = decoderhandler.getTokenText()
-            if 'ip' in decoderhandler.getCurrentBlockTokens():
-                decoderhandler.addTokenValue(tokenText, 'boolean')
-            else:
-                util.log_debug('Token text = %s' %(tokenText))
-                value = decoderhandler.getValueAtCurrentIndex()
-                util.log_debug('Value = %s' %(value))
+            util.log_debug('Token text = %s' %(tokenText))
+            value = decoderhandler.getValueAtCurrentIndex()
+            util.log_debug('Value = %s' %(value))
+            if value == 'boolean' or value == 'threshold':
                 decoderhandler.addTokenValue(tokenText, value)
-            	util.log_debug('Value = %s' %(value))
+
         except Exception:
             traceback.print_exc()
 

@@ -14,7 +14,7 @@ import traceback
 
 class ClassMapMatchValueTokenDecoder(defaulttokendecoder.DefaultTokenDecoder):
 
-    KNOWN_CONDITIONS = ["ip-dscp", "dscp", "protocol","qos-group", "access-group", "any"]
+    KNOWN_CONDITIONS = ["ip-dscp", "dscp", "protocol","qos-group", "access-group", "any", "vlan"]
 
     def decodeToken(self, dc):
         try:

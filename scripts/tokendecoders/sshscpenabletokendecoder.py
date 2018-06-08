@@ -12,24 +12,24 @@ from ncxparser import util, parser, tokendecoderhandler, decoderutil
 from ncxparser import tokendecoder
 import traceback
 
-class TrackBooleanTokenDecoder(tokendecoder.AbstractTokenDecoder):
+class SSHSCPenableTokenDecoder(tokendecoder.AbstractTokenDecoder):
 
     def __init__(self):
-        util.log_info('Initializing TrackBooleanTokenDecoder')
+        util.log_info('Initializing SSHSCPenableTokenDecoder')
 
     def decodeToken(self, dc):
         try:
-            util.log_info('TrackBooleanTokenDecoder: ')
+            util.log_info('SSHSCPenableTokenDecoder: Decode token for SSHSCPenable leaf value')
             decoderhandler = tokendecoderhandler.TokenDecoderHandler(dc)
-            tokenText = decoderhandler.getTokenText()
-            util.log_debug('Token text = %s' %(tokenText))
-            value = decoderhandler.getValueAtCurrentIndex()
-            util.log_debug('Value = %s' %(value))
-            if value == 'or' or value == 'and':
-                decoderhandler.addTokenValue(tokenText, value)
-
+            value = decoderhandler.getCurrentBlockTokens()
+            print value
+            if 'no' in value:
+                pass
+            else:
+                decoderhandler.addTokenValue("$scp-enable", "true")
+                return 1
         except Exception:
-            traceback.print_exc()
+            pass
 
     def isMultilineDecoder(self):
         return False

@@ -24,11 +24,37 @@ class IpSLAResponderTokenDecoder(tokendecoder.AbstractTokenDecoder):
             util.log_info('IpSLAResponderTokenDecoder: Decode token')
             decoderhandler = tokendecoderhandler.TokenDecoderHandler(dc)
             value = decoderhandler.getValueAtCurrentIndex()
-            util.log_debug('Value = %s' %(value))
+            util.log_info('ResponderValue = %s' %(value))
+            block = decoderhandler.getCurrentBlock()
+            util.log_info('ResponderBlock = %s' %(block))
+            lines = block.toString().split("\n")
+            lines = [line.strip(' ') for line in lines]
+            for line in lines:
+                next_value = line.split(value)
+
+                if len(next_value) >= 2:
+                    if value == "logging" and next_value[1] == " traps":
+                        decoderhandler.addTokenValue("is-logging-traps", "true")
+
+                    if value == "enable" and next_value[1] == " reaction-alerts":
+                        decoderhandler.addTokenValue("is-enable-reaction", "true")
+
+                    if value == "server" and next_value[1] == " twamp":
+                        decoderhandler.addTokenValue("is-server-twamp", "true")
+
+                if re.search('^port ', line):
+                    next_value = line.split('port ')
+                    decoderhandler.addTokenValue("port", next_value[1])
+
+                if re.search('^timer inactivity ', line):
+                    next_value = line.split('timer inactivity ')
+                    decoderhandler.addTokenValue("timer-inactivity", next_value[1])
+
+            if value == "responder" or value == "logging" or value == "enable" or value == "server":
+                decoderhandler.addTokenValue("key-chain", "")
             if value == "responder":
                 decoderhandler.addTokenValue("is-responder", "true")
-            else:
-                decoderhandler.addTokenValue("is-responder", "false")
+
             return 1
         except Exception:
             traceback.print_exc()

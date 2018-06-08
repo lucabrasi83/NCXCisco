@@ -49,6 +49,10 @@
                         no ip nhrp shortcut
                     </command-string>
                     <command-string>
+                        #if($ip-unnumbered != null)
+                        ip unnumbered $ip-unnumbered
+                    </command-string>
+                    <command-string>
                         #if($if-state-nhrp == "true")
                         if-state nhrp
                     </command-string>
@@ -56,8 +60,14 @@
                         #if($type == "SPOKE" AND $no-nhrp-route-watch == 'true')
                         no nhrp route-watch
                     </command-string>
-                    <command-string>qos pre-classify</command-string>
-                    <command-string>load-interval 30</command-string>
+                    <command-string>
+                    #if($qos-pre-classify == "true")
+                    qos pre-classify
+                    </command-string>    
+                    <command-string>
+                        #if($load-interval-delay != null)
+                        load-interval $load-interval-delay
+                    </command-string>
                     <command-string>[delay $delay]</command-string>
                     <command-string>[bandwidth $bandwidth]</command-string>
                     <command-string>tunnel source $tunnel-source</command-string>
@@ -66,7 +76,7 @@
                     #if($tunnel-mode == "gre")
                     tunnel mode $tunnel-mode multipoint
                     #else if($tunnel-mode == "mpls")
-                    tunnel mode $tunnel-mode traffic-eng [multilsp]
+                   tunnel mode $tunnel-mode traffic-eng [$multimode]
                     </command-string>
                     <command-string>tunnel key $tunnel-key</command-string>
 		    <command-string>                        
@@ -115,11 +125,164 @@
                     <name>UpdateDmvpnTunnel</name>
                     <type>UPDATE</type>
                     <command-string>interface tunnel $name</command-string>
+                     <command-string>
+                        #if($vrf-name != null AND $vrf-name != "GLOBAL" AND $vrf-definition-mode == "false")
+                        ip vrf forwarding $vrf-name
+            #else if($vrf-name != null AND $vrf-name != "GLOBAL" AND $vrf-definition-mode == "true")
+                        vrf forwarding $vrf-name
+                    </command-string>
+                    <command-string>
+                        ip address $ipaddress $netmask
+                    </command-string>
+                    <command-string>
+                        #if($mtu != $mtu.%previous)
+                        ip mtu $mtu
+                    </command-string>
+                    <command-string>
+                        #if($tcp-adjust-mss != $tcp-adjust-mss.%previous)
+                        ip tcp adjust-mss $tcp-adjust-mss
+                    </command-string>
+                    <command-string>
+                        #if($nat-name != null AND $nat-name != $nat-name.%previous)
+                        ip nat $nat-name
+                    </command-string>
+                    <command-string>
+                        #(if $bandwidth != $bandwidth.%previous)
+                        bandwidth $bandwidth
+                    </command-string>
+                    <command-string>
+                        #if($tunnel-source != $tunnel-source.%previous)
+                        tunnel source $tunnel-source
+                    </command-string>
+                    <command-string>
+                        #if($tunnel-destination != $tunnel-destination.%previous)
+                        tunnel destination $tunnel-destination
+                    </command-string>
+                     <command-string>
+                        #if($nhrp-auth-key != $nhrp-auth-key.%previous)
+                        ip nhrp authentication $nhrp-auth-key
+                    </command-string>
+                    <command-string>
+                        #if($nhrp-network-id != $nhrp-network-id.%previous)
+                        ip nhrp network-id $nhrp-network-id
+                    </command-string>
+                    <command-string>
+                        #if($nhrp-holdtime != $nhrp-holdtime.%previous)
+                        ip nhrp holdtime $nhrp-holdtime
+                    </command-string>
+                     <command-string>
+                        #if($front-vrf-name != null AND $front-vrf-name != "GLOBAL" AND $front-vrf-name != $front-vrf-name.%previous)
+                        tunnel vrf $front-vrf-name
+                    </command-string>
+                    <command-string>
+                        #if($tunnel-key != $tunnel-key.%previous)
+                        tunnel key $tunnel-key
+                    </command-string>
+                    <command-string>
+                        #if($tunnel-keepalive-period != $tunnel-keepalive-period.%previous)                     
+                        [keepalive $tunnel-keepalive-period $tunnel-keepalive-retries]
+                    </command-string>
+                    <command-string>
+                        #if($ipsec-profile-name != null AND $shared == "true" AND $ipsec-profile-name != $ipsec-profile-name.%previous)
+                        tunnel protection ipsec profile $ipsec-profile-name shared
+                        #else if($ipsec-profile-name != null AND $shared == "false" AND $ipsec-profile-name != $ipsec-profile-name.%previous)
+                        tunnel protection ipsec profile $ipsec-profile-name
+                    </command-string>
                 </device-operation>
                 <device-operation>
                     <name>DeleteDmvpnTunnel</name>
                     <type>DELETE</type>
                     <command-string>no interface tunnel $name</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/load-interval-delay</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateDmvpnLoadIntervalDelay</name>
+                    <type>CREATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
+                    <command-string>
+                        #if($load-interval-delay != null)
+                        load-interval $load-interval-delay
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateDmvpnLoadIntervalDelay</name>
+                    <type>UPDATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
+                    <command-string>
+                        #if($load-interval-delay != null)
+                        load-interval $load-interval-delay
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteDmvpnLoadIntervalDelay</name>
+                    <type>DELETE</type>
+                    <command-string>interface Tunnel $../name</command-string>
+                    <command-string>
+                        #if($load-interval-delay != null)
+                        no load-interval $load-interval-delay
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/logging-event</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInterfaceLoggingEvent</name>
+                    <type>CREATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
+                    <command-string>logging event $status</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateInterfaceLoggingEvent</name>
+                    <type>UPDATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
+                    <command-string>logging event $status</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteInterfaceLoggingEvent</name>
+                    <type>DELETE</type>
+                    <command-string>interface Tunnel $../name</command-string>
+                    <command-string>no logging event $status</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/ip-unnumbered</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateIpUnnumbered</name>
+                    <type>CREATE</type>
+                     <command-string>interface Tunnel $../name</command-string>
+                    <command-string>
+                        #if($ip-unnumbered != null)
+                        ip unnumbered $ip-unnumbered
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateIpUnnumbered</name>
+                    <type>UPDATE</type>
+                     <command-string>interface Tunnel $../name</command-string>
+                    <command-string>
+                        #if($ip-unnumbered != null)
+                        ip unnumbered $ip-unnumbered
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteIpUnnumbered</name>
+                    <type>DELETE</type>
+                     <command-string>interface Tunnel $../name</command-string>
+                    <command-string>
+                        #if($ip-unnumbered != null)
+                        no ip unnumbered
+                    </command-string>
                 </device-operation>
             </device-operations>
         </operation>
@@ -138,6 +301,16 @@
                         vrf forwarding $vrf-name
                     </command-string>
                 </device-operation>
+                <device-operation>
+                    <name>UpdateDmvpnTunnelVrf</name>
+                    <type>UPDATE</type>
+                    <command-string>
+                        #if($vrf-name != null AND $vrf-name != "GLOBAL" AND $../vrf-definition-mode == "false")
+                        ip vrf forwarding $vrf-name
+                        #else if($vrf-name != null AND $vrf-name != "GLOBAL" AND $../vrf-definition-mode == "true")
+                        vrf forwarding $vrf-name
+                    </command-string>
+                </device-operation>
             </device-operations>
         </operation>
         <operation>
@@ -148,6 +321,13 @@
                 <device-operation>
                     <name>CreateDmvpnTunnelIp</name>
                     <type>CREATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
+                    <command-string>ip address $ipaddress $../netmask</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateDmvpnTunnelIp</name>
+                    <type>UPDATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
                     <command-string>ip address $ipaddress $../netmask</command-string>
                 </device-operation>
             </device-operations>
@@ -159,6 +339,7 @@
                 <device-operation>
                     <name>UpdateDmvpnTunnelTcpAdjustMss</name>
                     <type>UPDATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
                     <command-string>ip tcp adjust-mss $tcp-adjust-mss</command-string>
                 </device-operation>
             </device-operations>
@@ -170,7 +351,20 @@
                 <device-operation>
                     <name>UpdateDmvpnTunnelMtu</name>
                     <type>UPDATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
                     <command-string>ip mtu $mtu</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/nhrp-holdtime</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>UpdateDmvpnTunnelNhrpHoldtime</name>
+                    <type>UPDATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
+                    <command-string>ip nhrp holdtime $nhrp-holdtime</command-string>
                 </device-operation>
             </device-operations>
         </operation>
@@ -181,6 +375,7 @@
                 <device-operation>
                     <name>UpdateDmvpnTunnelNhrpAuthKey</name>
                     <type>UPDATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
                     <command-string>[ip nhrp authentication $nhrp-auth-key]</command-string>
                 </device-operation>
             </device-operations>
@@ -192,6 +387,7 @@
                 <device-operation>
                     <name>UpdateDmvpnTunnelNhrpNetworkId</name>
                     <type>UPDATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
                     <command-string>[ip nhrp network-id $nhrp-network-id]</command-string>
                 </device-operation>
             </device-operations>
@@ -203,6 +399,7 @@
                 <device-operation>
                     <name>UpdateDmvpnTunnelBandwidth</name>
                     <type>UPDATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
                     <command-string>[bandwidth $bandwidth]</command-string>
                 </device-operation>
             </device-operations>
@@ -214,7 +411,42 @@
                 <device-operation>
                     <name>UpdateDmvpnTunnelKey</name>
                     <type>UPDATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
                     <command-string>tunnel key $tunnel-key</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+        <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/tunnel-destination</target>
+            <platform>ALL|ALL|ALL|Cisco 4000 ISR|Cisco Systems</platform>
+            <sequence-number>2</sequence-number>
+            <device-operations>
+                <device-operation>
+                    <name>CreateDmvpnTunnelDestination</name>
+                    <type>CREATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
+                    <command-string>tunnel destination $tunnel-destination</command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateDmvpnTunnelDestination</name>
+                    <type>UPDATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
+                    <command-string>tunnel destination $tunnel-destination</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+         <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/front-vrf-name</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>UpdateDmvpnTunnelFVRF</name>
+                    <type>UPDATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
+                    <command-string>
+                        #if($front-vrf-name != null AND $front-vrf-name != "GLOBAL" AND $front-vrf-name != $front-vrf-name.%previous)
+                        tunnel vrf $front-vrf-name
+                    </command-string>
                 </device-operation>
             </device-operations>
         </operation>
@@ -225,6 +457,7 @@
                 <device-operation>
                     <name>UpdateDmvpnTunnelIpsec</name>
                     <type>UPDATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
                     <command-string>
                         #if($../shared == "true")
                         tunnel protection ipsec profile $ipsec-profile-name shared
@@ -241,6 +474,7 @@
                 <device-operation>
                     <name>CreateNHRPGrpName</name>
                     <type>CREATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
                     <command-string>
                         #if ($nhrp-grp-name != null)
                         ip nhrp group $nhrp-grp-name
@@ -249,6 +483,7 @@
                 <device-operation>
                     <name>UpdateNHRPGrpName</name>
                     <type>UPDATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
                     <command-string>
                         #if ($nhrp-grp-name != null)
                         ip nhrp group $nhrp-grp-name
@@ -257,6 +492,7 @@
                 <device-operation>
                     <name>DeleteNHRPGrpName</name>
                     <type>DELETE</type>
+                    <command-string>interface Tunnel $../name</command-string>
                     <command-string>no ip nhrp group $nhrp-grp-name.%previous</command-string>
                 </device-operation>
             </device-operations>
