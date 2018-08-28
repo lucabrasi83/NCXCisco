@@ -20,6 +20,7 @@
             <!--excluded-targets>/controller:devices/device/dmvpn:ipsec-profiles/ipsec-profile/life-time</excluded-targets-->
             <excluded-targets>/controller:devices/device/interface:interfaces/interface/speed</excluded-targets>
             <excluded-targets>/controller:devices/device/interface:interfaces/interface/speed/speed</excluded-targets>
+             <excluded-targets>/controller:devices/device/interface:interfaces/interface/link-negotiation</excluded-targets>
             <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-bgp/neighbor/password</excluded-targets>
             <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-bgp/peer-group/password</excluded-targets>
             <excluded-targets>/controller:devices/device/interface:interfaces/interface/allowed-vlans</excluded-targets>
@@ -113,6 +114,7 @@
             <!--excluded-targets>/controller:devices/device/dmvpn:ipsec-profiles/ipsec-profile/life-time</excluded-targets-->
             <excluded-targets>/controller:devices/device/interface:interfaces/interface/speed</excluded-targets>
             <excluded-targets>/controller:devices/device/interface:interfaces/interface/speed/speed</excluded-targets>
+            <excluded-targets>/controller:devices/device/interface:interfaces/interface/link-negotiation</excluded-targets>
 	    <excluded-targets>/controller:devices/device/interface:interfaces/interface/duplex</excluded-targets>
             <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-bgp/neighbor/password</excluded-targets>
             <excluded-targets>/controller:devices/device/l3features:vrfs/vrf/router-bgp/peer-group/password</excluded-targets>

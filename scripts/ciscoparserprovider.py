@@ -30,7 +30,7 @@ from cisco.tokendecoders import staticroutenexthopinterfacetokendecoder, routema
     routerbgpallowasintokendecoder, efpserviceinstancetokendecoder, sshscpenabletokendecoder, erpsapsportidtokendecoder, interfacenametokendecoder, \
     trackobjectlisttokendecoder, prefixsetmatchtokendecoder, hsrpauthtokendecoder, cryptopeersetattrtokendecoder, routerospfnettokendecoder, \
     dmvpnnametokendecoder, mplsprioritytokendecoder, trafficengtokendecoder, secondaryipaddtokendecoder, secondarynetmasktokendecoder, \
-    nbarcustomtokendecoder
+    nbarcustomtokendecoder, eemeventnonetokendecoder
     
 
 from cisco.variabledecoders import objectgroupvariabledecoder, aclrulevariabledecoder, \
@@ -104,6 +104,7 @@ class CiscoParserConfigProvider(parser.AbstractParserConfigProvider):
                 '/controller:devices/device/l3features:netflow/flow-records/flow-record/collect/transport/transport-options/transport-option': netflowtransporttokendecoder.TransportOptionTokenDecoder(),
                 '/controller:devices/device/l3features:netflow/flow-records/flow-record/collect/timestamp/timestamp-options/timestamp-option': netflowtimestamptokendecoder.TimeStampsOptionTokenDecoder(),
                 '/controller:devices/device/l3features:eem-applets/event-manager-applet/actions/action/label':eemactionstatementtokendecoder.EEMActionStatementTokenDecoder(),
+                '/controller:devices/device/l3features:eem-applets/event-manager-applet/applet-name': eemeventnonetokendecoder.EemEventNoneTokenDecoder(),
                 '/controller:devices/device/basicDeviceConfigs:snmp/system-shutdown':snmpsystemshutdowntokendecoder.SNMPSystemShutDownTokenDecoder(),
                 '/controller:devices/device/l3features:netflow/flow-exports/source': legacynetflowsourcetokendecoder.LegacyNetflowSourceTokenDecoder(),
                 '/controller:devices/device/l3features:netflow/flow-exports/version': legacynetflowversiontokendecoder.LegacyNetflowVersionTokenDecoder(),

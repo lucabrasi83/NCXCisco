@@ -63,7 +63,11 @@
                     <command-string>
                     #if($qos-pre-classify == "true")
                     qos pre-classify
-                    </command-string>    
+                    </command-string>
+                    <command-string>
+                        #if($nat-name != null)
+                        ip nat $nat-name
+                    </command-string>
                     <command-string>
                         #if($load-interval-delay != null)
                         load-interval $load-interval-delay

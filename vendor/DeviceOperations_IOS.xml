@@ -485,7 +485,7 @@
                         delay $delay
                     </command-string>
                     <command-string>
-                        #if($duplex != null)
+                        #if($duplex != null AND $duplex != $duplex.%previous AND ($mode != "sub-interface" OR $mode != "vlan"))
                         duplex $duplex
                     </command-string>
                     <command-string>
@@ -493,8 +493,10 @@
                         mace-enable
                     </command-string>
                     <command-string>
-                        #if($link-negotiation != null AND $mode == "l3-interface")
+                        #if($link-negotiation != null  AND ($mode != "sub-interface" OR $mode != "vlan"))
                         speed auto
+                        #else if($link-negotiation == null AND $speed != $speed.%previous AND ($mode != "sub-interface" OR $mode != "vlan"))
+                        speed $speed
                     </command-string>
                     <command-string>
                         #if($nat-name != null)
@@ -538,12 +540,12 @@
                         #else if($l3features:vrf != null AND $l3features:vrf != "GLOBAL" AND $vrf-definition-mode == "true")
                         vrf forwarding $l3features:vrf
                     </command-string>
-                    <command-string>
-                        #if($ip-address != null AND $netmask != null)
+                   <!--  <command-string>
+                        #if($ip-address != null AND $netmask != null AND $ip-address != $ip-address.%previous)
                         ip address $ip-address $netmask
                         #else if($interface-ext:no-ip-address == "true")
                         no ip address
-                    </command-string>
+                    </command-string> -->
                     <command-string>
                         [no ipv6 address $ipv6-address.%previous/$ipv6-prefix-length.%previous]
                     </command-string>
@@ -583,15 +585,19 @@
                         #if($bgp-policy-qos == "true")
                         bgp-policy destination ip-qos-map
                     </command-string>  
-                         
-                    <command-string>
-                        #if($duplex != null)
-                        duplex $duplex
+                   <!--  <command-string>
+                        #if($link-negotiation != null AND $link-negotiation != $link-negotiation.%previous AND ($mode != "sub-interface" OR $mode != "vlan"))
+                        speed auto
+                        #else if($link-negotiation == null AND $speed != $speed.%previous AND ($mode != "sub-interface" OR $mode != "vlan"))
+                        speed $speed
                     </command-string>
                     <command-string>
-                        #if($link-negotiation != null AND $mode == "l3-interface")
-                        speed auto
-                    </command-string>                    
+                        #if($link-negotiation != null  AND $duplex != $duplex.%previous AND ($mode != "sub-interface" OR $mode != "vlan"))
+                        duplex auto
+                        #else if($link-negotiation == null AND $duplex != null AND $duplex != $duplex.%previous AND ($mode != "sub-interface" OR $mode != "vlan"))
+                        duplex $duplex
+                    </command-string> -->
+                                      
                 </device-operation>
                 <device-operation>
                     <name>DeleteInterface</name>
@@ -1032,7 +1038,9 @@
                     <name>UpdateDuplex</name>
                     <type>UPDATE</type>
                     <command-string>
-                        #if($duplex != null)
+                         #if($../link-negotiation != null  AND $duplex != $duplex.%previous AND ($../mode != "sub-interface" OR $../mode != "vlan"))
+                        duplex auto
+                        #else if($../link-negotiation == null  AND $duplex != null AND $duplex != $duplex.%previous AND ($../mode != "sub-interface" OR $../mode != "vlan"))
                         duplex $duplex
                     </command-string>
                 </device-operation>
@@ -1381,14 +1389,14 @@
                         #if($vrf-receive != null)
                         ip vrf receive $vrf-receive
                     </command-string>                    
-                    <command-string>
+                   <!--  <command-string>
                         #if($duplex != null)
                         duplex $duplex
                     </command-string>
                     <command-string>
                         #if($link-negotiation != null AND $mode == "l3-interface")
                         speed auto
-                    </command-string>
+                    </command-string> -->
                     <command-string>
                         #if($nat-name != null AND $nat-name != $nat-name.%previous)
                         ip nat $nat-name
@@ -1938,7 +1946,7 @@
                     <name>CreateInterfaceSpeed</name>
                     <type>CREATE</type>
                     <command-string>
-                         #if($link-negotiation != null AND ($../mode != "vlan" OR $../mode != "sub-interface"))
+                         #if($../link-negotiation != null AND ($../mode != "vlan" OR $../mode != "sub-interface"))
                         speed $speed
                     </command-string>
                 </device-operation>
@@ -1946,13 +1954,15 @@
                     <name>UpdateInterfaceSpeed</name>
                     <type>UPDATE</type>
                     <command-string>
-                         #if($link-negotiation != null AND ($../mode != "vlan" OR $../mode != "sub-interface"))
+                        #if($../link-negotiation != null AND $../link-negotiation != $../link-negotiation.%previous AND ($../mode != "sub-interface" OR $../mode != "vlan"))
+                        speed auto
+                        #else if($../link-negotiation == null AND $speed != $speed.%previous AND ($../mode != "sub-interface" OR $../mode != "vlan"))
                         speed $speed
                     </command-string>
                 </device-operation>
             </device-operations>
         </operation>
-	<operation>
+	<!-- <operation>
             <target>/controller:devices/device/interface:interfaces/interface/link-negotiation</target>
             <platform>ALL|ALL|ALL|IOS|Cisco Systems</platform>
             <device-operations>
@@ -1968,12 +1978,13 @@
                     <name>UpdateInterfaceLinkNegotiation</name>
                     <type>UPDATE</type>
                     <command-string>
-                        #if($link-negotiation != null AND $mode == "l3-interface")
+                        #if($link-negotiation != null AND $link-negotiation != $link-negotiation.%previous AND ($../mode != "sub-interface" OR $../mode != "vlan"))
                         speed auto
+                        duplex auto
                     </command-string>
                 </device-operation>		       
             </device-operations>
-        </operation>
+        </operation> -->
         <operation>
             <target>/controller:devices/device/interface:interfaces/interface/bandwidth</target>
             <platform>ALL|ALL|ALL|IOS|Cisco Systems</platform>
@@ -2092,7 +2103,7 @@
                     <name>UpdateInterfaceIpAddress</name>
                     <type>UPDATE</type>
                     <command-string>
-                        #if($../netmask != null)
+                        #if($ip-address != null AND $ip-address != $ip-address.%previous)
                         ip address $ip-address $../netmask
                     </command-string>
                 </device-operation>
@@ -2123,7 +2134,7 @@
                     <name>UpdateInterfaceNetmask</name>
                     <type>UPDATE</type>
                     <command-string>
-                        #if($netmask != null)
+                        #if($netmask != null AND $netmask != $netmask.%previous)
                         ip address $../ip-address $netmask
                     </command-string>
                 </device-operation>
@@ -11656,10 +11667,18 @@
                     <type>CREATE</type>
                     <command-string>policy-map $../name</command-string>
                     <command-string>class $class-name</command-string>
+                     <command-string>
+                        #if($shape-average != null AND $bits-sustained == null AND $bits-excess == null)
+                        shape average $shape-average
+                        #else if($shape-average != null AND $bits-sustained != null AND $bits-excess == null)
+                        shape average $shape-average $bits-sustained
+                        #else
+                        shape average $shape-average $bits-sustained $bits-excess
+                    </command-string>
                     <command-string>
                         #if($shape-average-percentage != null AND $bits-sustained-ms == null AND $bits-excess-ms == null)
                         shape average percent $shape-average-percentage
-                        #else if ($shape-average-percentage != null AND $bits-sustained-ms != null AND $bits-excess-ms == null)
+                        #else if($shape-average-percentage != null AND $bits-sustained-ms != null AND $bits-excess-ms == null)
                         shape average percent $shape-average-percentage $bits-sustained-ms ms
                         #else
                         shape average percent $shape-average-percentage $bits-sustained-ms ms $bits-excess-ms ms
@@ -14672,7 +14691,52 @@
                 </device-operation-->
             </device-operations>
         </operation>
-
+    <operation>
+        <target>/controller:devices/device/l3features:eem-applets/event-manager-applet/events/track</target>
+        <platform>ALL|ALL|ALL|IOS|Cisco Systems</platform>
+        <device-operations>
+            <device-operation>
+                <name>CreateEventsTrack</name>
+                <type>CREATE</type>
+                <command-string>event manager applet $../../applet-name authorization bypass</command-string>
+                <command-string>
+                    event track $track-number [state $state]
+                </command-string>
+            </device-operation>
+        </device-operations>
+    </operation>
+    <operation>
+        <target>/controller:devices/device/l3features:eem-applets/event-manager-applet/events/timer</target>
+        <platform>ALL|ALL|ALL|IOS|Cisco Systems</platform>
+        <device-operations>
+            <device-operation>
+                <name>CreateEventsTimer</name>
+                <type>CREATE</type>
+                <command-string>event manager applet $../../applet-name authorization bypass</command-string>
+                <command-string>
+                   event timer $timer-type time $timer
+                </command-string>
+            </device-operation>
+        </device-operations>
+    </operation>
+    <operation>
+        <target>/controller:devices/device/l3features:eem-applets/event-manager-applet/events</target>
+        <platform>ALL|ALL|ALL|IOS|Cisco Systems</platform>
+        <device-operations>
+            <device-operation>
+                <name>CreateEventsNone</name>
+                <type>CREATE</type>
+                <command-string>
+                     #if($none == "true")
+                    event manager applet $../applet-name authorization bypass
+                </command-string>
+                <command-string>
+                    #if($none == "true")
+                    event none
+                </command-string>
+            </device-operation>
+        </device-operations>
+    </operation>
     <operation>
         <target>/controller:devices/device/l3features:eem-applets/event-manager-applet/events/tag</target>
         <platform>ALL|ALL|ALL|IOS|Cisco Systems</platform>
