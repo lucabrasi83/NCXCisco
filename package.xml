@@ -13,8 +13,8 @@
     <description>Cisco Systems Base Package</description>
     <module-name>cisco</module-name>
     <name>Cisco Systems</name>
-    <ncx-version>[6.0.3,)</ncx-version>
+    <ncx-version>[6.0.5,)</ncx-version>
     <order>-1</order>
     <type>DEVICE</type>
-    <version>6.0.7.7</version>
+    <version>6.0.4.4</version>
 </package>

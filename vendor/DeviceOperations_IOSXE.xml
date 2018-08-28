@@ -564,12 +564,12 @@
                         #else if($l3features:vrf != null AND $l3features:vrf != "GLOBAL" AND $vrf-definition-mode == "true")
                         vrf forwarding $l3features:vrf
                     </command-string>
-                    <command-string>
-                        #if($ip-address != null AND $netmask != null)
+                   <!--  <command-string>
+                        #if($ip-address != $ip-address.%previous)
                         ip address $ip-address $netmask
                         #else if($interface-ext:no-ip-address == "true")
                         no ip address
-                    </command-string>
+                    </command-string> -->
                     <command-string>
                         [no ipv6 address $ipv6-address.%previous/$ipv6-prefix-length.%previous]
                     </command-string>
@@ -616,6 +616,17 @@
                         #else if($cdp == "enable" AND $interface-ext:cdp-tlv-app == "false")
                         no cdp tlv app
                     </command-string>
+                   <!--  <command-string>
+                        #if($link-negotiation != null AND $link-negotiation != $link-negotiation.%previous AND ($mode != "sub-interface" OR $mode != "vlan"))
+                        negotiation $link-negotiation
+                        #else if($link-negotiation == null AND $link-negotiation != $link-negotiation.%previous  AND ($mode != "sub-interface" OR $mode != "vlan"))
+                        no negotiation auto
+                    </command-string>
+                    <command-string>
+                        #if($speed != null AND $speed.%previous != $speed AND ($mode != "sub-interface" OR $mode != "vlan"))
+                        speed $speed
+                    </command-string> -->
+
                 </device-operation>
                 <device-operation>
                     <name>DeleteInterface</name>
@@ -1499,6 +1510,38 @@
                 </device-operation>
             </device-operations>
         </operation>
+         <operation>
+            <target>/controller:devices/device/interface:interfaces/interface/link-negotiation</target>
+            <platform>ALL|ALL|ALL|IOSXE|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateInterfaceLinkNegotiation</name>
+                    <type>CREATE</type>
+                    <command-string>
+                        #if($link-negotiation != null AND ($../mode != "sub-interface" OR $../mode != "vlan"))
+                        negotiation $link-negotiation
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateInterfaceLinkNegotiation</name>
+                    <type>UPDATE</type>
+                    <command-string>
+                        #if($link-negotiation != null AND $link-negotiation != $link-negotiation.%previous AND ($../mode != "sub-interface" OR $../mode != "vlan"))
+                        negotiation $link-negotiation
+                        #else if($link-negotiation == null AND $link-negotiation != $link-negotiation.%previous AND ($../mode != "sub-interface" OR $../mode != "vlan"))
+                        no negotiation auto
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteInterfaceLinkNegotiation</name>
+                    <type>DELETE</type>
+                    <command-string>
+                        #if($link-negotiation != null AND ($../mode != "sub-interface" OR $../mode != "vlan"))
+                        no negotiation auto
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
         <operation>
             <target>/controller:devices/device/interface:interfaces/interface/speed</target>
             <platform>ALL|ALL|ALL|IOSXE|Cisco Systems</platform>
@@ -1515,42 +1558,13 @@
                     <name>UpdateInterfaceSpeed</name>
                     <type>UPDATE</type>
                     <command-string>
-                         #if($../mode != "sub-interface" OR $../mode != "vlan")
+                         #if($../mode != "sub-interface" OR $../mode != "vlan" AND $speed != $speed.%previous)
                         speed $speed
                     </command-string>
                 </device-operation>
             </device-operations>
         </operation>
-        <operation>
-            <target>/controller:devices/device/interface:interfaces/interface/link-negotiation</target>
-            <platform>ALL|ALL|ALL|IOSXE|Cisco Systems</platform>
-            <device-operations>
-                <device-operation>
-                    <name>CreateInterfaceLinkNegotiation</name>
-                    <type>CREATE</type>
-                    <command-string>
-                        #if($link-negotiation != null AND ($../mode != "sub-interface" OR $../mode != "vlan"))
-                        negotiation $link-negotiation
-                    </command-string>
-                </device-operation>
-                <device-operation>
-                    <name>UpdateInterfaceLinkNegotiation</name>
-                    <type>UPDATE</type>
-                    <command-string>
-                        #if($link-negotiation != null AND ($../mode != "sub-interface" OR $../mode != "vlan"))
-                        negotiation $link-negotiation
-                    </command-string>
-                </device-operation>
-                <device-operation>
-                    <name>DeleteInterfaceLinkNegotiation</name>
-                    <type>DELETE</type>
-                    <command-string>
-                        #if($link-negotiation != null AND ($../mode != "sub-interface" OR $../mode != "vlan"))
-                        no negotiation $link-negotiation
-                    </command-string>
-                </device-operation>
-            </device-operations>
-        </operation>
+       
         <operation>
             <target>/controller:devices/device/interface:interfaces/interface/l3features:vrf</target>
             <platform>ALL|ALL|ALL|IOSXE|Cisco Systems</platform>
@@ -14358,7 +14372,7 @@
                     <name>UpdateInterfaceIpAddress</name>
                     <type>UPDATE</type>
                     <command-string>
-                        #if($../netmask != null)
+                        #if($ip-address != null AND $ip-address != $ip-address.%previous)
                         ip address $ip-address $../netmask
                     </command-string>
                 </device-operation>
@@ -15269,6 +15283,52 @@
             </device-operations>
         </operation>
 
+        <operation>
+        <target>/controller:devices/device/l3features:eem-applets/event-manager-applet/events/track</target>
+        <platform>ALL|ALL|ALL|IOSXE|Cisco Systems</platform>
+        <device-operations>
+            <device-operation>
+                <name>CreateEventsTrack</name>
+                <type>CREATE</type>
+                <command-string>event manager applet $../../applet-name authorization bypass</command-string>
+                <command-string>
+                    event track $track-number [state $state]
+                </command-string>
+            </device-operation>
+        </device-operations>
+    </operation>
+    <operation>
+        <target>/controller:devices/device/l3features:eem-applets/event-manager-applet/events/timer</target>
+        <platform>ALL|ALL|ALL|IOSXE|Cisco Systems</platform>
+        <device-operations>
+            <device-operation>
+                <name>CreateEventsTimer</name>
+                <type>CREATE</type>
+                <command-string>event manager applet $../../applet-name authorization bypass</command-string>
+                <command-string>
+                   event timer $timer-type time $timer
+                </command-string>
+            </device-operation>
+        </device-operations>
+    </operation>
+    <operation>
+        <target>/controller:devices/device/l3features:eem-applets/event-manager-applet/events</target>
+        <platform>ALL|ALL|ALL|IOSXE|Cisco Systems</platform>
+        <device-operations>
+            <device-operation>
+                <name>CreateEventsNone</name>
+                <type>CREATE</type>
+                <command-string>
+                     #if($none == "true")
+                    event manager applet $../applet-name authorization bypass
+                </command-string>
+                <command-string>
+                    #if($none == "true")
+                    event none
+                </command-string>
+            </device-operation>
+        </device-operations>
+    </operation>
     <operation>
         <target>/controller:devices/device/l3features:eem-applets/event-manager-applet/events/tag</target>
         <platform>ALL|ALL|ALL|IOSXE|Cisco Systems</platform>
@@ -15343,7 +15403,7 @@
                     #else if($action-statement == "if")
                         action $label if $first-operand $compare "$second-operand"
                     #else if($action-statement == "exit")
-                        action $label exit $exit-result
+                        action $label exit [$exit-result]
                     #else if($action-statement == "comment")
                         action $label comment "$comment-string"
                     #else if($action-statement == "handle-error")
@@ -16169,6 +16229,7 @@
 		    <command-string>interface $interface</command-string>
 		    <command-string>ip flow monitor $../../name input</command-string>
 		    <command-string>ip flow monitor $../../name output </command-string>
+            
 		</device-operation>
 		<device-operation>
 		    <name>DeleteNETFLOWFlowMonitorInterface</name>
