@@ -500,7 +500,97 @@
                     <command-string>no ip nhrp group $nhrp-grp-name.%previous</command-string>
                 </device-operation>
             </device-operations>
-        </operation>        
+        </operation>
+         <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/tunnel-mode</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateDmvpnTunnelMode</name>
+                    <type>CREATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
+                    <command-string>
+                        #if($tunnel-mode == "gre")
+                    tunnel mode $tunnel-mode multipoint
+                    #else if($tunnel-mode == "mpls")
+                   tunnel mode $tunnel-mode traffic-eng [$../multimode]
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateDmvpnTunnelMode</name>
+                    <type>UPDATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
+                     <command-string>
+                        #if($tunnel-mode == "gre")
+                    tunnel mode $tunnel-mode multipoint
+                    #else if($tunnel-mode == "mpls")
+                   tunnel mode $tunnel-mode traffic-eng [$../multimode]
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteDmvpnTunnelMode</name>
+                    <type>DELETE</type>
+                    <command-string>interface Tunnel $../name</command-string>
+                     <command-string>
+                        #if($tunnel-mode == "gre")
+                    no tunnel mode $tunnel-mode multipoint
+                    #else if($tunnel-mode == "mpls")
+                   no tunnel mode $tunnel-mode traffic-eng [$../multimode]
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+         <operation>
+            <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/routing-protocol</target>
+            <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateDmvpnRoutingProtocol</name>
+                    <type>CREATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
+                    <command-string>
+                    #if($routing-protocol == 'ospf')
+                    ip ospf network broadcast
+                </command-string>
+                <command-string>
+                        #if($routing-protocol == 'ospf' AND $../type == "SPOKE")
+                        ip ospf priority 0
+                        #else if($routing-protocol == 'ospf' AND $../type == "HUB")
+                        ip ospf priority 255
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateDmvpnRoutingProtocol</name>
+                    <type>UPDATE</type>
+                    <command-string>interface Tunnel $../name</command-string>
+                    <command-string>
+                    #if($routing-protocol == 'ospf')
+                    ip ospf network broadcast
+                </command-string>
+                <command-string>
+                        #if($routing-protocol == 'ospf' AND $../type == "SPOKE")
+                        ip ospf priority 0
+                        #else if($routing-protocol == 'ospf' AND $../type == "HUB")
+                        ip ospf priority 255
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteDmvpnRoutingProtocol</name>
+                    <type>DELETE</type>
+                    <command-string>interface Tunnel $../name</command-string>
+                    <command-string>
+                    #if($routing-protocol == 'ospf')
+                    no ip ospf network broadcast
+                </command-string>
+                <command-string>
+                        #if($routing-protocol == 'ospf' AND $../type == "SPOKE")
+                        no ip ospf priority 0
+                        #else if($routing-protocol == 'ospf' AND $../type == "HUB")
+                        no ip ospf priority 255
+                    </command-string>
+                </device-operation>
+            </device-operations>
+        </operation>  
         <operation>
             <target>/controller:devices/device/dmvpn:dmvpntunnels/dmvpntunnel/domain-path</target>
             <platform>ALL|ALL|Cisco 4000 ISR|IOSXE|Cisco Systems</platform>
