@@ -5977,7 +5977,7 @@
                         #else if($protocol != 'ospf' AND $route-map == null AND $metric != null)
                         no redistribute $protocol metric $metric
                         #else if($protocol != 'ospf' AND $route-map != null AND $metric == null)
-                        no redistribute $protocol route-map $route-map
+                        no redistribute $protocol
                         #else if($protocol == "static-connected")
                         no redistribute connected                        
                         #else if($protocol == 'ospf' AND $ospf-internal == 'true')

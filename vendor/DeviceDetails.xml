@@ -2049,6 +2049,12 @@
             <device-family>Cisco 800</device-family>
         </device-type>
         <device-type>
+            <name>Cisco C819G-4G-GA-K9</name>
+            <description>Cisco C819G-4G-GA-K9</description>
+            <oid>1.3.6.1.4.1.9.1.2059</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
+        <device-type>
             <name>Cisco C899G-LTE-NA-K9</name>
             <description>Cisco C899G-LTE-NA-K9</description>
             <oid>1.3.6.1.4.1.9.1.2048</oid>
