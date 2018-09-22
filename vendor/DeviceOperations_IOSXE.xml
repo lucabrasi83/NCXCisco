@@ -5515,7 +5515,7 @@
                         #else if($protocol != 'ospf' AND $route-map == null AND $metric != null)
                         no redistribute $protocol metric $metric
                         #else if($protocol != 'ospf' AND $route-map != null AND $metric == null)
-                        no redistribute $protocol route-map $route-map
+                        no redistribute $protocol
                         #else if($protocol == "static-connected")
                         no redistribute connected                        
                         #else if($protocol == 'ospf' AND $ospf-internal == 'true')
@@ -5528,51 +5528,7 @@
                 </device-operation>
             </device-operations>
         </operation>
-       <!--  <operation>
-         <target>/controller:devices/device/l3features:route-tag-notation/notation</target>
-        <platform>ALL|ALL|ALL|IOSXE|Cisco Systems</platform>
-        <device-operations>
-            <device-operation>
-                <name>ParseRouteTagDottedNotation</name>
-                <type>PARSE_TEMPLATE</type>
-                    <command-string>
-                        route-tag notation $notation
-                    </command-string>
-            </device-operation>
-        </device-operations>
-    </operation> -->
-      <!--  <operation>
-         <target>/controller:devices/device/l3features:route-tag-notation</target>
-        <platform>ALL|ALL|ALL|IOSXE|Cisco Systems</platform>
-        <device-operations>
-            <device-operation>
-                <name>CreateRouteTagDottedNotation</name>
-                <type>CREATE</type>
-                    <command-string>
-                        #if($notation != null)
-                        route-tag notation $notation
-                    </command-string>
-            </device-operation>
-            <device-operation>
-                <name>UpdateRouteTagDottedNotation</name>
-                <type>UPDATE</type>
-                    <command-string>
-                        #if($notation.%previous == null)
-                        route-tag notation $notation
-                        #else if($notation.%previous != null)
-                        no route-tag notation $notation.%previous
-                    </command-string>
-            </device-operation>
-             <device-operation>
-                <name>DeleteRouteTagDottedNotation</name>
-                <type>DELETE</type>
-                    <command-string>
-                        #if($notation != null)
-                        no route-tag notation $notation
-                    </command-string>
-            </device-operation>
-        </device-operations>
-       </operation> -->
+      
         <operation>
             <target>/controller:devices/device/l3features:vrfs/vrf/router-ospf</target>
             <platform>ALL|ALL|ALL|IOSXE|Cisco Systems</platform>
