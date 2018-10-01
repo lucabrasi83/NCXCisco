@@ -6,7 +6,7 @@
             <group>com.anuta.ncx.packages</group>
             <name>ncxparser</name>
             <order>0</order>
-            <version>6.0.5</version>
+            <version>6.0.6</version>
         </dependency>
     </dependencies>
     <deploy-on-agent>true</deploy-on-agent>
@@ -16,5 +16,5 @@
     <ncx-version>[6.0.5,)</ncx-version>
     <order>-1</order>
     <type>DEVICE</type>
-    <version>6.0.7.7</version>
+    <version>6.0.6.6</version>
 </package>
