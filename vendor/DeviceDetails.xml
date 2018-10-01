@@ -1934,6 +1934,12 @@
             <oid>1.3.6.1.4.1.9.1.1358</oid>
             <device-family>Cisco 800</device-family>
         </device-type>
+         <device-type>
+            <name>CiscoC860VAE2</name>
+            <description>Cisco C860VAE2 Integrated Services Router</description>
+            <oid>1.3.6.1.4.1.9.1.2378</oid>
+            <device-family>Cisco 800</device-family>
+        </device-type>
         <device-type>
             <name>CiscoC867VAE</name>
             <description>Cisco C867VAE Integrated Services Router</description>
