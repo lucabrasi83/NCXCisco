@@ -7140,12 +7140,16 @@
                 <device-operation>
                     <name>CreateSnmpUsers</name>
                     <type>CREATE</type>
-                    <command-string>snmp-server user $user $group-name $snmp-version [auth $v3-auth-type $v3-auth-paswd] [priv $encrpt-type $encrpt-length $encrpt-paswd]</command-string>
+                    <command-string>
+                    snmp-server user $user $group-name $snmp-version [auth $v3-auth-type $v3-auth-paswd] priv $encrpt-type [$encrpt-length] $encrpt-paswd
+                    </command-string>
                 </device-operation>
                 <device-operation>
                     <name>UpdateSnmpUsers</name>
                     <type>UPDATE</type>
-                    <command-string>snmp-server user $user $group-name $snmp-version [auth $v3-auth-type $v3-auth-paswd] [priv $encrpt-type $encrpt-length $encrpt-paswd]</command-string>
+                    <command-string>
+                    snmp-server user $user $group-name $snmp-version [auth $v3-auth-type $v3-auth-paswd] priv $encrpt-type [$encrpt-length] $encrpt-paswd
+                    </command-string>
                 </device-operation>
                 <device-operation>
                     <name>DeleteSnmpUsers</name>
