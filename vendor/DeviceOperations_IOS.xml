@@ -8022,6 +8022,32 @@
                 </device-operation>
             </device-operations>
         </operation>
+         <operation>
+            <target>/controller:devices/device/basicDeviceConfigs:snmp/snmp-users</target>
+            <platform>ALL|ALL|ALL|IOS|Cisco Systems</platform>
+            <device-operations>
+                <device-operation>
+                    <name>CreateSnmpUsers</name>
+                    <type>CREATE</type>
+                    <command-string>
+                    snmp-server user $user $group-name $snmp-version [auth $v3-auth-type $v3-auth-paswd] priv $encrpt-type [$encrpt-length] $encrpt-paswd
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>UpdateSnmpUsers</name>
+                    <type>UPDATE</type>
+                    <command-string>
+                    snmp-server user $user $group-name $snmp-version [auth $v3-auth-type $v3-auth-paswd] priv $encrpt-type [$encrpt-length] $encrpt-paswd
+                    </command-string>
+                </device-operation>
+                <device-operation>
+                    <name>DeleteSnmpUsers</name>
+                    <type>DELETE</type>
+                    <command-string>no snmp-server user $user $group-name $snmp-version</command-string>
+                </device-operation>
+            </device-operations>
+        </operation>
+
         <operation>
             <target>/controller:devices/device/basicDeviceConfigs:snmp/system-shutdown</target>
             <platform>ALL|ALL|ALL|IOS|Cisco Systems</platform>
